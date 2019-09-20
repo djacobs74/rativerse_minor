@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createMap } from '../actions/map';
 
-const StarMap = () => {
+class StarMap extends Component {
+
+	render () {
+		return (
+			<div>
+				<button onClick={() => this.props.createMap()}>Create Star Map</button>
+			</div>
+		);
+	}
+
+
+
+}
 	
-	// create map with max X, max Y
-	
+const mapStateToProps = (state) => {
+	return false
+}
 
-	return (
-		<div>
-			
-		</div>
-	);
-};
 
-export default StarMap;
+
+export default connect(mapStateToProps, { createMap })(StarMap);

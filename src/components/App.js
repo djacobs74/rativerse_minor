@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Starmap from './Starmap';
 
 
 class App extends React.Component {
@@ -10,7 +10,7 @@ class App extends React.Component {
 				Welcome to the Rativerse!
 				
 		          	
-			           
+			    <Starmap />
 		          
 
 	
