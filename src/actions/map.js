@@ -1,5 +1,10 @@
 export const createMap = () => {
-	alert('new map!');
+	const newMap = 'New map created!';
+
+	return {
+		type: 'MAP_CREATED',
+		payload: newMap
+	};
 	
 
 };

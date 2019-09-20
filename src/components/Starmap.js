@@ -8,6 +8,7 @@ class StarMap extends Component {
 		return (
 			<div>
 				<button onClick={() => this.props.createMap()}>Create Star Map</button>
+				<div>{this.props.map}</div>
 			</div>
 		);
 	}
@@ -17,7 +18,7 @@ class StarMap extends Component {
 }
 	
 const mapStateToProps = (state) => {
-	return false
+	return {map: state.map}
 }
 
 
