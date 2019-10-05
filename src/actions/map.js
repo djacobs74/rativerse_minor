@@ -18,11 +18,50 @@ export const createMap = (size) => {
 
 			let row = {x: c, y: keys['x']};
 			let col = {x: keys['x'], y: c};
-			if(row['x'] !== col['x'] && row['y'] !== col['y']) {
+
+			
+
+			let rowNeg = {x: (c * -1), y: (keys['x'] * -1)};
+			let colNeg = {x: (keys['x'] * -1), y: (c * -1)};
+
+			if (rowNeg['x'] === -0) {
+				rowNeg['x'] = 0;
+			}
+
+			if (rowNeg['y'] === -0) {
+				rowNeg['y'] = 0;
+			}
+
+			if (colNeg['x'] === -0) {
+				colNeg['x'] = 0;
+			} 
+
+			if (colNeg['y'] === -0) {
+				colNeg['y'] = 0;
+			} 
+
+      		console.log('row', row);
+			console.log('negRow', rowNeg);
+			console.log('col', col);
+			console.log('negCol', colNeg);
+
+			if((row['x'] !== col['x']) && (row['y'] !== col['y'])) {
 				starMap.push(row, col);
 			} else {
 				starMap.push(row);
 			}
+
+			if (rowNeg['x'] !== 0 && rowNeg['y'] !== 0) {
+				if (colNeg['x'] !== 0 && colNeg['y'] !== 0) {
+					if((rowNeg['x'] !== colNeg['x']) && (rowNeg['y'] !== colNeg['y'])) {
+						starMap.push(rowNeg, colNeg);
+					} else {
+						starMap.push(rowNeg);
+					}
+				}
+			}
+
+
 			return false
 		
 		});
