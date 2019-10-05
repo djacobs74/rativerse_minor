@@ -26,7 +26,7 @@ class StarMap extends Component {
 				<button onClick={() => this.props.createMap(5)}>Create Star Map</button>
 				{mapData.map((m, index) => (
 					
-	    			<div className="m" key={m}>{`sector: ${m['x']}, ${m['y']}`}</div>
+	    			<div className="m" key={index}>{`sector: ${m['x']}, ${m['y']}`}</div>
 					
 	    		))}
 			</div>
