@@ -32,7 +32,7 @@ export const createMap = (size) => {
 		
 	});
 
-	console.log('starMap', starMap);
+	// console.log('starMap', starMap);
 
 
 	return {type: 'MAP_CREATED', payload: starMap};
