@@ -8,10 +8,12 @@ class App extends React.Component {
 		return (
 			<div className="">
 				Welcome to the Rativerse!
-				
-		          	
-			    <Starmap />
-		          
+				<div className="hud">
+					control panel
+				</div>
+		        <div className="mapBox">  	
+			    	<Starmap />
+		        </div>
 
 	
 			</div>

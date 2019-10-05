@@ -4,21 +4,6 @@ import { createMap } from '../actions/map';
 
 class StarMap extends Component {
 
-
-
-	showMap() {
-		// take the map object from createMap and make it usable to show coords
-		// const mapData = this.props.map;
-		// console.log('MAP', mapData);
-		
-	    // {mapData.map(m => (
-	    // 	<div className="m" key={m.x}>sector:{m.x, m.y}</div>
-	    	
-	      	
-	    // ))}
-	  
-	}
-
 	render () {
 		const mapData = this.props.map;
 		return (
@@ -26,7 +11,7 @@ class StarMap extends Component {
 				<button onClick={() => this.props.createMap(5)}>Create Star Map</button>
 				{mapData.map((m, index) => (
 					
-	    			<div className="m" key={index}>{`sector: ${m['x']}, ${m['y']}`}</div>
+	    			<div className={`x-${m['x']} y-${m['y']} sector`} key={index}>{`sector: ${m['x']}, ${m['y']}`}</div>
 					
 	    		))}
 			</div>

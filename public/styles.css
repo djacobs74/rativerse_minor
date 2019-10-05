@@ -16,3 +16,13 @@ body {
 .ship-select-wrapper {
 
 }
+
+.mapBox {
+	left: 500px;
+    display: inline-block;
+    position: relative;
+}
+
+.hud {
+	width: 500px;
+}
