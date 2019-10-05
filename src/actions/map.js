@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const createMap = (size) => {
 	// THIS WILL CREATE AN ARRAY OF COORDINATE OBJECTS AND RETURN THEM
 
@@ -13,8 +15,8 @@ export const createMap = (size) => {
 
 		newMap.map(function (keys) {
 			console.log('=========== newMap =============');
-			console.log('keys', keys);
-			console.log('keys x', keys['x']);
+			// console.log('keys', keys);
+			// console.log('keys x', keys['x']);
 
 			let row = {x: c, y: keys['x']};
 			let col = {x: keys['x'], y: c};
@@ -41,7 +43,7 @@ export const createMap = (size) => {
 				colNeg['y'] = 0;
 			} 
 
-      		console.log('row', row);
+   //    		console.log('row', row);
 			console.log('rowNeg', rowNeg);
 			console.log('rowOff', rowOff);
 			console.log('col', col);
@@ -71,12 +73,15 @@ export const createMap = (size) => {
 		});
 		return false
 
-		// const row = Object.keys(newMap)
+		// SORT STARMAP AND POST TO NEW ARRAY IN ORDER
+	
+		
 		
 	});
 
-	// console.log('starMap', starMap);
-
+	starMap = _.sortBy(starMap, o => o.y);
+	starMap = _.sortBy(starMap, o => o.x);
+	console.log('starMap', starMap);
 
 	return {type: 'MAP_CREATED', payload: starMap};
 	
