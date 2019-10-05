@@ -4,11 +4,20 @@ import { createMap } from '../actions/map';
 
 class StarMap extends Component {
 
+	showMap() {
+		// take the map object from createMap and make it usable to show coords
+		return (
+			<div>
+				Show Map
+			</div>
+		);
+	}
+
 	render () {
 		return (
 			<div>
-				<button onClick={() => this.props.createMap()}>Create Star Map</button>
-				<div>{this.props.map}</div>
+				<button onClick={() => this.props.createMap(5)}>Create Star Map</button>
+				<div>{this.showMap()}</div>
 			</div>
 		);
 	}

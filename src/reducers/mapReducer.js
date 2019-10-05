@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-const createMapReducer = (map=null, action) => {
+const createMapReducer = (starMap=null, action) => {
 	if (action.type === 'MAP_CREATED') {
 		return action.payload;
 	}
-	return map;
+	return starMap;
 };
 
 
