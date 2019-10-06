@@ -24,8 +24,11 @@ export const createMap = (size) => {
 			let rowNeg = {x: (c * -1), y: (keys['x'] * -1)};
 			let colNeg = {x: (keys['x'] * -1), y: (c * -1)};
 
-			let rowOff = {x: (c * -1), y: (keys['x'])};
-			let colOff = {x: (keys['x']), y: (c * -1)};
+			let rowNegX = {x: (c * -1), y: (keys['x'])};
+			let colNegY = {x: (keys['x']), y: (c * -1)};
+
+			let rowPosX = {x: (c), y: (keys['x'] * -1)};
+			let colPosY = {x: (keys['x'] * -1), y: (c)};
 
 			if (rowNeg['x'] === -0) {
 				rowNeg['x'] = 0;
@@ -43,12 +46,30 @@ export const createMap = (size) => {
 				colNeg['y'] = 0;
 			} 
 
-   //    		console.log('row', row);
+			if (rowPosX['y'] === -0) {
+				rowPosX['y'] = 0;
+			}
+
+			if (colNegY['y'] === -0) {
+				colNegY['y'] = 0;
+			}
+
+			if (rowNegX['x'] === -0) {
+				rowNegX['x'] = 0;
+			}
+
+			if (colPosY['x'] === -0) {
+				colPosY['x'] = 0;
+			}
+
+   	    	console.log('row', row);
 			console.log('rowNeg', rowNeg);
-			console.log('rowOff', rowOff);
+			console.log('rowNegX', rowNegX);
+			console.log('rowPosX', rowPosX);
 			console.log('col', col);
 			console.log('colNeg', colNeg);
-			console.log('colOff', colOff);
+			console.log('colNegY', colNegY);
+			console.log('colPosY', colPosY);
 
 			if((row['x'] !== col['x']) && (row['y'] !== col['y'])) {
 				starMap.push(row, col);
@@ -56,8 +77,8 @@ export const createMap = (size) => {
 				starMap.push(row);
 			}
 						
-			if ((rowOff['x'] !== colOff['x']) && (rowOff['y'] !== colOff['y'])) { 
-				starMap.push(rowOff, colOff);
+			if ((rowNegX['x'] !== colNegY['x']) && (rowNegX['y'] !== colNegY['y'])) { 
+				starMap.push(rowNegX, colNegY);
 			} 
 
 			if ((rowNeg['x'] !== 0 && colNeg['x'] !== 0) && (rowNeg['y'] !== 0 && colNeg['y'] !== 0)) {
@@ -67,6 +88,13 @@ export const createMap = (size) => {
 					starMap.push(rowNeg);
 				}
 			}
+
+			if ((rowNegX['x'] !== colPosY['x']) && (rowNegX['y'] !== colPosY['y'])) { 
+				if (colPosY['x'] !== 0) {
+					starMap.push(rowPosX, colPosY);
+				}
+				
+			} 
 
 			return false
 		
