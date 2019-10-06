@@ -25,7 +25,8 @@ body {
 }
 
 .hud {
-	width: 500px;
+	width: 475px;
+	border: 2px solid #FFF;
 }
 
 .sector {
@@ -38,3 +39,8 @@ body {
 	border: 1px solid #FFF;
 	display: inline-block;
 }
+
+.sector.active {
+	background-color: blue;
+}
+
