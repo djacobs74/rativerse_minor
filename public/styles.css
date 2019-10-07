@@ -29,6 +29,10 @@ body {
 	border: 2px solid #FFF;
 }
 
+.hud .header {
+	text-align: center;
+}
+
 .sector {
 	width: 100px;
 	height: 50px;
@@ -43,4 +47,6 @@ body {
 .sector.active {
 	background-color: blue;
 }
+
+
 

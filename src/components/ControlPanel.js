@@ -8,11 +8,17 @@ class ControlPanel extends Component {
 
 	render () {
 		const props = this.props;
-		
+
 		return (
 			<div>
-				
-				COntrol Panle
+				<div className="header">
+					Control Panel
+				</div>
+				<div className="shipData">
+					<div>Current Ship: Destroyer</div>
+					<div>Ship data:</div>
+						<div>* shields</div>
+				</div>
 			</div>
 		);
 	}
