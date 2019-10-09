@@ -8,15 +8,27 @@ class StarMap extends Component {
 		this.props.createMap();
 	}
 
+	oddEven(num) {
+		if(num % 2) {
+			return 'even'
+		} else {
+			return 'odd'
+		}
+
+		return ''
+	}
+
 	render () {
 		const mapData = this.props.map;
 		return (
 			<div>
 				
 				{mapData.map((m, index) => (
-					
-	    			<div className={`x-${m['x']} y-${m['y']} sector`} key={index}>{`sector: ${m['x']}, ${m['y']}`}</div>
-					
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`}>
+						<div className={`sector sectorTop`}></div>
+		    			<div className={`sector sectorMiddle`} key={index}>{`${m['x']}, ${m['y']}`}</div>
+		    			<div className={`sector sectorBottom`}></div>
+					</div>
 	    		))}
 			</div>
 		);

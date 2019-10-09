@@ -21,7 +21,7 @@ body {
 	left: 500px;
     display: inline-block;
     position: relative;
-    width: 1150px;
+    width: 1250px;
 }
 
 .hud {
@@ -33,7 +33,7 @@ body {
 	text-align: center;
 }
 
-.sector {
+/*.sector {
 	width: 100px;
 	height: 50px;
 	background-color: #000;
@@ -41,12 +41,50 @@ body {
 	line-height: 50px;
 	text-align: center;
 	border: 1px solid #FFF;
-	display: inline-block;
-}
+	display: block;
+}*/
 
 .sector.active {
 	background-color: blue;
 }
 
+.sectorWrapper {
+    display: inline-block;
+    clear: left;
+    margin: 0px 1px;
+    height: 91px;
+}
+
+.sectorTop {
+	border-bottom: 30px solid blue;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+}
+
+.sectorMiddle {
+	width: 104px;
+    height: 60px;
+    line-height: 60px;
+    background: blue;
+    text-align: center;
+}
+
+.sectorBottom {
+	width: 0;
+    border-top: 30px solid blue;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+}
+
+.sectorWrapper.even {
+	position: relative;
+    top: 30px;
+}
+
+.sectorWrapper.odd {
+	left: 53px;
+    position: relative;
+    top: 30px;
+}
 
 
