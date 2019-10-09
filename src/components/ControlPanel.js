@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Move from './Move';
 import { connect } from 'react-redux';
 
 
@@ -19,6 +20,7 @@ class ControlPanel extends Component {
 					<div>Ship data:</div>
 						<div>* shields</div>
 				</div>
+				<Move />
 			</div>
 		);
 	}
