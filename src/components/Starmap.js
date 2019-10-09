@@ -32,7 +32,7 @@ class StarMap extends Component {
 			<div>
 				
 				{mapData.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={getSector(m['x'], m['y'])}>
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => getSector(m['x'], m['y']) }>
 						<div className={`sector sectorTop`}></div>
 		    			<div className={`sector sectorMiddle`}>{`${m['x']}, ${m['y']}`}</div>
 		    			<div className={`sector sectorBottom`}></div>
