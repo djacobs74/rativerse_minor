@@ -87,4 +87,6 @@ body {
     top: 30px;
 }
 
-
+.moveLabelInput {
+	margin-left: 5px;
+}

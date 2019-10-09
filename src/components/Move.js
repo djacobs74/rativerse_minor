@@ -26,9 +26,9 @@ class Move extends React.Component {
 	  		<form onSubmit={this.handleSubmit}>
 				<label>
 		  			Move To: 
-		  			<input type="text" value={this.state.value} onChange={this.handleChange} />
+		  			<input className="moveLabelInput" type="text" value={this.state.value} onChange={this.handleChange} />
 				</label>
-				<input type="submit" value="Submit" />
+				<input className="moveLabelInput" type="submit" value="Submit" />
 				<div>destination: {this.state.destination}</div>
 	  		</form>
 		);
