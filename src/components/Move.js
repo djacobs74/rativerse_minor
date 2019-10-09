@@ -21,6 +21,8 @@ class Move extends React.Component {
 		event.preventDefault();
   	}
 
+  	// USE CURRENTLY SELECTED SECTOR, HIT "SET DESTINATION" BUTTON TO SET AS DESTINATION. HIT "STAR DRIVE" BUTTON TO BEGIN MOVEMENT
+
   	render() {
 		return (
 	  		<form onSubmit={this.handleSubmit}>

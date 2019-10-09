@@ -18,6 +18,7 @@ class ControlPanel extends Component {
 					<div>Ship data:</div>
 						<div>* shields</div>
 				</div>
+				<div>Selected Sector: </div>
 				<Move />
 			</div>
 		);
