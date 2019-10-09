@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import Move from './Move';
-import { connect } from 'react-redux';
-
 
 class ControlPanel extends Component {
 
 
 
 	render () {
-		const props = this.props;
+		// const props = this.props;
 
 		return (
 			<div>
