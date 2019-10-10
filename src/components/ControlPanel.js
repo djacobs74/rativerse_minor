@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Move from './Move';
 
+import { connect } from 'react-redux';
+
+import { getSector } from '../actions/selectedSector';
+
 class ControlPanel extends Component {
 
 
@@ -18,7 +22,7 @@ class ControlPanel extends Component {
 					<div>Ship data:</div>
 						<div>* shields</div>
 				</div>
-				<div>Selected Sector: </div>
+				<div>Selected Sector: {this.props.sector}</div>
 				<Move />
 			</div>
 		);
@@ -30,6 +34,10 @@ class ControlPanel extends Component {
 	
 
 
+const mapStateToProps = (state) => {
+	return {sector: state.selectedSector}
+}
 
 
-export default ControlPanel;
+
+export default connect(mapStateToProps, { getSector })(ControlPanel);
