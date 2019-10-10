@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const createMap = (size) => {
+export const createMap = (size) => async dispatch => {
 	// THIS WILL CREATE AN ARRAY OF COORDINATE OBJECTS AND RETURN THEM
 
 	let mapSize = [0, 1, 2, 3, 4, 5];
@@ -111,7 +111,7 @@ export const createMap = (size) => {
 	starMap = _.sortBy(starMap, o => o.x);
 	console.log('starMap', starMap);
 
-	return {type: 'MAP_CREATED', payload: starMap};
+	dispatch({type: 'MAP_CREATED', payload: starMap});
 	
 
 };
