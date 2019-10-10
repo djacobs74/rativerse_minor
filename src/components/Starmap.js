@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createMap } from '../actions/map';
-import { getSector } from './_utils/movement';
+import { getSector } from '../actions/selectedSector';
 
 class StarMap extends Component {
 
@@ -52,4 +52,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { createMap })(StarMap);
+export default connect(mapStateToProps, { createMap, getSector })(StarMap);

@@ -1,3 +1,3 @@
-export const getSector = (x, y) => {
-  console.log('getsector', x, y);
-}
+// export const getSector = (x, y) => {
+//   console.log('getsector', x, y);
+// }

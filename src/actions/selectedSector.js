@@ -1,8 +1,7 @@
-export const getSector = (x, y) => async dispatch => {
+export const getSector = (x, y) => {
 
   	console.log('getsector', x, y);
   	const selectedSector = [x, y];
-  
-  	dispatch({type: 'SECTOR_SELECTED', payload: selectedSector});
+  	return {type: 'SECTOR_SELECTED', payload: selectedSector};
 };
 
