@@ -10,17 +10,12 @@ class StarMap extends Component {
 	}
 
 	componentDidUpdate() {
-		// activeSector();
-		console.log('StarMap UPDATED', this.props.sector);
-		console.log('clickedSector', this.clickedSector);
-
-		// this.matchSectors(this.props.sector, this.clickedSector);
-		
+		// console.log('StarMap UPDATED', this.props.sector);
+		// console.log('clickedSector', this.clickedSector);
 	}
 
 	constructor(props){
-        super(props);
-        //does whatever stuff        
+        super(props);      
         this.getCoords = this.props.getSector;
         this.clickedSector = [];
         this.active = '';
@@ -35,30 +30,14 @@ class StarMap extends Component {
 
 	}
 
-	// matchSectors(one, two) {
-	// 	// REMOVE ALL ACTIVE CLASS FIRST
-	// 	if(one[0] === two[0] && one[1] === two[1]) {
-	// 		console.log('WE HAVE A MATCH');
-	// 		this.active = 'active';
-	// 	} else {
-	// 		console.log('DIFF SECTORS SELECTED');
-	// 	}
-	// }
-
-
-
 	clickHandler(x, y, event) {
 		this.clickedSector = [];
 		this.clickedSector.push(x, y);
-		// console.log('clickedSector', this.clickedSector);
 		this.getCoords(x, y);
-		
 	}
 
 	render () {
 		const mapData = this.props.map;
-		
-
 		// onClick={this.props.getSector} for ON CLICK will trigger reducer
 		// onClick={(x, y) => getSector(m['x'], m['y']) }
 		return (
