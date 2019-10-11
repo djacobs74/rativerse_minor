@@ -3,14 +3,15 @@ import Move from './Move';
 
 import { connect } from 'react-redux';
 
-import { getSector } from '../actions/selectedSector';
+
 
 class ControlPanel extends Component {
 
-
+	// write function to put comma and space between x, y for display purposes
 
 	render () {
 		// const props = this.props;
+
 
 		return (
 			<div>
@@ -40,4 +41,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { getSector })(ControlPanel);
+export default connect(mapStateToProps)(ControlPanel);

@@ -27,10 +27,10 @@ class StarMap extends Component {
 
 
 
-	getCoords = (x, y) => {
-		console.log('Clicked!');
-		getSector(x, y);
-	};
+	// getCoords = (x, y) => {
+	// 	console.log('Clicked!');
+	// 	getSector(x, y);
+	// };
 
 
 
@@ -42,7 +42,7 @@ class StarMap extends Component {
 			<div>
 				
 				{mapData.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={()=>this.getCoords(m['x'], m['y'])}> 
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={ (x, y) => this.getCoords(m['x'], m['y']) }> 
 						<div className={`sector sectorTop`}></div>
 		    			<div className={`sector sectorMiddle`}>{`${m['x']}, ${m['y']}`}</div>
 		    			<div className={`sector sectorBottom`}></div>
