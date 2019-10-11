@@ -44,9 +44,7 @@ body {
 	display: block;
 }*/
 
-.sector.active {
-	background-color: blue;
-}
+
 
 .sectorWrapper {
     display: inline-block;
@@ -87,4 +85,18 @@ body {
     top: 30px;
 }
 
+.moveLabelInput {
+	margin-left: 5px;
+}
 
+.sectorTop.active {
+	border-bottom: 30px solid red;
+}
+
+.sectorMiddle.active {
+	background: red;
+}
+
+.sectorBottom.active {
+	border-top: 30px solid red;
+}
