@@ -9,11 +9,15 @@ class StarMap extends Component {
 		this.props.createMap();
 	}
 
+	componentDidUpdate() {
+		// activeSector();
+		console.log('StarMap UPDATED', this.props.sector);
+	}
+
 	constructor(props){
         super(props);
         //does whatever stuff        
         this.getCoords = this.props.getSector;
-
     }
 
 	oddEven(num) {
@@ -25,24 +29,24 @@ class StarMap extends Component {
 
 	}
 
-
-
-	// getCoords = (x, y) => {
-	// 	console.log('Clicked!');
-	// 	getSector(x, y);
-	// };
-
-
+	clickHandler(x, y) {
+		let clickedSector = [];
+		clickedSector.push(x, y);
+		console.log('clickedSector', clickedSector);
+		this.getCoords(x, y);
+	}
 
 	render () {
 		const mapData = this.props.map;
+		
+
 		// onClick={this.props.getSector} for ON CLICK will trigger reducer
 		// onClick={(x, y) => getSector(m['x'], m['y']) }
 		return (
 			<div>
 				
 				{mapData.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={ (x, y) => this.getCoords(m['x'], m['y']) }> 
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={ (x, y) => this.clickHandler(m['x'], m['y']) }> 
 						<div className={`sector sectorTop`}></div>
 		    			<div className={`sector sectorMiddle`}>{`${m['x']}, ${m['y']}`}</div>
 		    			<div className={`sector sectorBottom`}></div>
@@ -57,7 +61,7 @@ class StarMap extends Component {
 }
 	
 const mapStateToProps = (state) => {
-	return {map: state.map}
+	return {map: state.map, sector: state.selectedSector}
 }
 
 

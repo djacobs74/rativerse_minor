@@ -62,14 +62,14 @@ export const createMap = (size) => async dispatch => {
 				colPosY['x'] = 0;
 			}
 
-   	    	console.log('row', row);
-			console.log('rowNeg', rowNeg);
-			console.log('rowNegX', rowNegX);
-			console.log('rowPosX', rowPosX);
-			console.log('col', col);
-			console.log('colNeg', colNeg);
-			console.log('colNegY', colNegY);
-			console.log('colPosY', colPosY);
+   // 	    	console.log('row', row);
+			// console.log('rowNeg', rowNeg);
+			// console.log('rowNegX', rowNegX);
+			// console.log('rowPosX', rowPosX);
+			// console.log('col', col);
+			// console.log('colNeg', colNeg);
+			// console.log('colNegY', colNegY);
+			// console.log('colPosY', colPosY);
 
 			if((row['x'] !== col['x']) && (row['y'] !== col['y'])) {
 				starMap.push(row, col);
