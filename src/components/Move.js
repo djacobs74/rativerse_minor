@@ -27,8 +27,8 @@ class Move extends React.Component {
 		return (
 	  		<form onSubmit={this.handleSubmit}>
 				<label>
-		  			Move To: 
-		  			<input className="moveLabelInput" type="text" value={this.state.value} onChange={this.handleChange} />
+		  			Move To Selected Sector: 
+		  			<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />
 				</label>
 				<input className="moveLabelInput" type="submit" value="Submit" />
 				<div>destination: {this.state.destination}</div>
@@ -38,7 +38,7 @@ class Move extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  	return {map: state.map}
+  	return {map: state.map, sector: state.selectedSector}
 }
 
 
