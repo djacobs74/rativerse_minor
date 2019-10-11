@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 
 class ControlPanel extends Component {
 
-	// write function to put comma and space between x, y for display purposes
+	prettyCoords() {
+		let coords = this.props.sector;
+		if(coords.length > 0) {
+			coords = coords[0] + ', ' + coords[1];
+		}
+		return coords
+	}
 
 	render () {
 		// const props = this.props;
@@ -23,7 +29,7 @@ class ControlPanel extends Component {
 					<div>Ship data:</div>
 						<div>* shields</div>
 				</div>
-				<div>Selected Sector: {this.props.sector}</div>
+				<div>Selected Sector: {this.prettyCoords()}</div>
 				<Move />
 			</div>
 		);
