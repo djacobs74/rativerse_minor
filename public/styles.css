@@ -89,10 +89,14 @@ body {
 	margin-left: 5px;
 }
 
-.sector.active {
-	background: red;
+.sectorTop.active {
+	border-bottom: 30px solid red;
 }
 
 .sectorMiddle.active {
 	background: red;
+}
+
+.sectorBottom.active {
+	border-top: 30px solid red;
 }
