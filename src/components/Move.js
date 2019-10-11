@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createMap } from '../actions/map';
+import { prettyCoords } from './_utils/displayUtils';
 
 class Move extends React.Component {
 	  	constructor(props) {
@@ -32,7 +33,7 @@ class Move extends React.Component {
 		  			<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />
 				</label>
 				<input className="moveLabelInput" type="submit" value="Submit" />
-				<div>Destination: {this.state.destination}</div>
+				<div>Destination: {prettyCoords(this.state.destination)}</div>
 	  		</form>
 		);
   	}
