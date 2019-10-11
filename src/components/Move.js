@@ -13,11 +13,12 @@ class Move extends React.Component {
 
   	handleChange(event) {
 		this.setState({value: event.target.value});
+		console.log('HANDLECHANGE', this.state.destination);
   	}
 
   	handleSubmit(event) {
-  		this.setState({destination: this.state.value});
-		console.log(this.state.destination);
+  		this.setState({destination: this.props.sector});
+		console.log('SET DESTINATION', this.props.sector);
 		event.preventDefault();
   	}
 
@@ -27,11 +28,11 @@ class Move extends React.Component {
 		return (
 	  		<form onSubmit={this.handleSubmit}>
 				<label>
-		  			Move To Selected Sector: 
+		  			Set Destination To Selected Sector: 
 		  			<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />
 				</label>
 				<input className="moveLabelInput" type="submit" value="Submit" />
-				<div>destination: {this.state.destination}</div>
+				<div>Destination: {this.state.destination}</div>
 	  		</form>
 		);
   	}
