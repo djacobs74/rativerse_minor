@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
+import Move from './Move';
 import { prettyCoords } from './_utils/displayUtils';
 
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ class ControlPanel extends Component {
 				</div>
 				<div>Selected Sector: {prettyCoords(this.props.sector)}</div>
 				<Destination />
+				<Move />
 			</div>
 		);
 	}
