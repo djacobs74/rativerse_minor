@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createMap } from '../actions/map';
 import { prettyCoords } from './_utils/displayUtils';
 
-class Move extends React.Component {
+class Destination extends React.Component {
 	  	constructor(props) {
 		super(props);
 		this.state = {value: '', destination: ''};
@@ -45,4 +45,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { createMap })(Move);
+export default connect(mapStateToProps, { createMap })(Destination);
