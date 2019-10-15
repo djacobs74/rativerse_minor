@@ -1,9 +1,8 @@
-export const moveShip = (x, y) => {
-	// take current coords
-	// 
+export const moveShip = (position, destination) => {
 
-  	// console.log('getsector', x, y);
-  	const newCoords = [x, y];
+	// PUT TIMEOUT HERE? WILL BE BASED ON MARTEL DRIVE, FOR NOW DEFAULT TIME
+  	const newCoords = [];
+  	debugger;
   	return {type: 'MOVE_SHIP', payload: newCoords};
 };
 
