@@ -11,40 +11,48 @@ export const moveShip = (position, destination) => {
 	const destX = destination[0];
 	const destY = destination[1];
 
-	let newX = posX;
-	let newY = posY;
-
-	let newCoords = [newX, newY];
+	let newCoords = [];
 
 	const rangeOneResults = rangeOne(posX, posY);
+	let moveOptions = [];
 
-
-
-	// TODO: add some randomness to direction. Currently uses the first check that passes when there are 2 directions possible.
-	// REMOVE ELSE IFS, CHANGE TO ALL IFS AND PUSH RESULTS INTO DICT. IF DICT HAS MORE THAN 1 RESULT, PICK ONE AT RANDOM
-	if((posX < destX) && (posY < destY)) {
+	if ((posX < destX) && (posY <= destY)) {
 		console.log('moving down-right');
-		newCoords = rangeOneResults.bottomRight;
-	} else if ((posX < destX) && (destY <= posY)) {
+		moveOptions.push(rangeOneResults.bottomRight);
+	} 
+	if ((posX < destX) && (destY <= posY)) {
 		console.log('moving down-left');
-		newCoords = rangeOneResults.bottomLeft;
-	} else if ((posX > destX) && (destY <= posY)) {
+		moveOptions.push(rangeOneResults.bottomLeft);
+	}
+	if ((posX > destX) && (destY <= posY)) {
 		console.log('moving top-left');
-		newCoords = rangeOneResults.topLeft;
-	} else if ((posX > destX) && (destY >= posY)) {
+		moveOptions.push(rangeOneResults.topLeft);
+	}
+	if ((posX > destX) && (destY >= posY)) {
 		console.log('moving top-right');
-		newCoords = rangeOneResults.topRight;
-	} else if ((posX === destX) && (destY < posY)) {
+		moveOptions.push(rangeOneResults.topRight);
+	}
+	if ((posX === destX) && (destY < posY)) {
 		console.log('moving left');
-		newCoords = rangeOneResults.left;
-	} else if ((posX === destX) && (destY > posY)) {
+		moveOptions.push(rangeOneResults.left);
+	}
+	if ((posX === destX) && (destY > posY)) {
 		console.log('moving right');
-		newCoords = rangeOneResults.right;
+		moveOptions.push(rangeOneResults.right);
 	}
 
-	// FUTURE PATHING: do newCoords match destination? If no, run this again, push newCoords into object
+	let option = 0;
 
-	console.log('moving to', newCoords);
+	if (moveOptions.length > 1) {
+		option = Math.floor(Math.random() * Math.floor(2));
+	}
+
+	newCoords = moveOptions[option];
+
+
+	// FUTURE PATHING: do newCoords match destination? If no, run this again, push newCoords into object
+	console.log('move options', moveOptions);
+	console.log('moving to newCoords', newCoords);
   	// debugger;
   	return {type: 'MOVE_SHIP', payload: newCoords};
 };
