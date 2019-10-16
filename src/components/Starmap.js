@@ -36,6 +36,8 @@ class StarMap extends Component {
 		this.getCoords(x, y);
 	}
 
+	// Func for pathing that adds a class if Path matches sector. Remove path when player moves into that sector and add Current class
+
 	render () {
 		const mapData = this.props.map;
 		// onClick={this.props.getSector} for ON CLICK will trigger reducer

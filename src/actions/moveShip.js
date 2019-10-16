@@ -16,12 +16,8 @@ export const moveShip = (position, destination) => {
 
 	let newCoords = [newX, newY];
 
-	// GET HEXES IN RANGE 1 FROM POSITION. MOVE TO ONE OF THOSE TOWARD DESTINATION
-	// WRITE GET RANGE FUNC IN UTILS, PASS IN 1 IN THIS CASE
-
 	const moveOptions = rangeOne(posX, posY);
 
-	const direction = '';
 
 	if((posX < destX) && (posY < destY)) {
 		console.log('moving down-right');
@@ -43,7 +39,7 @@ export const moveShip = (position, destination) => {
 		newCoords = moveOptions.right;
 	}
 
-	
+	// FUTURE PATHING: do newCoords match destination? If no, run this again, push newCoords into object
 
 
   	// debugger;
