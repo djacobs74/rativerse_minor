@@ -16,34 +16,35 @@ export const moveShip = (position, destination) => {
 
 	let newCoords = [newX, newY];
 
-	const moveOptions = rangeOne(posX, posY);
+	const rangeOneResults = rangeOne(posX, posY);
 
 
 
 	// TODO: add some randomness to direction. Currently uses the first check that passes when there are 2 directions possible.
+	// REMOVE ELSE IFS, CHANGE TO ALL IFS AND PUSH RESULTS INTO DICT. IF DICT HAS MORE THAN 1 RESULT, PICK ONE AT RANDOM
 	if((posX < destX) && (posY < destY)) {
 		console.log('moving down-right');
-		newCoords = moveOptions.bottomRight;
+		newCoords = rangeOneResults.bottomRight;
 	} else if ((posX < destX) && (destY <= posY)) {
 		console.log('moving down-left');
-		newCoords = moveOptions.bottomLeft;
+		newCoords = rangeOneResults.bottomLeft;
 	} else if ((posX > destX) && (destY <= posY)) {
 		console.log('moving top-left');
-		newCoords = moveOptions.topLeft;
+		newCoords = rangeOneResults.topLeft;
 	} else if ((posX > destX) && (destY >= posY)) {
 		console.log('moving top-right');
-		newCoords = moveOptions.topRight;
+		newCoords = rangeOneResults.topRight;
 	} else if ((posX === destX) && (destY < posY)) {
 		console.log('moving left');
-		newCoords = moveOptions.left;
+		newCoords = rangeOneResults.left;
 	} else if ((posX === destX) && (destY > posY)) {
 		console.log('moving right');
-		newCoords = moveOptions.right;
+		newCoords = rangeOneResults.right;
 	}
 
 	// FUTURE PATHING: do newCoords match destination? If no, run this again, push newCoords into object
 
-
+	console.log('moving to', newCoords);
   	// debugger;
   	return {type: 'MOVE_SHIP', payload: newCoords};
 };
