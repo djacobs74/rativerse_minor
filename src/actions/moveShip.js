@@ -19,6 +19,8 @@ export const moveShip = (position, destination) => {
 	const moveOptions = rangeOne(posX, posY);
 
 
+
+	// TODO: add some randomness to direction. Currently uses the first check that passes when there are 2 directions possible.
 	if((posX < destX) && (posY < destY)) {
 		console.log('moving down-right');
 		newCoords = moveOptions.bottomRight;
