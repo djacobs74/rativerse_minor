@@ -16,28 +16,38 @@ export const moveShip = (position, destination) => {
 	const rangeOneResults = rangeOne(posX, posY);
 	let moveOptions = [];
 
-	if ((posX < destX) && (posY <= destY)) {
-		console.log('moving down-right');
-		moveOptions.push(rangeOneResults.bottomRight);
+	if (posX < destX) {
+		if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 1 ) ) {
+			console.log('moving down-right');
+			moveOptions.push(rangeOneResults.bottomRight);
+		}
 	} 
-	if ((posX < destX) && (destY <= posY)) {
-		console.log('moving down-left');
-		moveOptions.push(rangeOneResults.bottomLeft);
+	if (posX < destX) {
+		if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
+			console.log('moving down-left');
+			moveOptions.push(rangeOneResults.bottomLeft);
+		}
 	}
-	if (((posX > destX) && (destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY) <= 1))) {
-		console.log('moving top-left');
-		moveOptions.push(rangeOneResults.topLeft);
+	if (destX < posX) {
+		if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
+			console.log('moving top-left');
+			moveOptions.push(rangeOneResults.topLeft);
+		}	
 	}
-	if (((posX > destX) && (destY >= posY))|| (((posX - destX) >= 3) && ((destY - posY) <= 1))) {
-		console.log('moving top-right');
-		moveOptions.push(rangeOneResults.topRight);
+	if (destX < posX) {
+		if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
+			console.log('moving top-right');
+			moveOptions.push(rangeOneResults.topRight);
+		}
 	}
-	if ((posX === destX) && (destY < posY)) {
-		console.log('moving left');
-		moveOptions.push(rangeOneResults.left);
+	if (destY < posY) {
+		if ((posX === destX) || ((destY - posY) <= 3)) {
+			console.log('moving left');
+			moveOptions.push(rangeOneResults.left);
+		}
 	}
 	if (destY > posY) {
-		if ((posX === destX) || ((destY - posY) >= 2)) {
+		if ((posX === destX) || ((destY - posY) >= 3)) {
 			console.log('moving right');
 			moveOptions.push(rangeOneResults.right);
 		}
