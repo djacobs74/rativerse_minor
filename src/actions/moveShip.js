@@ -24,11 +24,11 @@ export const moveShip = (position, destination) => {
 		console.log('moving down-left');
 		moveOptions.push(rangeOneResults.bottomLeft);
 	}
-	if ((posX > destX) && (destY <= posY)) {
+	if (((posX > destX) && (destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY) <= 1))) {
 		console.log('moving top-left');
 		moveOptions.push(rangeOneResults.topLeft);
 	}
-	if ((posX > destX) && (destY >= posY)) {
+	if (((posX > destX) && (destY >= posY))|| (((posX - destX) >= 3) && ((destY - posY) <= 1))) {
 		console.log('moving top-right');
 		moveOptions.push(rangeOneResults.topRight);
 	}
@@ -36,9 +36,11 @@ export const moveShip = (position, destination) => {
 		console.log('moving left');
 		moveOptions.push(rangeOneResults.left);
 	}
-	if ((posX === destX) && (destY > posY)) {
-		console.log('moving right');
-		moveOptions.push(rangeOneResults.right);
+	if (destY > posY) {
+		if ((posX === destX) || ((destY - posY) >= 2)) {
+			console.log('moving right');
+			moveOptions.push(rangeOneResults.right);
+		}
 	}
 
 	let option = 0;
