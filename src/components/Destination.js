@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { moveShip } from '../actions/moveShip';
+import { getPath } from '../actions/getPath';
 import { prettyCoords } from './_utils/displayUtils';
 
 
@@ -39,7 +39,7 @@ class Destination extends React.Component {
 					<input className="moveLabelInput" type="submit" value="Set Destination" />
 					<div>Destination: {prettyCoords(this.state.destination)}</div>
 		  		</form>
-	  			<button onClick={(position, destination) => moveShip(this.state.position, this.state.destination)}>Engage Martel Drive</button>
+	  			<button onClick={(position, destination) => getPath(this.state.position, this.state.destination)}>Engage Martel Drive</button>
 	  		</div>
 		);
   	}

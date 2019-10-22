@@ -1,6 +1,6 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 
-export const moveShip = (position, destination) => {
+export const getPath = (position, destination) => {
 
 	// PUT TIMEOUT HERE? WILL BE BASED ON MARTEL DRIVE, FOR NOW DEFAULT TIME
 
