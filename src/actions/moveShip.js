@@ -61,12 +61,16 @@ export const moveShip = (position, destination) => {
 
 	newCoords = moveOptions[option];
 
+	let path = [];
 
+	path.push(newCoords);
+
+	console.log('PATH', path);
 	// FUTURE PATHING: do newCoords match destination? If no, run this again, push newCoords into object
 	console.log('move options', moveOptions);
 	console.log('moving to newCoords', newCoords);
   	// debugger;
-  	return {type: 'MOVE_SHIP', payload: newCoords};
+  	return {type: 'MOVE_SHIP', payload: path};
 };
 
 // TODO : func for path. show path in control panel? flagged sectors appear as red
