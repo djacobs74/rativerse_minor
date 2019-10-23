@@ -22,7 +22,7 @@ class StarMap extends Component {
     }
 
 	oddEven(num) {
-		if(num % 2) {
+		if(num % 2 === 0) {
 			return 'even'
 		} else {
 			return 'odd'
