@@ -8,31 +8,13 @@ class Destination extends React.Component {
 	  	constructor(props) {
 		super(props);
 		this.state = {value: '', destination: '', position: [0, 0]};
-
-		// this.handleChange = this.handleChange.bind(this);
-		// this.handleSubmit = this.handleSubmit.bind(this);
   	}
-
-  // 	handleChange(event) {
-		// this.setState({value: event.target.value});
-		// console.log('HANDLECHANGE', this.state.destination);
-		
-  // 	}
-
-  // 	handleSubmit(event) {
-  // 		this.setState({destination: this.props.sector});
-		// console.log('SET DESTINATION', this.props.sector);
-		// event.preventDefault();
-  // 	}
 
   	setDestination(event) {
   		this.setState({destination: this.props.sector});
   		getPath(this.state.position, this.props.sector);
-  		event.preventDefault();
+  		// event.preventDefault();
   	}
-
-  	// MARTEL DRIVE STARTS MOVEMENT FUNCTION HERE. IF POSITION != DESTINATION, CALL MOVE FUNCTION AGAIN.
-
 
 
   	render() {
@@ -53,7 +35,7 @@ class Destination extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  	return {sector: state.selectedSector}
+  	return {sector: state.selectedSector, path: state.path}
 }
 
 
