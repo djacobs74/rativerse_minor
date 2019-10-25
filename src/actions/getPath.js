@@ -79,7 +79,7 @@ export const getPath = (position, destination) => {
 	console.log('PATH', path);
 
   	// debugger;
-  	return {type: 'MOVE_SHIP', payload: path};
+  	return {type: 'PATH_SET', payload: path};
 };
 
 // TODO : func for path. show path in control panel? flagged sectors appear as red
