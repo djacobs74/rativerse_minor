@@ -22,7 +22,7 @@ class StarMap extends Component {
     }
 
 	oddEven(num) {
-		if(num % 2) {
+		if(num % 2 === 0) {
 			return 'even'
 		} else {
 			return 'odd'
@@ -35,6 +35,8 @@ class StarMap extends Component {
 		this.clickedSector.push(x, y);
 		this.getCoords(x, y);
 	}
+
+	// Func for pathing that adds a class if Path matches sector. Remove path when player moves into that sector and add Current class
 
 	render () {
 		const mapData = this.props.map;

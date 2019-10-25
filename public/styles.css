@@ -76,13 +76,11 @@ body {
 
 .sectorWrapper.even {
 	position: relative;
-    top: 30px;
+    left: 53px;
 }
 
 .sectorWrapper.odd {
-	left: 53px;
     position: relative;
-    top: 30px;
 }
 
 .moveLabelInput {
