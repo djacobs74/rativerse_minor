@@ -1,5 +1,4 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
-import PATH_SET from '../components/_utils/actionTypes';
 
 export const getPath = (position, destination) => {
 
