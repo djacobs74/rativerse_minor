@@ -1,4 +1,5 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
+import PATH_SET from '../components/_utils/actionTypes';
 
 export const getPath = (position, destination) => {
 
@@ -79,7 +80,10 @@ export const getPath = (position, destination) => {
 	console.log('PATH', path);
 
   	// debugger;
-  	return {type: 'PATH_SET', payload: path};
+  	// return {type: 'PATH_SET', payload: path};
+  	return (dispatch) => {
+  		dispatch({type: 'PATH_SET', payload: path});
+  	}
 };
 
 // TODO : func for path. show path in control panel? flagged sectors appear as red
