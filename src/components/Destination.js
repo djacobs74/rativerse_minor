@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getPath } from '../actions/getPath';
 import { getStartingPosition } from '../actions/getStartingPosition';
+import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
+import { getPosition } from './_utils/movement';
 
 
 class Destination extends React.Component {
 
 	// componentDidMount() {
-	// 	let startPos = [0, 0];
-	// 	this.props.getStartingPosition(startPos);
+	// 	this.setPosition(this.props.startingPosition);
 	// }
 
 	constructor(props) {
@@ -18,21 +19,39 @@ class Destination extends React.Component {
 		// this.path = this.props.path;
   	}
 
-  	setDestination() {
-  		this.setState({destination: this.props.sector});
-  		// getPath(this.state.position, this.props.sector);
-  		this.props.getPath(this.props.position, this.props.sector);
 
-  		// getPath(this.state.position, this.props.sector);
-  		// event.preventDefault();
-  	}
+	setDestination() {
+    const position = getPosition(this.props);
+    // let position = [];
+    // if(this.props.currentPosition.length) {
+    //   position = this.props.currentPosition;
+    // } else {
+    //   position = this.props.startingPosition;
+    // }
+
+		this.setState({destination: this.props.sector});
+		// getPath(this.state.position, this.props.sector);
+		this.props.getPath(position, this.props.sector);
+
+		// getPath(this.state.position, this.props.sector);
+		// event.preventDefault();
+	}
+
+  martelDrive() {
+    const position = getPosition(this.props);
+    // let position = [];
+    // if(this.props.currentPosition.length) {
+    //   position = this.props.currentPosition;
+    // } else {
+    //   position = this.props.startingPosition;
+    // }
+    console.log('STARTING POSITION', position);
+    this.props.moveShip(position, this.props.path);
+  }
 
 
   	render() {
-  		const pos = this.props.position;
-  		console.log('NEW POSITION = ', pos)
-  		const path = this.props.path;
-  		console.log('NEW PATH = ', path)
+  		
 		return (
 			<div>
 				<div>
@@ -43,7 +62,7 @@ class Destination extends React.Component {
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
 		  		
-	  			{/*<button onClick={(position, destination) => getPath(this.state.position, this.state.destination)}>Engage Martel Drive</button>*/}
+	  			<button onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  		</div>
 		);
   	}
@@ -52,9 +71,10 @@ class Destination extends React.Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
-  	position: state.position
+  	startingPosition: state.startingPosition,
+  	currentPosition: state.currentPosition
 });
 
 
 
-export default connect(mapStateToProps, { getPath, getStartingPosition })(Destination);
+export default connect(mapStateToProps, { getPath, getStartingPosition, moveShip })(Destination);

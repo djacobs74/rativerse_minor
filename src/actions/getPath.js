@@ -1,7 +1,7 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 
 export const getPath = (position, destination) => {
-
+	
 	// PUT TIMEOUT HERE? WILL BE BASED ON MARTEL DRIVE, FOR NOW DEFAULT TIME
 
 	// Math.sign(3)
@@ -16,9 +16,9 @@ export const getPath = (position, destination) => {
 
 	while (posX !== destX || posY !== destY) {
 		// console.log('posX, posY', posX, posY);
-		console.log('starting while loop');
+		// console.log('starting while loop');
 		let rangeOneResults = rangeOne(posX, posY);
-		console.log('Range One', rangeOneResults);
+		// console.log('Range One', rangeOneResults);
 		let moveOptions = [];
 		let newCoords = [];
 
