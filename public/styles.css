@@ -87,6 +87,24 @@ body {
 	margin-left: 5px;
 }
 
+
+
+
+.sectorTop.pathingSec {
+	border-bottom: 30px solid #0073e6;
+}
+
+.sectorMiddle.pathingSec {
+	background: #0073e6;
+}
+
+.sectorBottom.pathingSec {
+	border-top: 30px solid  #0073e6;
+}
+
+
+
+
 .sectorTop.active {
 	border-bottom: 30px solid red;
 }
