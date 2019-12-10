@@ -59,10 +59,16 @@ class StarMap extends Component {
 
 
 }
+
+
 	
-const mapStateToProps = (state) => {
-	return {map: state.map, sector: state.selectedSector}
-}
+const mapStateToProps = state => ({
+	map: state.map,
+	sector: state.selectedSector,
+	path: state.path,
+  	startingPosition: state.startingPosition,
+  	currentPosition: state.currentPosition
+});
 
 
 
