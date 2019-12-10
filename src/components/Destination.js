@@ -61,7 +61,7 @@ class Destination extends React.Component {
 				</div>
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
-		  		
+		  		<div>Current Sector: {this.props.currentPosition.length ? this.props.currentPosition[0] +', ' + this.props.currentPosition[1] : ''}</div>
 	  			<button onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  		</div>
 		);

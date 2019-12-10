@@ -7,6 +7,7 @@ class StarMap extends Component {
 
 	componentDidMount() {
 		this.props.createMap();
+
 	}
 
 	componentDidUpdate() {
@@ -52,6 +53,17 @@ class StarMap extends Component {
 			 	}
 			}
 		}
+
+		if(this.props.currentPosition.length) {
+			if(this.props.currentPosition[0] === mapSec[0] && this.props.currentPosition[1] === mapSec[1]) {
+				pathingSec = 'currentSector';
+			}
+		} else {
+			if(this.props.startingPosition[0] === mapSec[0] && this.props.startingPosition[1] === mapSec[1]) {
+				pathingSec = 'currentSector';
+			}
+		}
+		
 		return pathingSec
 		
 		

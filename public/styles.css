@@ -116,3 +116,20 @@ body {
 .sectorBottom.active {
 	border-top: 30px solid red;
 }
+
+
+
+
+
+
+.sectorTop.currentSector {
+	border-bottom: 30px solid #4da6ff;
+}
+
+.sectorMiddle.currentSector {
+	background: #4da6ff;
+}
+
+.sectorBottom.currentSector {
+	border-top: 30px solid #4da6ff;
+}
