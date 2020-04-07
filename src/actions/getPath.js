@@ -29,7 +29,7 @@ export const getPath = (position, destination, newPath) => {
 				let newCoords = [];
 
 				if (posX < destX) {
-					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 1 ) ) {
+					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
 						console.log('moving down-right');
 						if(pathCheck(rangeOneResults.bottomRight)) {
 							moveOptions.push(rangeOneResults.bottomRight);
