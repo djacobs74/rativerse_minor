@@ -1,4 +1,5 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
+import { pathCheck } from '.././components/_utils/movement';
 
 export const getPath = (position, destination, newPath) => {
 	// debugger;
@@ -30,41 +31,62 @@ export const getPath = (position, destination, newPath) => {
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 1 ) ) {
 						console.log('moving down-right');
-						moveOptions.push(rangeOneResults.bottomRight);
+						if(pathCheck(rangeOneResults.bottomRight)) {
+							moveOptions.push(rangeOneResults.bottomRight);
+						}
+						
 					}
 				} 
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
 						console.log('moving down-left');
-						moveOptions.push(rangeOneResults.bottomLeft);
+						if(pathCheck(rangeOneResults.bottomLeft)) {
+							moveOptions.push(rangeOneResults.bottomLeft);
+						}
 					}
 				}
 				if (destX < posX) {
 					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
 						console.log('moving top-left');
-						moveOptions.push(rangeOneResults.topLeft);
+						if(pathCheck(rangeOneResults.topLeft)) {
+							moveOptions.push(rangeOneResults.topLeft);
+						}
 					}	
 				}
 				if (destX < posX) {
 					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
 						console.log('moving top-right');
-						moveOptions.push(rangeOneResults.topRight);
+						if(pathCheck(rangeOneResults.topRight)) {
+							moveOptions.push(rangeOneResults.topRight);
+						}
 					}
 				}
 				if (destY < posY) {
 					if ((posX === destX) || ((destY - posY) <= 3)) {
 						console.log('moving left');
-						moveOptions.push(rangeOneResults.left);
+						if(pathCheck(rangeOneResults.left)) {
+							moveOptions.push(rangeOneResults.left);
+						}
 					}
 				}
 				if (destY > posY) {
 					if ((posX === destX) || ((destY - posY) >= 3)) {
 						console.log('moving right');
-						moveOptions.push(rangeOneResults.right);
+						if(pathCheck(rangeOneResults.right)) {
+							moveOptions.push(rangeOneResults.right);
+						}
 					}
 				}
 
 				let option = 0;
+
+				console.log('move options', moveOptions);
+				// moveOptions.map(m => {
+				// 	if(Math.abs(m[0]) > 5 || Math.abs(m[1]) > 5) {
+				// 		debugger;
+				// 		moveOptions.splice(m, 1);
+				// 	}
+				// })
 
 				if (moveOptions.length > 1) {
 					option = Math.floor(Math.random() * Math.floor(2));
@@ -76,7 +98,7 @@ export const getPath = (position, destination, newPath) => {
 				posX = newCoords[0];
 				posY = newCoords[1];
 
-				console.log('move options', moveOptions);
+				console.log('move options final', moveOptions);
 				console.log('moving to newCoords', newCoords);
 			}
 			pathOption = path;
@@ -104,7 +126,7 @@ export const getPath = (position, destination, newPath) => {
 	
 	console.log('PATH', path);
 
-  	debugger;
+
   	// return {type: 'PATH_SET', payload: path};
   	return (dispatch) => {
   		dispatch({type: 'PATH_SET', payload: path});
