@@ -19,8 +19,11 @@ export const getPosition = (props) => {
 
 export const moveCheck = (position, destination) => {
 	let moving = true;
-	if ((position[0] === destination[0]) && (position[1] === destination[1])) {
-		moving = false;
-	} 
+	if(position && destination) {
+		if ((position[0] === destination[0]) && (position[1] === destination[1])) {
+			moving = false;
+		} 
+	}
+	
 	return moving
 }

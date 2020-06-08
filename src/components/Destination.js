@@ -12,6 +12,9 @@ class Destination extends React.Component {
 	// componentDidMount() {
 	// 	this.setPosition(this.props.startingPosition);
 	// }
+	state = {
+		destination: []
+	}
 
 	constructor(props) {
 		super(props);
@@ -21,31 +24,25 @@ class Destination extends React.Component {
 
 
 	setDestination() {
-    const position = getPosition(this.props);
-    // let position = [];
-    // if(this.props.currentPosition.length) {
-    //   position = this.props.currentPosition;
-    // } else {
-    //   position = this.props.startingPosition;
-    // }
+		if(this.props.sector.length) {
+			const position = getPosition(this.props);
 
-		this.setState({destination: this.props.sector});
-		// getPath(this.state.position, this.props.sector);
-		this.props.getPath(position, this.props.sector);
-
-		// getPath(this.state.position, this.props.sector);
-		// event.preventDefault();
+			this.setState({destination: this.props.sector});
+			this.props.getPath(position, this.props.sector);
+		}
 	}
 
   martelDrive() {
-  	this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
-    const position = getPosition(this.props);
-    // let position = [];
-    // if(this.props.currentPosition.length) {
-    //   position = this.props.currentPosition;
-    // } else {
-    //   position = this.props.startingPosition;
-    // }
+  	const position = getPosition(this.props);
+
+  	if(this.state.destination.length) {
+  		const destination = this.state.destination;
+  		if ((destination[0] !== position[0]) && (destination[1] !== position[1])) {
+  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
+  		}
+  		
+  	}
+  	
     console.log('STARTING POSITION', position);
     this.props.moveShip(position, this.props.path);
   }
