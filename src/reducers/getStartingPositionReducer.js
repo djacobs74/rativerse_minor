@@ -1,8 +1,8 @@
-let initialState = [];
+let initialState = [0, 0];
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case 'MOVE_SHIP':
+		case 'POSITION':
 			return action.payload;
 		default:
 			return state;

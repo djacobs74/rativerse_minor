@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 class ControlPanel extends Component {
 
 	render () {
-		// const props = this.props;
-
 
 		return (
 			<div>
@@ -36,9 +34,10 @@ class ControlPanel extends Component {
 	
 
 
-const mapStateToProps = (state) => {
-	return {sector: state.selectedSector}
-}
+const mapStateToProps = state => ({
+  	sector: state.selectedSector,
+  	path: state.path
+});
 
 
 
