@@ -7,11 +7,20 @@ export const pathCheck = (hex) => {
 
 export const getPosition = (props) => {
 	let position = [];
-	if(props.currentPosition.length) {
-      position = props.currentPosition;
+	let currentPosition = props.currentPosition.position || [];
+	if(currentPosition.length) {
+      position = currentPosition;
     } else {
       position = props.startingPosition;
     }
 
     return position
+}
+
+export const moveCheck = (position, destination) => {
+	let moving = true;
+	if ((position[0] === destination[0]) && (position[1] === destination[1])) {
+		moving = false;
+	} 
+	return moving
 }

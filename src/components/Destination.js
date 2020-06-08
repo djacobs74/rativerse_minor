@@ -38,6 +38,7 @@ class Destination extends React.Component {
 	}
 
   martelDrive() {
+  	this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
     const position = getPosition(this.props);
     // let position = [];
     // if(this.props.currentPosition.length) {
@@ -51,7 +52,10 @@ class Destination extends React.Component {
 
 
   	render() {
-  		
+  		const position = this.props.currentPosition.position || []; 
+  		const moving = this.props.currentPosition.moving || false;
+  	
+  		// debugger;
 		return (
 			<div>
 				<div>
@@ -61,8 +65,8 @@ class Destination extends React.Component {
 				</div>
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
-		  		<div>Current Sector: {this.props.currentPosition.length ? this.props.currentPosition[0] +', ' + this.props.currentPosition[1] : ''}</div>
-	  			<button onClick={() => this.martelDrive()}>Engage Martel Drive</button>
+		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
+	  			<button ref="martelDriveBtn" disabled={moving} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  		</div>
 		);
   	}

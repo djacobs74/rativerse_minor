@@ -44,6 +44,7 @@ class StarMap extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
+		let position = this.props.currentPosition.position || [];
 	
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
@@ -54,8 +55,8 @@ class StarMap extends Component {
 			}
 		}
 
-		if(this.props.currentPosition.length) {
-			if(this.props.currentPosition[0] === mapSec[0] && this.props.currentPosition[1] === mapSec[1]) {
+		if(position.length) {
+			if(position[0] === mapSec[0] && position[1] === mapSec[1]) {
 				pathingSec = 'currentSector';
 			}
 		} else {
