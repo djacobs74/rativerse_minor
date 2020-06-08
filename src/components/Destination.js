@@ -32,20 +32,20 @@ class Destination extends React.Component {
 		}
 	}
 
-  martelDrive() {
-  	const position = getPosition(this.props);
+  	martelDrive() {
+	  	const position = getPosition(this.props);
 
-  	if(this.state.destination.length) {
-  		const destination = this.state.destination;
-  		if ((destination[0] !== position[0]) && (destination[1] !== position[1])) {
-  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
-  		}
-  		
-  	}
-  	
-    console.log('STARTING POSITION', position);
-    this.props.moveShip(position, this.props.path);
-  }
+	  	if(this.state.destination.length) {
+	  		const destination = this.state.destination;
+	  		if ((destination[0] !== position[0]) && (destination[1] !== position[1])) {
+	  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
+	  		}
+	  		
+	  	}
+	  	
+	    console.log('STARTING POSITION', position);
+	    this.props.moveShip(position, this.props.path);
+	}
 
 
   	render() {
