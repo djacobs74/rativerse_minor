@@ -12,8 +12,9 @@ export const SHIP_CLASS = [
 ]
 
 export const FACTIONS = [
-	{ value: 'uwc', label: 'UWC'}, 
-	{ value: 'bfr', label: 'BFR'},
-	{ value: 'cnp', label: 'CNP'},
-	{ value: 'ob', label: 'OB'}
+	{ value: 'uwc', label: 'United Worlds Commonwealth'}, 
+	{ value: 'bfr', label: 'Blood Fleet Raiders'},
+	{ value: 'cnp', label: 'Coral Nebula Pirates'},
+	{ value: 'ob', label: 'Orion BrotherHood'},
+	{ value: 'tscc', label: 'Third Star Cluster Clans'}
 ]

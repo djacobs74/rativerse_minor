@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
 import ControlPanel from './ControlPanel';
+import FactionDescriptions from './FactionDescriptions';
 
 import { SHIP_DATA } from './_utils/constants';
 import { SHIP_CLASS } from './_utils/constants';
@@ -38,10 +39,11 @@ class Setup extends Component {
 				{ !startGame ? 
 					// <div>Welcome to the Rativerse!</div>
 
-					<div>
-						<div>Welcome to the Rativerse!</div>
-						<div>Faction Descriptions</div>
+					<div className="homePage">
+						<div className="welcome">Welcome to the Rativerse!</div>
+						
 						<Dropdown options={options} onChange={this.selectedFaction} value={defaultFactionOption} placeholder="Select an option" />
+						<FactionDescriptions />
 					</div>
 
 				:

@@ -133,3 +133,32 @@ body {
 .sectorBottom.currentSector {
 	border-top: 30px solid #4da6ff;
 }
+
+.homePage {
+	width: 90%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+	margin: 0 auto;
+}
+
+.factionDescriptionContainer {
+	margin: 20px 0;
+}
+
+.welcome {
+	font-size: 40px;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.factionDescription {
+	border: 2px solid blue;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 10px;
+	background-color: #282c42;
+}
+
+.factionDescription div {
+	font-size: 20px;
+}
