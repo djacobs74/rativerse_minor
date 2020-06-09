@@ -39,12 +39,14 @@ class Destination extends React.Component {
 	  		const destination = this.state.destination;
 	  		if ((destination[0] !== position[0]) && (destination[1] !== position[1])) {
 	  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
+	  			this.refs.destinationBtn.setAttribute("disabled", "disabled");
 	  		}
 	  		
 	  	}
 	  	
 	    console.log('STARTING POSITION', position);
 	    this.props.moveShip(position, this.props.path);
+	
 	}
 
 
@@ -58,7 +60,7 @@ class Destination extends React.Component {
 				<div>
 		  			Set Destination To Selected Sector: 
 		  			{/*<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />*/}
-		  			<button className="moveLabelInput" onClick={() => this.setDestination()}>Set Destination</button>
+		  			<button ref="destinationBtn" disabled={moving} className="moveLabelInput" onClick={() => this.setDestination()}>Set Destination</button>
 				</div>
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
