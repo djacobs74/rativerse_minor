@@ -162,3 +162,9 @@ body {
 .factionDescription div {
 	font-size: 20px;
 }
+
+.startBtn {
+	float: right;
+	height: 37px;
+	width: 100px;
+}
