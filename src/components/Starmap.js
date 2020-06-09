@@ -84,7 +84,7 @@ class StarMap extends Component {
 
 	mapTest(map) {
 		// TRY TO ADD TO mapData with mock ship info
-		const npcs = [{value: 'avenger', id: 1, x: 1, y: 1}, {value: 'avenger', id: 2, x: 0, y: 1}];
+		const npcs = [{value: 'avenger', id: 1, faction: 'tscc', x: 1, y: 1}, {value: 'avenger', faction: 'tscc', id: 2, x: 0, y: 1}];
 
 		let result = map.reduce(function(r, e) {
 		  let f = npcs.find(el => (e.x == el.x) && (e.y == el.y))
@@ -93,6 +93,8 @@ class StarMap extends Component {
 		}, [])
 
 		console.log('RESULT', result)
+
+		// LOOP THROUGH RESULT AND SET SECTORS WITH HOSTILE SHIPS TO HOSTILE (ADD HOSTILE KEY)
 		return result
 	}
 
@@ -105,7 +107,7 @@ class StarMap extends Component {
 			<div>
 				
 				{mapUpdated.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} ships={`id: ${m['id']} type: ${m['value']}`}> 
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} ships={`id: ${m['id']} type: ${m['value']} faction: ${m['faction']}`}> 
 						<div className={`sector sectorTop ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}</div>
 		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
