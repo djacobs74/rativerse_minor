@@ -108,15 +108,15 @@ body {
 
 
 .sectorTop.active {
-	border-bottom: 30px solid red;
+	border-bottom: 30px solid #06175e;
 }
 
 .sectorMiddle.active {
-	background: red;
+	background: #06175e;
 }
 
 .sectorBottom.active {
-	border-top: 30px solid red;
+	border-top: 30px solid #06175e;
 }
 
 
