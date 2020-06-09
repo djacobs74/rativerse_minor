@@ -26,7 +26,9 @@ body {
 
 .hud {
 	width: 475px;
-	border: 2px solid #FFF;
+	background-color: #282c42;
+	border: 3px solid #1d2c7a;
+	border-radius: 5px;
 }
 
 .hud .header {
@@ -132,4 +134,55 @@ body {
 
 .sectorBottom.currentSector {
 	border-top: 30px solid #4da6ff;
+}
+
+.homePage {
+	width: 90%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+	margin: 0 auto;
+}
+
+.factionDescriptionContainer {
+	margin: 20px 0;
+}
+
+.welcome {
+	font-size: 40px;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.factionDescription {
+	border: 3px solid #1d2c7a;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 10px;
+	background-color: #282c42;
+}
+
+.factionDescription div {
+	font-size: 20px;
+}
+
+.startBtn {
+	float: right;
+	height: 37px;
+	width: 100px;
+}
+
+.factionDescription.uwc, .factionDescription.bfr, .factionDescription.cnp, .factionDescription.ob, .factionDescription.tscc {
+	background-color: #5663a6;
+	border-color: #092bdb
+}
+
+.shipData {
+	background-color: #252d4d;
+	/*border: 3px solid #1d2c7a;
+	border-radius: 5px;*/
+	padding: 5px;
+}
+
+.ControlPanel {
+	padding: 5px;
 }
