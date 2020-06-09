@@ -33,12 +33,13 @@ class ControlPanel extends Component {
 		// debugger;
 
 		return (
-			<div>
+			<div className="ControlPanel">
 				<div className="header">
 					Control Panel
 				</div>
+				<div>Faction: {selectedFaction}</div>
 				<div className="shipData">
-					<div>Faction: {selectedFaction}</div>
+					
 					<div>Current Ship: {ship.label} ({ship.type})</div>
 				
 					<div className="shipDetail">Ship data:

@@ -26,7 +26,9 @@ body {
 
 .hud {
 	width: 475px;
-	border: 2px solid #FFF;
+	background-color: #282c42;
+	border: 3px solid #1d2c7a;
+	border-radius: 5px;
 }
 
 .hud .header {
@@ -175,7 +177,12 @@ body {
 }
 
 .shipData {
-	background-color: #282c42;
-	border: 3px solid #1d2c7a;
-	border-radius: 5px;
+	background-color: #252d4d;
+	/*border: 3px solid #1d2c7a;
+	border-radius: 5px;*/
+	padding: 5px;
+}
+
+.ControlPanel {
+	padding: 5px;
 }
