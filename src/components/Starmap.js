@@ -84,7 +84,7 @@ class StarMap extends Component {
 
 	mapTest(map) {
 		// TRY TO ADD TO mapData with mock ship info
-		const npcs = [{value: 'avenger', id: 1, faction: 'tscc', x: 1, y: 1}, {value: 'avenger', faction: 'tscc', id: 2, x: 0, y: 1}];
+		const npcs = [{value: 'avenger', id: 1, faction: 'tscc', hostile: true, x: 1, y: 1}, {value: 'avenger', faction: 'tscc', hostile: true, id: 2, x: 0, y: 1}];
 
 		let result = map.reduce(function(r, e) {
 		  let f = npcs.find(el => (e.x == el.x) && (e.y == el.y))
@@ -95,6 +95,7 @@ class StarMap extends Component {
 		console.log('RESULT', result)
 
 		// LOOP THROUGH RESULT AND SET SECTORS WITH HOSTILE SHIPS TO HOSTILE (ADD HOSTILE KEY)
+		// OR . . do that when the NPC is created . . add hostile key hostile: true/false
 		return result
 	}
 
