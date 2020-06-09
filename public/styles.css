@@ -173,3 +173,9 @@ body {
 	background-color: #5663a6;
 	border-color: #092bdb
 }
+
+.shipData {
+	background-color: #282c42;
+	border: 3px solid #1d2c7a;
+	border-radius: 5px;
+}

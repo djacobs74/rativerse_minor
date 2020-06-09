@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Destination from './Destination';
 
 import { prettyCoords } from './_utils/displayUtils';
-import { SHIP_CLASS } from './_utils/constants';
+import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
@@ -12,10 +12,23 @@ import { connect } from 'react-redux';
 
 class ControlPanel extends Component {
 
+	state = {
+		ship: {}
+	}
+
+	componentDidMount = () => {
+		this.getShipType();
+	}
+
+	getShipType() {
+		const faction = this.props.selectedFaction.value;
+		const ship = SHIP_DATA.find(s => s.faction === faction)
+		this.setState({ship: ship});
+		console.log('SHIP', ship);
+	}
+
 	render () {
-		const options = SHIP_CLASS;
-		const defaultOption = options[0];
-		// const selectedShip = this.props.selectedShip;
+		const ship = this.state.ship;
 		const selectedFaction = this.props.selectedFaction.label;
 		// debugger;
 
@@ -26,10 +39,21 @@ class ControlPanel extends Component {
 				</div>
 				<div className="shipData">
 					<div>Faction: {selectedFaction}</div>
-					{/*<div>Current Ship: {selectedShip}</div>*/}
-					{/*<Dropdown className="shipSelect" options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />*/}
-					<div>Ship data:</div>
-						<div>* shields</div>
+					<div>Current Ship: {ship.label} ({ship.type})</div>
+				
+					<div className="shipDetail">Ship data:
+						<div>* Shield HP: {ship.shieldsHp}</div>
+						<div>* Plasma Projectors: {ship.plasmaProjectors}</div>
+						<div>* Torpedoes: {ship.torpedoes}</div>
+						<div>* Sublight Speed: {ship.sublightSpeed}</div>
+						{ ship.faction !== 'tscc' ?
+							<div>* Martel Drive: {ship.martelDrive}</div>
+							: <div>* Star Drive: {ship.martelDrive}</div>
+						}
+						<div>* Signature: {ship.signature}</div>
+						<div>* Scanner: {ship.scanner}</div>
+						<div>* Cargo Space: {ship.cargo}</div>
+					</div>
 				</div>
 				<div>Selected Sector: {prettyCoords(this.props.sector)}</div>
 				<Destination />
