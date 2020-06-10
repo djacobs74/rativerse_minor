@@ -18,7 +18,7 @@ body {
 }
 
 .mapBox {
-	left: 500px;
+	padding-left: 50px;
     display: inline-block;
     position: relative;
     width: 1250px;
@@ -29,6 +29,7 @@ body {
 	background-color: #282c42;
 	border: 3px solid #1d2c7a;
 	border-radius: 5px;
+	height: 100%;
 }
 
 .hud .header {
@@ -185,4 +186,8 @@ body {
 
 .ControlPanel {
 	padding: 5px;
+}
+
+.main-wrapper {
+	display: inline-flex;
 }

@@ -52,7 +52,7 @@ class Setup extends Component {
 					</div>
 
 				:
-					<div className="">
+					<div className="main-wrapper">
 						<div className="hud">
 							<ControlPanel
 							selectedFaction={this.state.selectedFaction} 
