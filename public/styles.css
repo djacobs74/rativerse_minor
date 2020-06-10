@@ -191,3 +191,28 @@ body {
 .main-wrapper {
 	display: inline-flex;
 }
+
+.uwcNpcDD {
+	background-color: #0e0b8f;
+}
+
+.bfrNpcDD {
+	background-color: #ad111e;
+}
+
+.cnpNpcDD {
+	background-color: #08803a;
+}
+
+.obNpcDD {
+	background-color: #085880;
+}
+
+.tsccNpcDD {
+	background-color: #7a0880;
+}
+
+/*.cnpNpcDD, .obNpcDD, .tsccNpcDD, .uwcNpcDD, .bfrNpcDD {
+	background-color: #91070a;
+}*/
+

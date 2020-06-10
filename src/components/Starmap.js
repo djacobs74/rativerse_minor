@@ -3,14 +3,21 @@ import { connect } from 'react-redux';
 import { createMap } from '../actions/map';
 import { getSector } from '../actions/selectedSector';
 import { npcShipGenerator } from '../actions/npcShipGenerator';
+import { npcShipMover } from './_utils/npcShipMovement';
 
 class StarMap extends Component {
+
+	state = {
+		npcShipsActive: []
+	}
 
 	componentDidMount() {
 		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
 		this.createNpcShips(this.props)
 		console.log('NPC SHIPS', this.props.npcShips);
+
+		this.moveNpcShips();
 	}
 
 	componentDidUpdate() {
@@ -31,7 +38,6 @@ class StarMap extends Component {
 		} else {
 			return 'odd'
 		}
-
 	}
 
 	clickHandler(x, y, event) {
@@ -85,9 +91,28 @@ class StarMap extends Component {
 		spawnDelay();
 	}
 
+
+	moveNpcShips() {
+		const npcShips = this.props.npcShips;
+		const playerFaction = this.props.selectedFaction.value;
+		let npcShipsActive = [];
+		const here = this;
+
+		function spawnDelay () {
+			setInterval(function () {
+				
+				npcShipsActive = npcShipMover(npcShips, playerFaction);
+				here.setState({npcShipsActive: npcShipsActive});
+				
+			}, 5000)
+		}
+		spawnDelay();
+	}
+
 	mapTest(map) {
 		// TRY TO ADD TO mapData with mock ship info
-		const npcs = [{value: 'avenger', id: 1, faction: 'tscc', hostile: true, x: 1, y: 1}, {value: 'avenger', faction: 'tscc', hostile: true, id: 2, x: 0, y: 1}];
+		// const npcs = [{value: 'avenger', id: 1, faction: 'tscc', hostile: true, x: 1, y: 1}, {value: 'avenger', faction: 'tscc', hostile: true, id: 2, x: 0, y: 1}];
+		const npcs = this.state.npcShipsActive;
 
 		let result = map.reduce(function(r, e) {
 		  let f = npcs.find(el => (e.x == el.x) && (e.y == el.y))
@@ -105,22 +130,20 @@ class StarMap extends Component {
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.mapTest(this.props.map);
+		console.log('SHIP LOCATIONS', this.state.npcShipsActive);
 		return (
 			<div>
 				
 				{mapUpdated.map((m, index) => (
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} ships={`id: ${m['id']} type: ${m['value']} faction: ${m['faction']}`}> 
 						<div className={`sector sectorTop ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
-		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}</div>
+		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''} ${m['value']}`}>{`${m['x']}, ${m['y']}`}</div>
 		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>
 	    		))}
 			</div>
 		);
 	}
-
-
-
 }
 
 

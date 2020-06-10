@@ -37,7 +37,7 @@ class Destination extends React.Component {
 
 	  	if(this.state.destination.length) {
 	  		const destination = this.state.destination;
-	  		if ((destination[0] !== position[0]) && (destination[1] !== position[1])) {
+	  		if ((destination[0] !== position[0]) || (destination[1] !== position[1])) {
 	  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
 	  			this.refs.destinationBtn.setAttribute("disabled", "disabled");
 	  		}
