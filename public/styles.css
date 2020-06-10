@@ -194,22 +194,52 @@ body {
 
 .uwcNpcDD {
 	background-color: #0e0b8f;
+	height: 20px;
+    position: relative;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 10px;
 }
 
 .bfrNpcDD {
-	background-color: #ad111e;
+	background-color: #eb0e42;
+	height: 20px;
+    position: relative;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 43px;
 }
 
 .cnpNpcDD {
-	background-color: #08803a;
+	background-color: #1fd131;
+	height: 20px;
+    position: relative;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 73px;
 }
 
 .obNpcDD {
-	background-color: #085880;
+	background-color: #2debdb;
+	height: 20px;
+    position: relative;
+    bottom: 65px;
+    width: 20px;
+    border-radius: 50%;
+    left: 60px;
 }
 
 .tsccNpcDD {
-	background-color: #7a0880;
+	background-color: #b214ba;
+	height: 20px;
+    position: relative;
+    bottom: 65px;
+    width: 20px;
+    border-radius: 50%;
+    left: 60px;
 }
 
 /*.cnpNpcDD, .obNpcDD, .tsccNpcDD, .uwcNpcDD, .bfrNpcDD {

@@ -126,6 +126,7 @@ class StarMap extends Component {
 	}
 
 	// TODO: ships can be multiple, change sectorWrapper Ships attribute to a function that returns a string or something
+	// TODO: need to map m.value and return multiple <div className={`${m['value']}`}></div>
 
 	render () {
 		const mapData = this.props.map;
@@ -137,7 +138,9 @@ class StarMap extends Component {
 				{mapUpdated.map((m, index) => (
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} ships={`id: ${m['id']} type: ${m['value']} faction: ${m['faction']}`}> 
 						<div className={`sector sectorTop ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
-		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''} ${m['value']}`}>{`${m['x']}, ${m['y']}`}</div>
+		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
+		    				<div className={`${m['value']}`}></div>
+		    			</div>
 		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>
 	    		))}
