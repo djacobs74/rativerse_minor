@@ -9,7 +9,7 @@ class StarMap extends Component {
 	componentDidMount() {
 		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
-		// createNpcShips(this.props)
+		this.createNpcShips(this.props)
 		console.log('NPC SHIPS', this.props.npcShips);
 	}
 
@@ -73,14 +73,14 @@ class StarMap extends Component {
 
 	createNpcShips(props) {
 		const npcShips = this.props.npcShips;
-		const faction = this.props.selectedFaction.value;
+		const playerFaction = this.props.selectedFaction.value;
 
 		function spawnDelay () {
 			setInterval(function () {
 				
-				npcShipGenerator(npcShips, faction)
+				npcShipGenerator(npcShips, playerFaction)
 				
-			}, 5000)
+			}, 10000)
 		}
 		spawnDelay();
 	}
