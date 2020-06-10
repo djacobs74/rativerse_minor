@@ -60,7 +60,9 @@ class Setup extends Component {
 							/>
 						</div>
 				        <div className="mapBox">  	
-					    	<Starmap />
+					    	<Starmap 
+					    	selectedFaction={this.state.selectedFaction}
+					    	/>
 				        </div>
 					</div>
 				}

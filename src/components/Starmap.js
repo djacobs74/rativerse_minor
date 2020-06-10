@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createMap } from '../actions/map';
 import { getSector } from '../actions/selectedSector';
+import { npcShipGenerator } from '../actions/npcShipGenerator';
 
 class StarMap extends Component {
 
 	componentDidMount() {
 		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
+		// createNpcShips(this.props)
+		console.log('NPC SHIPS', this.props.npcShips);
 	}
 
 	componentDidUpdate() {
@@ -68,19 +71,19 @@ class StarMap extends Component {
 		return pathingSec
 	}
 
-	// createNpcShips(props) {
-	// 	function moveDelay () {
-	// 		setTimeout(function () {
-	// 			if () {
-	// 				if() {
+	createNpcShips(props) {
+		const npcShips = this.props.npcShips;
+		const faction = this.props.selectedFaction.value;
 
-	// 				}
-	// 				moveDelay();
-	// 			}
-	// 		}, 5000)
-	// 	}
-	// 	moveDelay();
-	// }
+		function spawnDelay () {
+			setInterval(function () {
+				
+				npcShipGenerator(npcShips, faction)
+				
+			}, 5000)
+		}
+		spawnDelay();
+	}
 
 	mapTest(map) {
 		// TRY TO ADD TO mapData with mock ship info
@@ -94,8 +97,6 @@ class StarMap extends Component {
 
 		console.log('RESULT', result)
 
-		// LOOP THROUGH RESULT AND SET SECTORS WITH HOSTILE SHIPS TO HOSTILE (ADD HOSTILE KEY)
-		// OR . . do that when the NPC is created . . add hostile key hostile: true/false
 		return result
 	}
 
@@ -129,11 +130,12 @@ const mapStateToProps = state => ({
 	sector: state.selectedSector,
 	path: state.path,
   	startingPosition: state.startingPosition,
-  	currentPosition: state.currentPosition
+  	currentPosition: state.currentPosition,
+  	npcShips: state.npcShips
 });
 
 
 
-export default connect(mapStateToProps, { createMap, getSector })(StarMap);
+export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator })(StarMap);
 
 

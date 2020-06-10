@@ -23,3 +23,8 @@ export const FACTIONS = [
 	{ value: 'ob',   label: 'Orion BrotherHood'},
 	{ value: 'tscc', label: 'Third Star Cluster Clans'}
 ]
+
+export const NPC_SHIPS = [
+	{ value: 'npsShip', id: 1, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
+	{ value: 'npsShip', id: 2, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3}
+]
