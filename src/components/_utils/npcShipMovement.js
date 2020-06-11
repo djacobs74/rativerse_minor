@@ -3,7 +3,6 @@ import { pathCheck } from './movement';
 
 
 export const npcShipMover = (npcShips, playerFaction) => {
-	// return npcShips with updated locations
 	let npcShipsActive = [];
 	const moveOptionNum = 5;
 
@@ -48,7 +47,6 @@ export const npcShipMover = (npcShips, playerFaction) => {
 			}
 			// debugger;
 			newCoords = moveOptions[option];
-			// path.push(newCoords);
 
 			s.x = newCoords[0];
 			s.y = newCoords[1];

@@ -103,9 +103,9 @@ export const createMap = (size) => async dispatch => {
 
 		// SORT STARMAP AND POST TO NEW ARRAY IN ORDER
 	
-		
-		
 	});
+
+	starMap.map(s => s.npcShips = []);
 
 	starMap = _.sortBy(starMap, o => o.y);
 	starMap = _.sortBy(starMap, o => o.x);

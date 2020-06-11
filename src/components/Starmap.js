@@ -20,10 +20,10 @@ class StarMap extends Component {
 		this.moveNpcShips();
 	}
 
-	componentDidUpdate() {
-		// console.log('StarMap UPDATED', this.props.sector);
-		// console.log('clickedSector', this.clickedSector);
-	}
+	// componentDidUpdate() {
+	// 	// console.log('StarMap UPDATED', this.props.sector);
+	// 	// console.log('clickedSector', this.clickedSector);
+	// }
 
 	constructor(props){
         super(props);      
@@ -109,37 +109,39 @@ class StarMap extends Component {
 		spawnDelay();
 	}
 
-	mapTest(map) {
-		// TRY TO ADD TO mapData with mock ship info
-		// const npcs = [{value: 'avenger', id: 1, faction: 'tscc', hostile: true, x: 1, y: 1}, {value: 'avenger', faction: 'tscc', hostile: true, id: 2, x: 0, y: 1}];
+	updateMap(map) {
 		const npcs = this.state.npcShipsActive;
+		const newMap = [...map];
 
-		let result = map.reduce(function(r, e) {
-		  let f = npcs.find(el => (e.x == el.x) && (e.y == el.y))
-		  r.push(f ? f : e)
-		  return r;
-		}, [])
+		newMap.map(m => { m.npcShips = [] });
 
-		console.log('RESULT', result)
+		npcs.map(n => {
+			let sector = newMap.find( m => (m.x === n.x) && (m.y === n.y) ) 
+			sector.npcShips.push(n);
+		})
 
-		return result
+		// console.log('UPDATED MAP', newMap[120]);
+		return newMap
 	}
 
-	// TODO: ships can be multiple, change sectorWrapper Ships attribute to a function that returns a string or something
-	// TODO: need to map m.value and return multiple <div className={`${m['value']}`}></div>
+	// TODO: ships can be multiple, change sectorWrapper Ships attribute to a function that returns a string or something for Inspecting a sector
 
 	render () {
 		const mapData = this.props.map;
-		const mapUpdated = this.mapTest(this.props.map);
+		const mapUpdated = this.updateMap(this.props.map);
 		console.log('SHIP LOCATIONS', this.state.npcShipsActive);
 		return (
 			<div>
 				
 				{mapUpdated.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} ships={`id: ${m['id']} type: ${m['value']} faction: ${m['faction']}`}> 
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} > 
 						<div className={`sector sectorTop ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
-		    				<div className={`${m['value']}`}></div>
+		    				{m.npcShips.length
+			    				? m.npcShips.map(ship =>
+			    					<div className={`${ship.value}`}></div>
+			    				) : <div></div>
+		    				}
 		    			</div>
 		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>
@@ -149,8 +151,6 @@ class StarMap extends Component {
 	}
 }
 
-
-	
 const mapStateToProps = state => ({
 	map: state.map,
 	sector: state.selectedSector,
@@ -159,8 +159,6 @@ const mapStateToProps = state => ({
   	currentPosition: state.currentPosition,
   	npcShips: state.npcShips
 });
-
-
 
 export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator })(StarMap);
 

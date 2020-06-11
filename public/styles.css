@@ -195,7 +195,7 @@ body {
 .uwcNpcDD {
 	background-color: #0e0b8f;
 	height: 20px;
-    position: relative;
+    position: absolute;
     bottom: 20px;
     width: 20px;
     border-radius: 50%;
@@ -204,18 +204,18 @@ body {
 
 .bfrNpcDD {
 	background-color: #eb0e42;
-	height: 20px;
-    position: relative;
-    bottom: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: -8px;
     width: 20px;
     border-radius: 50%;
-    left: 43px;
+    left: 27px;
 }
 
 .cnpNpcDD {
 	background-color: #1fd131;
 	height: 20px;
-    position: relative;
+    position: absolute;
     bottom: 20px;
     width: 20px;
     border-radius: 50%;
@@ -224,22 +224,22 @@ body {
 
 .obNpcDD {
 	background-color: #2debdb;
-	height: 20px;
-    position: relative;
-    bottom: 65px;
+    height: 20px;
+    position: absolute;
+    bottom: 47px;
     width: 20px;
     border-radius: 50%;
-    left: 60px;
+    left: 42px;
 }
 
 .tsccNpcDD {
 	background-color: #b214ba;
-	height: 20px;
-    position: relative;
-    bottom: 65px;
+    height: 20px;
+    position: absolute;
+    bottom: -8px;
     width: 20px;
     border-radius: 50%;
-    left: 60px;
+    left: 58px;
 }
 
 /*.cnpNpcDD, .obNpcDD, .tsccNpcDD, .uwcNpcDD, .bfrNpcDD {
