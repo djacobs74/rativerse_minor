@@ -3,6 +3,7 @@ import React from 'react';
 export const FactionDescriptions = ({selected}) => {
 	return (
 		<div className="factionDescriptionContainer">
+			<div className="factionDescriptionHeader">There are five different factions you will encounter in the Rats universe. How they interact with you will depend on your reputation level with each of them. Your reputation will change from the actions you take.</div>
 			<div className={`factionDescription ${(selected === 'uwc' && selected)}`}>
 				<h3>United Worlds Commonwealth (UWC)</h3>
 				<div>Backed by the company, the UWC is a collection of protectorate worlds in the rim, out at the edge of known space. The UWC is there to help with the settlement of new worlds and to keep the peace, but corruption is widespread.</div>

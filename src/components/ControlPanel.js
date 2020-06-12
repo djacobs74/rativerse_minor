@@ -5,7 +5,7 @@ import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-
+import { STARTER_SHIPS } from './_utils/constants';
 import { connect } from 'react-redux';
 
 
@@ -21,15 +21,15 @@ class ControlPanel extends Component {
 	}
 
 	getShipType() {
-		const faction = this.props.selectedFaction.value;
-		const ship = SHIP_DATA.find(s => s.faction === faction)
+		const selectedShip = this.props.selectedShip.value;
+		const ship = STARTER_SHIPS.find(s => s.value === selectedShip)
 		this.setState({ship: ship});
 		console.log('SHIP', ship);
 	}
 
 	render () {
 		const ship = this.state.ship;
-		const selectedFaction = this.props.selectedFaction.label;
+		const selectedShip = this.props.selectedShip.label;
 		// debugger;
 
 		return (
@@ -37,7 +37,7 @@ class ControlPanel extends Component {
 				<div className="header">
 					Control Panel
 				</div>
-				<div>Faction: {selectedFaction}</div>
+				{/*<div>Faction: {selectedShip}</div>*/}
 				<div className="shipData">
 					
 					<div>Current Ship: {ship.label} ({ship.type})</div>
@@ -45,12 +45,11 @@ class ControlPanel extends Component {
 					<div className="shipDetail">Ship data:
 						<div>* Shield HP: {ship.shieldsHp}</div>
 						<div>* Plasma Projectors: {ship.plasmaProjectors}</div>
-						<div>* Torpedoes: {ship.torpedoes}</div>
+						{ ship.torpedoes && <div>* Torpedoes: {ship.torpedoes}</div> }
 						<div>* Sublight Speed: {ship.sublightSpeed}</div>
-						{ ship.faction !== 'tscc' ?
-							<div>* Martel Drive: {ship.martelDrive}</div>
-							: <div>* Star Drive: {ship.martelDrive}</div>
-						}
+				
+						<div>* Martel Drive: {ship.martelDrive}</div>
+
 						<div>* Signature: {ship.signature}</div>
 						<div>* Scanner: {ship.scanner}</div>
 						<div>* Cargo Space: {ship.cargo}</div>
