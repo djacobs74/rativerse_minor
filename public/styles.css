@@ -18,7 +18,7 @@ body {
 }
 
 .mapBox {
-	left: 500px;
+	padding-left: 50px;
     display: inline-block;
     position: relative;
     width: 1250px;
@@ -29,6 +29,7 @@ body {
 	background-color: #282c42;
 	border: 3px solid #1d2c7a;
 	border-radius: 5px;
+	height: 100%;
 }
 
 .hud .header {
@@ -108,15 +109,15 @@ body {
 
 
 .sectorTop.active {
-	border-bottom: 30px solid red;
+	border-bottom: 30px solid #06175e;
 }
 
 .sectorMiddle.active {
-	background: red;
+	background: #06175e;
 }
 
 .sectorBottom.active {
-	border-top: 30px solid red;
+	border-top: 30px solid #06175e;
 }
 
 
@@ -186,3 +187,62 @@ body {
 .ControlPanel {
 	padding: 5px;
 }
+
+.main-wrapper {
+	display: inline-flex;
+}
+
+.uwcNpcDD {
+	background-color: #0e0b8f;
+	height: 20px;
+    position: absolute;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 10px;
+}
+
+.bfrNpcDD {
+	background-color: #eb0e42;
+    height: 20px;
+    position: absolute;
+    bottom: -8px;
+    width: 20px;
+    border-radius: 50%;
+    left: 27px;
+}
+
+.cnpNpcDD {
+	background-color: #1fd131;
+	height: 20px;
+    position: absolute;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 73px;
+}
+
+.obNpcDD {
+	background-color: #2debdb;
+    height: 20px;
+    position: absolute;
+    bottom: 47px;
+    width: 20px;
+    border-radius: 50%;
+    left: 42px;
+}
+
+.tsccNpcDD {
+	background-color: #b214ba;
+    height: 20px;
+    position: absolute;
+    bottom: -8px;
+    width: 20px;
+    border-radius: 50%;
+    left: 58px;
+}
+
+/*.cnpNpcDD, .obNpcDD, .tsccNpcDD, .uwcNpcDD, .bfrNpcDD {
+	background-color: #91070a;
+}*/
+
