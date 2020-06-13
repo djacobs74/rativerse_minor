@@ -139,7 +139,7 @@ class StarMap extends Component {
 		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length
 			    				? m.npcShips.map(ship =>
-			    					<div className={`${ship.value}`}></div>
+			    					<div className={`${ship.value}`} key={ship.id}></div>
 			    				) : <div></div>
 		    				}
 		    			</div>
