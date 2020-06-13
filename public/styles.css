@@ -251,3 +251,15 @@ body {
 	padding: 10px;
 }
 
+.starterShipWrapper {
+	border: 3px solid #1d2c7a;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #282c42;
+}
+
+.starterShipLabel {
+	
+}
+

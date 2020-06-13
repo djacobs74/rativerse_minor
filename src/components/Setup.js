@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
 import ControlPanel from './ControlPanel';
-import FactionDescriptions from './FactionDescriptions';
+import RativerseInfo from './RativerseInfo';
 
 import { SHIP_DATA } from './_utils/constants';
 import { SHIP_CLASS } from './_utils/constants';
@@ -39,7 +39,7 @@ class Setup extends Component {
 		const options = STARTER_SHIPS;
 		let startGame = this.state.startGame;
 		// const selectedFaction = this.state.selectedFaction.value ? this.state.selectedFaction.value : 'notSelected';
-		const selectedShip = this.state.selectedShip.value ? this.state.selectedShip.value : 'notSelected';
+		const selectedShip = this.state.selectedShip.value ? this.state.selectedShip.value : '';
 	
 		console.log('START GAME STATE', startGame);
 		// debugger;
@@ -54,7 +54,7 @@ class Setup extends Component {
 						
 						<Dropdown options={options} onChange={this.selectedShip} value={this.state.selectedShip} placeholder="Select an option" />
 						<button disabled={!this.state.gameReady} className="startBtn" onClick={() => this.startGame()}>Start Game</button>
-						<FactionDescriptions />
+						<RativerseInfo selectedShip={selectedShip} />
 					</div>
 
 				:
