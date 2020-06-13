@@ -167,9 +167,9 @@ body {
 }
 
 .startBtn {
-	float: right;
 	height: 37px;
 	width: 100px;
+	margin-bottom: 20px;
 }
 
 .factionDescription.uwc, .factionDescription.bfr, .factionDescription.cnp, .factionDescription.ob, .factionDescription.tscc {
@@ -259,7 +259,8 @@ body {
     background-color: #282c42;
 }
 
-.starterShipLabel {
-	
+.selectedStarterShip {
+	border: 3px solid #041466;
+    background-color: #3c4369;
 }
 

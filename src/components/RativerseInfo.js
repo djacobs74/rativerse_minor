@@ -24,7 +24,7 @@ class RativerseInfo extends Component {
 		return (
 			<div>
 				<div className="shipDescriptionContainer">
-					{STARTER_SHIPS.map(s => <div className="starterShipWrapper" key={s.value} onClick={() => this.setSelectedShip(s)}>
+					{STARTER_SHIPS.map(s => <div className={`starterShipWrapper ${ship.value && (ship.value === s.value) ? 'selectedStarterShip' : ''}`} key={s.value} onClick={() => this.setSelectedShip(s)}>
 						<div className="starterShipLabel">
 							<h3>{s.label} ({s.type})</h3>
 						</div>
