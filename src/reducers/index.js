@@ -5,6 +5,7 @@ import getPathReducer from './getPathReducer';
 import getStartingPositionReducer from './getStartingPositionReducer';
 import moveShipReducer from './moveShipReducer';
 import npcShipGeneratorReducer from './npcShipGeneratorReducer';
+import selectedShipReducer from './selectedShipReducer';
 
 export default combineReducers({
 	map: mapReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
 	path: getPathReducer,
 	startingPosition: getStartingPositionReducer,
 	currentPosition: moveShipReducer,
-	npcShips: npcShipGeneratorReducer
+	npcShips: npcShipGeneratorReducer,
+	selectedShip: selectedShipReducer
 });

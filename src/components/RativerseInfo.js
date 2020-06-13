@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import { STARTER_SHIPS } from './_utils/constants';
+import { selectedShip } from '../actions/selectedShip';
 import { connect } from 'react-redux';
 
 class RativerseInfo extends Component {
 
+	// constructor(props){
+ //        super(props);      
+ //        this.setShip = this.props.selectedShip;
+
+ //    }
+
+
+ 	setSelectedShip = (s) =>  {
+		this.props.selectedShip(s);
+	}
+
+
 	render () {
+		const ship = this.props.currentShip;
+		console.log('SELECTED SHIP IS', ship);
 
 		return (
 			<div>
 				<div className="shipDescriptionContainer">
-					{STARTER_SHIPS.map(ship => <div className="starterShipWrapper" key={ship.value}>
+					{STARTER_SHIPS.map(s => <div className="starterShipWrapper" key={s.value} onClick={() => this.setSelectedShip(s)}>
 						<div className="starterShipLabel">
-							<h3>{ship.label} ({ship.type})</h3>
+							<h3>{s.label} ({s.type})</h3>
 						</div>
-						<div>{ship.description}</div>
+						<div>{s.description}</div>
 						
 					</div>)}
 				</div>
@@ -50,9 +65,9 @@ class RativerseInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-
+	currentShip: state.selectedShip
 });
 
 
 
-export default connect(mapStateToProps)(RativerseInfo);
+export default connect(mapStateToProps, { selectedShip })(RativerseInfo);

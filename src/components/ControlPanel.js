@@ -28,7 +28,7 @@ class ControlPanel extends Component {
 	}
 
 	render () {
-		const ship = this.state.ship;
+		const ship = this.props.currentShip;
 		const selectedShip = this.props.selectedShip.label;
 		// debugger;
 
@@ -70,7 +70,8 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	path: state.path
+  	path: state.path,
+  	currentShip: state.selectedShip
 });
 
 
