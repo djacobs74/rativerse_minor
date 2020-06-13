@@ -42,10 +42,10 @@ class ControlPanel extends Component {
 					
 					<div>Current Ship: {ship.label} ({ship.type})</div>
 				
-					<div className="shipDetail">Ship data:
-						<div>* Shield HP: {ship.shieldsHp}</div>
-						<div>* Plasma Projectors: {ship.plasmaProjectors}</div>
-						{ ship.torpedoes && <div>* Torpedoes: {ship.torpedoes}</div> }
+					<div className="shipDetail">Ship Systems:
+						<div>{ship.shields && `* ${ship.shields.name} `}</div>
+						<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+						<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
 						<div>* Sublight Speed: {ship.sublightSpeed}</div>
 				
 						<div>* Martel Drive: {ship.martelDrive}</div>
