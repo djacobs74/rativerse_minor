@@ -79,12 +79,12 @@ class StarMap extends Component {
 
 	createNpcShips(props) {
 		const npcShips = this.props.npcShips;
-		const playerFaction = this.props.selectedFaction.value;
+		// const playerFaction = this.props.selectedFaction.value;
 
 		function spawnDelay () {
 			setInterval(function () {
 				
-				npcShipGenerator(npcShips, playerFaction)
+				npcShipGenerator(npcShips)
 				
 			}, 10000)
 		}
@@ -94,14 +94,14 @@ class StarMap extends Component {
 
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
-		const playerFaction = this.props.selectedFaction.value;
+		// const playerFaction = this.props.selectedFaction.value;
 		let npcShipsActive = [];
 		const here = this;
 
 		function spawnDelay () {
 			setInterval(function () {
 				
-				npcShipsActive = npcShipMover(npcShips, playerFaction);
+				npcShipsActive = npcShipMover(npcShips);
 				here.setState({npcShipsActive: npcShipsActive});
 				
 			}, 5000)
@@ -139,7 +139,7 @@ class StarMap extends Component {
 		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length
 			    				? m.npcShips.map(ship =>
-			    					<div className={`${ship.value}`}></div>
+			    					<div className={`${ship.value}`} key={ship.id}></div>
 			    				) : <div></div>
 		    				}
 		    			</div>

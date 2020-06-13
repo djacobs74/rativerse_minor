@@ -167,9 +167,9 @@ body {
 }
 
 .startBtn {
-	float: right;
 	height: 37px;
 	width: 100px;
+	margin-bottom: 20px;
 }
 
 .factionDescription.uwc, .factionDescription.bfr, .factionDescription.cnp, .factionDescription.ob, .factionDescription.tscc {
@@ -245,4 +245,22 @@ body {
 /*.cnpNpcDD, .obNpcDD, .tsccNpcDD, .uwcNpcDD, .bfrNpcDD {
 	background-color: #91070a;
 }*/
+
+.factionDescriptionHeader {
+	font-size: 24px;
+	padding: 10px;
+}
+
+.starterShipWrapper {
+	border: 3px solid #1d2c7a;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #282c42;
+}
+
+.selectedStarterShip {
+	border: 3px solid #041466;
+    background-color: #3c4369;
+}
 

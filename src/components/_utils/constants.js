@@ -1,9 +1,9 @@
 export const SHIP_DATA = [
-  { value: 'kidd',     label: 'Kidd',     type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3 },
-  { value: 'scythe',   label: 'Scythe',   type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3 },
-  { value: 'phantom',  label: 'Phantom',  type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3 },
-  { value: 'vanguard', label: 'Vanguard', type: 'Destroyer', faction: 'ob',   plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3 },
-  { value: 'avenger',  label: 'Avenger',  type: 'Destroyer', faction: 'tscc', plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3 }
+  { value: 'kidd',     label: 'Kidd',     type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3, description: 'A typical BWC Destroyer' },
+  { value: 'scythe',   label: 'Scythe',   type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3, description: 'A typical BFR Destroyer' },
+  { value: 'phantom',  label: 'Phantom',  type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3, description: 'A typical CNP Destroyer' },
+  { value: 'vanguard', label: 'Vanguard', type: 'Destroyer', faction: 'ob',   plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3, description: 'A typical OB Destroyer' },
+  { value: 'avenger',  label: 'Avenger',  type: 'Destroyer', faction: 'tscc', plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 5, scanner: 2, signature: 3, cargo: 3, description: 'A typical TSCC Destroyer' }
 ]
 
 export const PLASMA_PROJECTORS = [
@@ -54,4 +54,10 @@ export const NPC_SHIPS = [
 	// { value: 'tsccNpcDD', id: 23, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'tsccNpcDD', id: 24, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'tsccNpcDD', id: 25, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3}
+]
+
+export const STARTER_SHIPS = [
+	{ value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: 'PP-MK1',  torpedoes: null, shieldsHp: 2, shieldsRegen: 1, martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 5, price: 0, description: 'A small but well rounded frieghter' },
+	{ value: 'badger',   label: 'Badger',   type: 'Frigate',   faction: 'none',  plasmaProjectors: 'PP-MK2',  torpedoes: null, shieldsHp: 3, shieldsRegen: 2, martelDrive: 2, sublightSpeed: 3, scanner: 2, signature: 3, cargo: 2, price: 0, description: 'The Badger provides good firepower for its size, but dont expect to win any fights against bigger ships.' },
+	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: 'PP-MK1',  torpedoes: null, shieldsHp: 1, shieldsRegen: 1, martelDrive: 2, sublightSpeed: 3, scanner: 3, signature: 3, cargo: 4, price: 0, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature. A good choice for those who wish to haul cargo without drawing a lot of attention.' }
 ]
