@@ -40,6 +40,7 @@ class Destination extends React.Component {
 	  		if ((destination[0] !== position[0]) || (destination[1] !== position[1])) {
 	  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
 	  			this.refs.destinationBtn.setAttribute("disabled", "disabled");
+	  			this.refs.dockBtn.setAttribute("disabled", "disabled");
 	  		}
 	  		
 	  	}
@@ -65,7 +66,8 @@ class Destination extends React.Component {
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
-	  			<button ref="martelDriveBtn" disabled={moving} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
+	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
+	  			<button ref="dockBtn" disabled={moving} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
 	  		</div>
 		);
   	}

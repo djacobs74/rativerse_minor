@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-
+// import { dockUndockShip } from './_utils/movement';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 class ControlPanel extends Component {
 
 	state = {
-		ship: {}
+		ship: {},
+		docked: this.props.docked
 	}
 
 	componentDidMount = () => {
@@ -21,15 +22,17 @@ class ControlPanel extends Component {
 	}
 
 	getShipType() {
-		const selectedShip = this.props.selectedShip.value;
+		const selectedShip = this.props.currentShip.value;
 		const ship = STARTER_SHIPS.find(s => s.value === selectedShip)
 		this.setState({ship: ship});
 		console.log('SHIP', ship);
 	}
 
+
 	render () {
 		const ship = this.props.currentShip;
-		const selectedShip = this.props.selectedShip.label;
+		const selectedShip = this.props.currentShip.label;
+		const moving = this.props.currentPosition.moving || false;
 		// debugger;
 
 		return (
@@ -56,8 +59,7 @@ class ControlPanel extends Component {
 					</div>
 				</div>
 				<div>Selected Sector: {prettyCoords(this.props.sector)}</div>
-				<Destination />
-				
+				<Destination dockHandler = {this.props.dockHandler} docked={this.props.docked}/>
 			</div>
 		);
 	}
@@ -71,7 +73,8 @@ class ControlPanel extends Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
-  	currentShip: state.selectedShip
+  	currentShip: state.selectedShip,
+  	currentPosition: state.currentPosition
 });
 
 

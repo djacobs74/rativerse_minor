@@ -4,6 +4,10 @@ body {
 	color: #FFF;
 }
 
+button {
+	margin: 0 5px;
+}
+
 .header-title {
 	font-size: 26px;
 	margin-bottom: 20px;
@@ -47,7 +51,11 @@ body {
 	display: block;
 }*/
 
-
+.hud.docked {
+	position: absolute;
+    top: 355px;
+    height: auto;
+}
 
 .sectorWrapper {
     display: inline-block;
