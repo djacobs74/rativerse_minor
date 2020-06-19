@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Starmap from './Starmap';
-import ControlPanel from './ControlPanel';
+import Game from './Game';
+
 import RativerseInfo from './RativerseInfo';
 
 import { SHIP_DATA } from './_utils/constants';
@@ -65,18 +65,7 @@ class Setup extends Component {
 					</div>
 
 				:
-					<div className="main-wrapper">
-						<div className="hud">
-							<ControlPanel
-							selectedShip={this.props.currentShip} 
-							// selectedShip={this.getSelectedShip()}
-							/>
-						</div>
-				        <div className="mapBox">  	
-					    	<Starmap 
-					    	/>
-				        </div>
-					</div>
+					<Game />
 				}
 
 				
