@@ -9,15 +9,15 @@ button {
 }
 
 .sectorTop.solarSystem {
-	border-bottom: 30px solid #038c17;
+	border-bottom: 30px solid #103d17;
 }
 
 .sectorMiddle.solarSystem {
-	background-color: #038c17;
+	background-color: #103d17;
 }
 
 .sectorBottom.solarSystem {
-	border-top: 30px solid #038c17;
+	border-top: 30px solid #103d17;
 }
 
 .sectorTop.openSpace {
@@ -33,15 +33,15 @@ button {
 }
 
 .sectorTop.asteroidBelt {
-	border-bottom: 30px solid #6e3703;
+	border-bottom: 30px solid #3b1e02;
 }
 
 .sectorMiddle.asteroidBelt {
-	background-color: #6e3703;
+	background-color: #3b1e02;
 }
 
 .sectorBottom.asteroidBelt {
-	border-top: 30px solid #6e3703;
+	border-top: 30px solid #3b1e02;
 }
 
 .header-title {

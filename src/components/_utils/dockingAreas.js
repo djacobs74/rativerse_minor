@@ -12,7 +12,7 @@ export const createDockingAreas = (map) => {
 		if (addDockingArea >= 9) {
 			id++;
 			const typeNum = Math.floor(Math.random() * Math.floor(3));
-			console.log('typeNum', typeNum);
+			// console.log('typeNum', typeNum);
 			
 			const type = typesArray[typeNum];
 

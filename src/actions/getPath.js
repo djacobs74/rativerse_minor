@@ -30,7 +30,7 @@ export const getPath = (position, destination, newPath) => {
 
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
-						console.log('moving down-right');
+						// console.log('moving down-right');
 						if(pathCheck(rangeOneResults.bottomRight)) {
 							moveOptions.push(rangeOneResults.bottomRight);
 						}
@@ -39,7 +39,7 @@ export const getPath = (position, destination, newPath) => {
 				} 
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
-						console.log('moving down-left');
+						// console.log('moving down-left');
 						if(pathCheck(rangeOneResults.bottomLeft)) {
 							moveOptions.push(rangeOneResults.bottomLeft);
 						}
@@ -47,7 +47,7 @@ export const getPath = (position, destination, newPath) => {
 				}
 				if (destX < posX) {
 					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
-						console.log('moving top-left');
+						// console.log('moving top-left');
 						if(pathCheck(rangeOneResults.topLeft)) {
 							moveOptions.push(rangeOneResults.topLeft);
 						}
@@ -55,7 +55,7 @@ export const getPath = (position, destination, newPath) => {
 				}
 				if (destX < posX) {
 					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
-						console.log('moving top-right');
+						// console.log('moving top-right');
 						if(pathCheck(rangeOneResults.topRight)) {
 							moveOptions.push(rangeOneResults.topRight);
 						}
@@ -63,7 +63,7 @@ export const getPath = (position, destination, newPath) => {
 				}
 				if (destY < posY) {
 					if ((posX === destX) || ((destY - posY) <= 3)) {
-						console.log('moving left');
+						// console.log('moving left');
 						if(pathCheck(rangeOneResults.left)) {
 							moveOptions.push(rangeOneResults.left);
 						}
@@ -71,7 +71,7 @@ export const getPath = (position, destination, newPath) => {
 				}
 				if (destY > posY) {
 					if ((posX === destX) || ((destY - posY) >= 3)) {
-						console.log('moving right');
+						// console.log('moving right');
 						if(pathCheck(rangeOneResults.right)) {
 							moveOptions.push(rangeOneResults.right);
 						}
@@ -80,7 +80,7 @@ export const getPath = (position, destination, newPath) => {
 
 				let option = 0;
 
-				console.log('move options', moveOptions);
+				// console.log('move options', moveOptions);
 				// moveOptions.map(m => {
 				// 	if(Math.abs(m[0]) > 5 || Math.abs(m[1]) > 5) {
 				// 		debugger;
@@ -98,8 +98,8 @@ export const getPath = (position, destination, newPath) => {
 				posX = newCoords[0];
 				posY = newCoords[1];
 
-				console.log('move options final', moveOptions);
-				console.log('moving to newCoords', newCoords);
+				// console.log('move options final', moveOptions);
+				// console.log('moving to newCoords', newCoords);
 			}
 			pathOption = path;
 			pathOptions.push(pathOption);

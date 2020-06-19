@@ -15,7 +15,7 @@ export const moveShip = (position, path) => {
 	}
 	// debugger;
 
-	console.log('PATH', path);
+	// console.log('PATH', path);
 
 	return (dispatch) => {
 		function moveDelay () {
@@ -27,7 +27,7 @@ export const moveShip = (position, path) => {
 				let payload = {position, moving}
 
 				dispatch({type: 'MOVE_SHIP', payload: payload});
-				console.log('SHIP MOVED, NEW POSITION = ', position);
+				// console.log('SHIP MOVED, NEW POSITION = ', position);
 				
 		
 

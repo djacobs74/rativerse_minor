@@ -4,7 +4,7 @@ import { getPath } from '../actions/getPath';
 import { getStartingPosition } from '../actions/getStartingPosition';
 import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
-import { getPosition } from './_utils/movement';
+import { getPosition, getDockOption } from './_utils/movement';
 
 
 class Destination extends React.Component {
@@ -54,6 +54,10 @@ class Destination extends React.Component {
   	render() {
   		const position = this.props.currentPosition.position || []; 
   		const moving = this.props.currentPosition.moving || false;
+  		console.log('MOVING', moving);
+  		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
+
+  		// console.log('DOCK OPTION', dockOption);
   	
   		// debugger;
 		return (
@@ -67,7 +71,7 @@ class Destination extends React.Component {
 				<div>Destination: {prettyCoords(this.state.destination)}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
-	  			<button ref="dockBtn" disabled={moving} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
+	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
 	  		</div>
 		);
   	}
@@ -77,7 +81,8 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	startingPosition: state.startingPosition,
-  	currentPosition: state.currentPosition
+  	currentPosition: state.currentPosition,
+  	map: state.map
 });
 
 
