@@ -18,7 +18,7 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 
 	})
 
-	console.log('factionNpcShipCounts', factionNpcShipCounts);
+	// console.log('factionNpcShipCounts', factionNpcShipCounts);
 
 	let maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
 	// console.log('MAXID', maxId);
@@ -49,8 +49,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	}
 
 
-	console.log('NPC_SHIPS', npcShips);
-	console.log('MAXID', maxId);
+	// console.log('NPC_SHIPS', npcShips);
+	// console.log('MAXID', maxId);
   	return (dispatch) => {
   		dispatch({type: 'NPC_SHIPS', payload: npcShips});
   	}

@@ -15,7 +15,7 @@ class StarMap extends Component {
 		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
 		this.createNpcShips(this.props)
-		console.log('NPC SHIPS', this.props.npcShips);
+		// console.log('NPC SHIPS', this.props.npcShips);
 
 		this.moveNpcShips();
 	}
@@ -129,21 +129,21 @@ class StarMap extends Component {
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
-		console.log('SHIP LOCATIONS', this.state.npcShipsActive);
+		// console.log('SHIP LOCATIONS', this.state.npcShipsActive);
 		return (
 			<div>
 				
 				{mapUpdated.map((m, index) => (
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} > 
-						<div className={`sector sectorTop ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
-		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
+						<div className={`sector sectorTop ${m.sectorType[0].value} ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+		    			<div className={`sector sectorMiddle ${m.sectorType[0].value} ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length
 			    				? m.npcShips.map(ship =>
 			    					<div className={`${ship.value}`} key={ship.id}></div>
 			    				) : <div></div>
 		    				}
 		    			</div>
-		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+		    			<div className={`sector sectorBottom ${m.sectorType[0].value} ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>
 	    		))}
 			</div>

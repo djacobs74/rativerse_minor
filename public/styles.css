@@ -8,6 +8,42 @@ button {
 	margin: 0 5px;
 }
 
+.sectorTop.solarSystem {
+	border-bottom: 30px solid #038c17;
+}
+
+.sectorMiddle.solarSystem {
+	background-color: #038c17;
+}
+
+.sectorBottom.solarSystem {
+	border-top: 30px solid #038c17;
+}
+
+.sectorTop.openSpace {
+	border-bottom: 30px solid #020824;
+}
+
+.sectorMiddle.openSpace {
+	background-color: #020824;
+}
+
+.sectorBottom.openSpace {
+	border-top: 30px solid #020824;
+}
+
+.sectorTop.asteroidBelt {
+	border-bottom: 30px solid #6e3703;
+}
+
+.sectorMiddle.asteroidBelt {
+	background-color: #6e3703;
+}
+
+.sectorBottom.asteroidBelt {
+	border-top: 30px solid #6e3703;
+}
+
 .header-title {
 	font-size: 26px;
 	margin-bottom: 20px;
@@ -271,4 +307,9 @@ button {
 	border: 3px solid #041466;
     background-color: #3c4369;
 }
+
+
+
+
+
 
