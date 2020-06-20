@@ -13,7 +13,15 @@ class Destination extends React.Component {
 	// 	this.setPosition(this.props.startingPosition);
 	// }
 	state = {
-		destination: []
+		destination: [],
+		moving: false
+	}
+
+	componentDidUpdate(prevProps, props) {
+		// debugger;
+		if (prevProps.currentPosition !== this.props.currentPosition) {
+			this.moving(true);
+		}
 	}
 
 	constructor(props) {
@@ -36,11 +44,14 @@ class Destination extends React.Component {
 	  	const position = getPosition(this.props);
 
 	  	if(this.state.destination.length) {
+
+	  		this.moving(true);
 	  		const destination = this.state.destination;
 	  		if ((destination[0] !== position[0]) || (destination[1] !== position[1])) {
-	  			this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
-	  			this.refs.destinationBtn.setAttribute("disabled", "disabled");
-	  			this.refs.dockBtn.setAttribute("disabled", "disabled");
+	  			
+	  			// this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
+	  			// this.refs.destinationBtn.setAttribute("disabled", "disabled");
+	  			// this.refs.dockBtn.setAttribute("disabled", "disabled");
 	  		}
 	  		
 	  	}
@@ -50,10 +61,32 @@ class Destination extends React.Component {
 	
 	}
 
+	moving(moving) {
+		// debugger;
+		const position = getPosition(this.props);
+		const destination = this.state.destination;
+		let shipMoving = false;
+
+		if ( (destination[0] === position[0]) && (destination[1] === position[1]) && (moving === true)) {
+			shipMoving = false;
+		} else if (moving) {
+		
+			shipMoving = true;
+		
+		}
+
+		
+		this.setState({moving: shipMoving})
+	
+
+	}
+
 
   	render() {
   		const position = this.props.currentPosition.position || []; 
-  		const moving = this.props.currentPosition.moving || false;
+  		// const moving = this.props.currentPosition.moving || false;
+  		
+  		const moving = this.state.moving;
   		console.log('MOVING', moving);
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
 
