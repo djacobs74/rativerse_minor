@@ -44,21 +44,10 @@ class Destination extends React.Component {
 	  	const position = getPosition(this.props);
 
 	  	if(this.state.destination.length) {
-
 	  		this.moving(true);
-	  		const destination = this.state.destination;
-	  		if ((destination[0] !== position[0]) || (destination[1] !== position[1])) {
-	  			
-	  			// this.refs.martelDriveBtn.setAttribute("disabled", "disabled");
-	  			// this.refs.destinationBtn.setAttribute("disabled", "disabled");
-	  			// this.refs.dockBtn.setAttribute("disabled", "disabled");
-	  		}
-	  		
 	  	}
-	  	
-	    console.log('STARTING POSITION', position);
+	    // console.log('STARTING POSITION', position);
 	    this.props.moveShip(position, this.props.path);
-	
 	}
 
 	moving(moving) {
@@ -70,29 +59,18 @@ class Destination extends React.Component {
 		if ( (destination[0] === position[0]) && (destination[1] === position[1]) && (moving === true)) {
 			shipMoving = false;
 		} else if (moving) {
-		
 			shipMoving = true;
-		
 		}
-
-		
 		this.setState({moving: shipMoving})
-	
-
 	}
 
 
   	render() {
-  		const position = this.props.currentPosition.position || []; 
-  		// const moving = this.props.currentPosition.moving || false;
-  		
+  		const position = this.props.currentPosition.position || [];   		
   		const moving = this.state.moving;
   		console.log('MOVING', moving);
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
 
-  		// console.log('DOCK OPTION', dockOption);
-  	
-  		// debugger;
 		return (
 			<div>
 				<div>
