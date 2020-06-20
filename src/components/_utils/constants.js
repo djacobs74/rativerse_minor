@@ -69,3 +69,13 @@ export const STARTER_SHIPS = [
 	{ value: 'badger',   label: 'Badger',   type: 'Frigate',   faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: null, shields: SHIELDS[1], martelDrive: 2, sublightSpeed: 3, scanner: 2, signature: 3, cargo: 2, price: 0, description: 'The Badger provides good firepower for its size, but dont expect to win any fights against bigger ships.' },
 	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 3, scanner: 3, signature: 3, cargo: 4, price: 0, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature. A good choice for those who wish to haul cargo without drawing a lot of attention.' }
 ]
+
+export const TRADE_GOODS = [
+	{ value: 'water', label: 'Water'},
+	{ value: 'food', label: 'Food'},
+	{ value: 'plasmaRifle', label: 'Plasma Rifle'},
+	{ value: 'rawOre', label: 'Raw Ore'},
+	{ value: 'slaves', label: 'Slaves'},
+	{ value: 'drugs', label: 'Drugs'},
+	{ value: 'salvage', label: 'Salvage'}
+]

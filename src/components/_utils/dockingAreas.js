@@ -1,7 +1,29 @@
+import { TRADE_GOODS } from './constants';
+
+
+
 export const createDockingAreas = (map) => {
 	let id = 0;
 	const typesArray = ['Planet', 'Space Station', 'Asteroid Base'];
 	const spaceTypeArray = [{name: 'Solar System', value: 'solarSystem'}, {name: 'Open Space', value: 'openSpace'}, {name: 'Asteroid Belt', value: 'asteroidBelt'}];
+
+	function getTradeGoods () {
+		const tradeGoodsTypesCount = TRADE_GOODS.length;
+		let tradeGoods = [];
+		const guaranteedGoodIndex = Math.floor(Math.random() * Math.floor(tradeGoodsTypesCount));
+		tradeGoods.push(TRADE_GOODS[guaranteedGoodIndex]);
+
+		TRADE_GOODS.map(t => {
+			const randomGoodIndex = Math.floor(Math.random() * Math.floor(tradeGoodsTypesCount));
+			if(randomGoodIndex > guaranteedGoodIndex ) {
+				if(t !== TRADE_GOODS[guaranteedGoodIndex]) {
+					tradeGoods.push(t);
+				}
+			}
+		})
+		return tradeGoods
+	}
+
 
 	map.map(m => {
 		m.dockingArea = [];
@@ -16,7 +38,8 @@ export const createDockingAreas = (map) => {
 			
 			const type = typesArray[typeNum];
 
-			let dockingArea = {id: id, type: type};
+			const tradeGoods = getTradeGoods();
+			let dockingArea = {id: id, type: type, tradeGoods: tradeGoods};
 			       
 			m.sectorType[0] = spaceTypeArray[typeNum];
 
@@ -27,3 +50,4 @@ export const createDockingAreas = (map) => {
 	})
 	return map
 }
+
