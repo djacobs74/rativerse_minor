@@ -1,7 +1,7 @@
-export const getSector = (x, y) => {
+export const getSector = (m) => {
 
   	// console.log('getsector', x, y);
-  	const selectedSector = [x, y];
-  	return {type: 'SECTOR_SELECTED', payload: selectedSector};
+ 	// debugger;
+  	return {type: 'SECTOR_SELECTED', payload: m};
 };
 

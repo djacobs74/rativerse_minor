@@ -40,10 +40,11 @@ class StarMap extends Component {
 		}
 	}
 
-	clickHandler(x, y, event) {
+	clickHandler(m, event) {
+		// debugger;
 		this.clickedSector = [];
-		this.clickedSector.push(x, y);
-		this.getCoords(x, y);
+		this.clickedSector.push(m.x, m.y);
+		this.getCoords(m);
 	}
 
 	pathSec(m) {
@@ -134,7 +135,7 @@ class StarMap extends Component {
 			<div>
 				
 				{mapUpdated.map((m, index) => (
-					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={(x, y) => this.clickHandler(m['x'], m['y'])} > 
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={() => this.clickHandler(m)} > 
 						<div className={`sector sectorTop ${m.sectorType[0].value} ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 		    			<div className={`sector sectorMiddle ${m.sectorType[0].value} ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length

@@ -26,7 +26,7 @@ class Destination extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {value: '', destination: ''};
+		this.state = {value: '', destination: []};
 		// this.path = this.props.path;
   	}
 
@@ -34,20 +34,25 @@ class Destination extends React.Component {
 	setDestination() {
 		if(this.props.sector.length) {
 			const position = getPosition(this.props);
-
-			this.setState({destination: this.props.sector});
-			this.props.getPath(position, this.props.sector);
+			// debugger;
+			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
+			this.setState({destination: destinationCoords});
+			this.props.getPath(position, destinationCoords);
 		}
 	}
 
   	martelDrive() {
 	  	const position = getPosition(this.props);
-
-	  	if(this.state.destination.length) {
-	  		this.moving(true);
+	  	const moving = this.state.moving;
+	  	const destination = this.state.destination;
+	  	
+	  	if( (destination[0] !== position[0]) && (destination[1] !== position[1]) ) {
+	  		if( (moving === false || moving == null) && destination.length ) {
+	  			this.moving(true);
+	  			this.props.moveShip(position, this.props.path);
+	  		}
+	  		
 	  	}
-	    // console.log('STARTING POSITION', position);
-	    this.props.moveShip(position, this.props.path);
 	}
 
 	moving(moving) {
@@ -68,8 +73,9 @@ class Destination extends React.Component {
   	render() {
   		const position = this.props.currentPosition.position || [];   		
   		const moving = this.state.moving;
-  		console.log('MOVING', moving);
+  		const destination = this.state.destination;
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
+  		console.log('Moving', moving);
 
 		return (
 			<div>
@@ -79,7 +85,7 @@ class Destination extends React.Component {
 		  			<button ref="destinationBtn" disabled={moving} className="moveLabelInput" onClick={() => this.setDestination()}>Set Destination</button>
 				</div>
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
-				<div>Destination: {prettyCoords(this.state.destination)}</div>
+				<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>

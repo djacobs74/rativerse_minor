@@ -33,7 +33,8 @@ class ControlPanel extends Component {
 		const ship = this.props.currentShip;
 		const selectedShip = this.props.currentShip.label;
 		const moving = this.props.currentPosition.moving || false;
-		// debugger;
+		const selectedSector = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
+		console.log('Selected', this.props.sector);
 
 		return (
 			<div className="ControlPanel">
@@ -58,7 +59,7 @@ class ControlPanel extends Component {
 						<div>* Cargo Space: {ship.cargo}</div>
 					</div>
 				</div>
-				<div>Selected Sector: {prettyCoords(this.props.sector)}</div>
+				<div>Selected Sector: {prettyCoords(this.props.sector)} {selectedSector && `  ${selectedSector}`}</div>
 				<Destination dockHandler = {this.props.dockHandler} docked={this.props.docked}/>
 			</div>
 		);

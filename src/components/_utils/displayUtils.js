@@ -1,7 +1,9 @@
 export const prettyCoords = (coords) => {
-	if(coords.length > 0) {
-		coords = coords[0] + ', ' + coords[1];
+	// debugger;
+	if(coords && coords.length) {
+		coords = coords[0].x + ', ' + coords[0].y;
 	}
+
 	return coords
 }
 
