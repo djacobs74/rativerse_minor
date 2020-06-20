@@ -1,5 +1,5 @@
 import { TRADE_GOODS } from './constants';
-
+import _ from 'lodash';
 
 
 export const createDockingAreas = (map) => {
@@ -24,15 +24,25 @@ export const createDockingAreas = (map) => {
 		})
 
 		tradeGoods.map(p => {
-
-			let num = Math.random() >= 0.5;
-			console.log('NUM', num);
-			const min = Math.ceil(p.minPrice);
-		  	const max = Math.floor(p.maxPrice);
-		  	const price = Math.floor(Math.random() * (max - min + 1)) + min;
-		  	num == true  ? p.sellPrice = price : p.buyPrice = price;
+			// THIS WORKS, BUT FOR SOME REASON ITS LOOPING THROUGH THIS MORE THAN ONCE . . .
+			if ( !(('buyPrice' in p) || ('sellPrice' in p)) ) {
+				// debugger;
+				const torF = _.sample([true, false]);
+				console.log('torF ', typeof torF );
+				const min = Math.ceil(p.minPrice);
+			  	const max = Math.floor(p.maxPrice);
+			  	const price = Math.floor(Math.random() * (max - min + 1)) + min;
+			  	if(torF === true) {
+			  		// debugger;
+			  		p.sellPrice = price;
+			  	} else if (torF !== true) {
+			  		// debugger;
+			  		p.buyPrice = price;
+			  	}
+			}
 
 		})
+		// console.log('TRADE GOODS', tradeGoods);
 		return tradeGoods
 	}
 
