@@ -34,8 +34,8 @@ class DockedControlPanel extends Component {
     				? tradeGoods.map(t =>
     					<div key={dockingArea[0].id + t.value} className='tradeGoodWrapper'>
 	    					<div>{t.label}</div>
-	    					<div>{t.buyPrice && `Buying at ${t.buyPrice} (min: ${t.minPrice} max: ${t.maxPrice})`}</div>
-	    					<div>{t.sellPrice && `Selling at ${t.sellPrice} (min: ${t.minPrice} max: ${t.maxPrice})`}</div>
+	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
+	    					<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{`Amount ${t.amount}`}</div>
 	    				</div>
     				) : <div></div>

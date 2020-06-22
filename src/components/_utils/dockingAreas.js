@@ -53,9 +53,21 @@ export const createDockingAreas = (map) => {
 		m.dockingArea = [];
 		m.sectorType = [];
 		m.sectorType.push(spaceTypeArray[1]);
-		
-		const addDockingArea = Math.floor(Math.random() * Math.floor(11));
-		if (addDockingArea >= 9) {
+
+		const randomNum = Math.floor(Math.random() * Math.floor(11));
+
+		if (randomNum >= 10) {
+			m.sectorType[0] = spaceTypeArray[2];  // asteroid
+		} else if (randomNum >= 8 && randomNum < 10) {
+			m.sectorType[0] = spaceTypeArray[0]; // solar system
+		} else {
+			m.sectorType[0] = spaceTypeArray[1]; // open space
+		}
+
+
+
+
+		if (randomNum >= 9) {
 			id++;
 			const typeNum = Math.floor(Math.random() * Math.floor(3));
 			// console.log('typeNum', typeNum);
@@ -64,6 +76,8 @@ export const createDockingAreas = (map) => {
 
 			const tradeGoods = addTradeGoods();
 			let dockingArea = {id: id, type: type, tradeGoods: tradeGoods};
+
+
 			       
 			m.sectorType[0] = spaceTypeArray[typeNum];
 
