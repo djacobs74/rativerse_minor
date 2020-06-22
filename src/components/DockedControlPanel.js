@@ -20,6 +20,7 @@ class DockedControlPanel extends Component {
 		console.log('CURRENT SHIP', this.props.currentShip);
 		const dockingArea = this.props.dockingArea;
 		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		const currentShip = this.props.currentShip;
 
 		return (
 			<div className="ControlPanel">
@@ -28,7 +29,9 @@ class DockedControlPanel extends Component {
     				? dockingArea.map(d =>
     					<div key={d.id}>{`Docking ID ${d.id}`}</div>
     				) : <div></div>
-				}	
+				}
+
+				<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>	
 
 				{tradeGoods.length
     				? tradeGoods.map(t =>
@@ -36,7 +39,7 @@ class DockedControlPanel extends Component {
 	    					<div>{t.label}</div>
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
-	    					<div>{`Amount ${t.amount}`}</div>
+	    					<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>
 	    				</div>
     				) : <div></div>
 				}

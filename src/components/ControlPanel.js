@@ -56,7 +56,7 @@ class ControlPanel extends Component {
 
 						<div>* Signature: {ship.signature}</div>
 						<div>* Scanner: {ship.scanner}</div>
-						<div>* Cargo Space: {`${ship.cargo} of ${ship.cargoMax}`}</div>
+						<div>* Cargo Hold: {`${ship.cargo} of ${ship.cargoMax}`}</div>
 					</div>
 				</div>
 				<div>Selected Sector: {prettyCoords(this.props.sector)} {selectedSector && `  ${selectedSector}`}</div>
