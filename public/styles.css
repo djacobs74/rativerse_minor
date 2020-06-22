@@ -308,7 +308,12 @@ button {
     background-color: #3c4369;
 }
 
-
+.tradeGoodWrapper {
+	padding: 10px;
+	background-color: #252d4d;
+	border: 3px solid #1b1b24;
+    border-radius: 5px;
+}
 
 
 
