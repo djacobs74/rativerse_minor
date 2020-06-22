@@ -12,15 +12,29 @@ import { connect } from 'react-redux';
 
 class DockedControlPanel extends Component {
 
-
+	getDockingArea(sector) {
+		let dockingArea = [];
+		this.props.map.map(m => {
+			if ((m.x === sector.position[0]) && (m.y === sector.position[1])) {
+				dockingArea = m.dockingArea;
+			}
+		})
+		// debugger;
+		return dockingArea
+	}
 
 
 	render () {
-		console.log('DOCKED SECTOR', this.props.dockingArea);
+		
 		console.log('CURRENT SHIP', this.props.currentShip);
-		const dockingArea = this.props.dockingArea;
-		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		
+		
 		const currentShip = this.props.currentShip;
+
+		const dockingArea = this.getDockingArea(this.props.currentPosition);
+		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+
+		console.log('DOCKED SECTOR', this.props.currentPosition);
 
 		return (
 			<div className="ControlPanel">
@@ -59,7 +73,8 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
-  	map: state.map
+  	map: state.map,
+  	currentPosition: state.currentPosition
 });
 
 

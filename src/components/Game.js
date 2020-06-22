@@ -20,15 +20,13 @@ class Game extends Component {
 	 }
 
 	state = {
-		docked: false,
-		dockingArea: null
+		docked: false
 	}
 
 	dockHandler() {
 		// console.log('DOCKED SECTOR', this.props.sector);
 	    this.setState({
-	      docked: !this.state.docked,
-	      dockingArea: this.props.sector[0].dockingArea
+	      docked: !this.state.docked
 	    })
 	}
 
@@ -46,7 +44,7 @@ class Game extends Component {
 					</div>
 					{ this.state.docked &&
 						<div className="hud docked">
-							<DockedControlPanel dockingArea={this.state.dockingArea} />
+							<DockedControlPanel />
 						</div>
 					}
 			        <div className="mapBox">  	
