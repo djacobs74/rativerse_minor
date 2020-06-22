@@ -32,6 +32,8 @@ export const createDockingAreas = (map) => {
 				const min = Math.ceil(p.minPrice);
 			  	const max = Math.floor(p.maxPrice);
 			  	const price = Math.floor(Math.random() * (max - min + 1)) + min;
+			  	const amount = Math.floor(Math.random() * (200 - 0 + 1)) + 0;
+			  	p.amount = amount;
 			  	if(torF === true) {
 			  		// debugger;
 			  		p.sellPrice = price;
