@@ -38,7 +38,21 @@ class DockedControlPanel extends Component {
 		if (!cargo) {
 			cargoOptions.push(cargoDetails);
 		} else {
-			cargo.amount += amount;
+			if (amount === 0) {
+				// debugger;
+				cargo.amount = 0;
+			} else {
+				// debugger;
+				if (cargo.amount + amount >= tradeGood.amount) {
+					// debugger;
+					cargo.amount = tradeGood.amount
+				} else {
+					cargo.amount += amount;
+				}
+				// debugger;
+				
+			}
+			
 			// debugger;
 		}
 
@@ -76,7 +90,7 @@ class DockedControlPanel extends Component {
 		const cargoOptions = this.state.cargoOptions;
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
 		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
-
+		
 		console.log('DOCKED SECTOR', this.props.currentPosition);
 
 		return (
@@ -103,15 +117,19 @@ class DockedControlPanel extends Component {
 	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
 	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
 	    							<button onClick={() => this.updateCargo(t, 10)}>10</button>
+	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
 	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
-	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Buy</button>{this.getTotal(t, cargoOptions)}
+	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
+	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Sell</button>{this.getTotal(t, cargoOptions)}
 	    						</div> : 
 	    						<div>Add to Cart
 	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
 	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
 	    							<button onClick={() => this.updateCargo(t, 10)}>10</button>
+	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
 	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
-	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Sell</button>{this.getTotal(t, cargoOptions)}
+	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
+	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Buy</button>{this.getTotal(t, cargoOptions)}
 	    						</div>
 	    					} 
 	    				</div>
