@@ -76,7 +76,8 @@ class Destination extends React.Component {
   		const destination = this.state.destination;
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
   		console.log('Moving', moving);
-
+  		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
+		
 		return (
 			<div>
 				<div>
@@ -87,7 +88,7 @@ class Destination extends React.Component {
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
-	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
+	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
 	  		</div>
 		);
