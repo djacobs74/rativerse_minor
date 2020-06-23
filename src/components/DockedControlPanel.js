@@ -51,7 +51,7 @@ class DockedControlPanel extends Component {
 		let shipCargo = this.props.currentShip.cargoHold;
 		let shipCargoCount = this.props.currentShip.cargo;
 		const transActionType = t.buyPrice ? 'buy' : 'sell';
-		const cargo = this.state.cargoOptions.find((c) => c.value === tradeGood.value);
+		const cargo = this.state.cargoOptions.find((c) => c.value === t.value);
 		// check ship cargo capacity with cargo volume
 		// add / subtract cargo with ship cargohold
 		// adjust player $$
