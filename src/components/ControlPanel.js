@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-
+// import { dockUndockShip } from './_utils/movement';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 class ControlPanel extends Component {
 
 	state = {
-		ship: {}
+		ship: {},
+		docked: this.props.docked
 	}
 
 	componentDidMount = () => {
@@ -21,16 +22,19 @@ class ControlPanel extends Component {
 	}
 
 	getShipType() {
-		const selectedShip = this.props.selectedShip.value;
+		const selectedShip = this.props.currentShip.value;
 		const ship = STARTER_SHIPS.find(s => s.value === selectedShip)
 		this.setState({ship: ship});
 		console.log('SHIP', ship);
 	}
 
+
 	render () {
 		const ship = this.props.currentShip;
-		const selectedShip = this.props.selectedShip.label;
-		// debugger;
+		const selectedShip = this.props.currentShip.label;
+		const moving = this.props.currentPosition.moving || false;
+		const selectedSector = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
+		console.log('Selected', this.props.sector);
 
 		return (
 			<div className="ControlPanel">
@@ -52,12 +56,11 @@ class ControlPanel extends Component {
 
 						<div>* Signature: {ship.signature}</div>
 						<div>* Scanner: {ship.scanner}</div>
-						<div>* Cargo Space: {ship.cargo}</div>
+						<div>* Cargo Hold: {`${ship.cargo} of ${ship.cargoMax}`}</div>
 					</div>
 				</div>
-				<div>Selected Sector: {prettyCoords(this.props.sector)}</div>
-				<Destination />
-				
+				<div>Selected Sector: {prettyCoords(this.props.sector)} {selectedSector && `  ${selectedSector}`}</div>
+				<Destination dockHandler = {this.props.dockHandler} docked={this.props.docked}/>
 			</div>
 		);
 	}
@@ -71,7 +74,8 @@ class ControlPanel extends Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
-  	currentShip: state.selectedShip
+  	currentShip: state.selectedShip,
+  	currentPosition: state.currentPosition
 });
 
 

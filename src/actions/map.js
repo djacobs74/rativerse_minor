@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { createDockingAreas } from '../components/_utils/dockingAreas';
+
 
 export const createMap = (size) => async dispatch => {
 	// THIS WILL CREATE AN ARRAY OF COORDINATE OBJECTS AND RETURN THEM
@@ -109,6 +111,8 @@ export const createMap = (size) => async dispatch => {
 
 	starMap = _.sortBy(starMap, o => o.y);
 	starMap = _.sortBy(starMap, o => o.x);
+
+	starMap = createDockingAreas(starMap);
 	console.log('starMap', starMap);
 
 	dispatch({type: 'MAP_CREATED', payload: starMap});

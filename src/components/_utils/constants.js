@@ -65,7 +65,17 @@ export const NPC_SHIPS = [
 ]
 
 export const STARTER_SHIPS = [
-	{ value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 5, price: 0, description: 'A small but well rounded frieghter' },
-	{ value: 'badger',   label: 'Badger',   type: 'Frigate',   faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: null, shields: SHIELDS[1], martelDrive: 2, sublightSpeed: 3, scanner: 2, signature: 3, cargo: 2, price: 0, description: 'The Badger provides good firepower for its size, but dont expect to win any fights against bigger ships.' },
-	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 3, scanner: 3, signature: 3, cargo: 4, price: 0, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature. A good choice for those who wish to haul cargo without drawing a lot of attention.' }
+	{ value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, description: 'A small but well rounded frieghter' },
+	{ value: 'badger',   label: 'Badger',   type: 'Frigate',   faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: null, shields: SHIELDS[1], martelDrive: 2, sublightSpeed: 3, scanner: 2, signature: 3, cargo: 0, cargoHold: [], cargoMax: 10, price: 0, description: 'The Badger provides good firepower for its size, but dont expect to win any fights against bigger ships.' },
+	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 3, scanner: 3, signature: 3, cargo: 0, cargoHold: [], cargoMax: 20, price: 0, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature. A good choice for those who wish to haul cargo without drawing a lot of attention.' }
+]
+
+export const TRADE_GOODS = [
+	{ value: 'water', label: 'Water', minPrice: 100, maxPrice: 500, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'food', label: 'Food', minPrice: 100, maxPrice: 500, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'plasmaRifle', label: 'Plasma Rifle', minPrice: 750, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'rawOre', label: 'Raw Ore', minPrice: 100, maxPrice: 200, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'slaves', label: 'Slaves', minPrice: 600, maxPrice: 1200, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'drugs', label: 'Drugs', minPrice: 800, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'salvage', label: 'Salvage', minPrice: 120, maxPrice: 300, cargoSpace: 1, minAmount: 0, maxAmount: 200}
 ]

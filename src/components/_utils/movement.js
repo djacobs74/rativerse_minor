@@ -27,3 +27,27 @@ export const moveCheck = (position, destination) => {
 	
 	return moving
 }
+
+export const getDockOption = (position, map) => {
+
+	// console.log('POSITION', position);
+	let canDock = false;
+	
+	if (position.position && position.position.length) {
+		
+		map.map(m => {
+			if ((position.position[0] === m.x) && (position.position[1] === m.y)) {
+			
+				if (m.dockingArea.length) {
+					canDock = true;
+
+				}
+
+			}
+		})
+	}
+		
+
+	return canDock
+
+}
