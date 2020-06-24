@@ -98,13 +98,13 @@ class ControlPanel extends Component {
 					<div>Selected Sector Scan Data</div>
 					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
 					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
-					<div>SHIPS:</div>
-					{this.state.npcShipsScan.length ? this.state.npcShipsScan.map(s => 
-						<div key="npcShipsData">
+					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
+					{this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
+						<div key="npcShipsData" className="npcShipsData">
 							<div>Type: {s.type}</div>
 							<div>Faction: {s.factionName}</div>
 						</div>
-					) : <div>None</div>}
+					)}
 				</div>
 
 
