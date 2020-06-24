@@ -72,12 +72,12 @@ class ControlPanel extends Component {
 
 		return (
 			<div className="ControlPanel">
-				<div className="header">
+				{/*<div className="header">
 					Control Panel
-				</div>
+				</div>*/}
 				{/*<div>Faction: {selectedShip}</div>*/}
-				<div className="shipData">
-					
+				<div className="cpSection">
+					<div className="header">Ship Data</div>
 					<div>Current Ship: {ship.label} ({ship.type})</div>
 				
 					<div className="shipDetail">Ship Systems:
@@ -94,8 +94,8 @@ class ControlPanel extends Component {
 					</div>
 				</div>
 
-				<div className="scanData">
-					<div>Selected Sector Scan Data</div>
+				<div className="cpSection">
+					<div className="header">Selected Sector Scan Data</div>
 					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
 					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
 					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>

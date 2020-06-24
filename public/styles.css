@@ -74,6 +74,7 @@ button {
 
 .hud .header {
 	text-align: center;
+	font-size: 18px;
 }
 
 /*.sector {
@@ -221,13 +222,6 @@ button {
 	border-color: #092bdb
 }
 
-.shipData {
-	background-color: #252d4d;
-	/*border: 3px solid #1d2c7a;
-	border-radius: 5px;*/
-	padding: 5px;
-}
-
 .ControlPanel {
 	padding: 5px;
 }
@@ -319,11 +313,22 @@ button {
 .npcShipsData {
 	padding: 5px;
     background: #252d4d;
-    border: 1px solid white;
+    border: 3px solid #1b1b24;
    	margin-bottom: 5px;
    	border-radius: 5px;
 }
 
 .huds-wrapper {
 	width: 500px;
+}
+
+.cpSection {
+	border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.destination-wrapper .header {
+	margin-bottom: 5px;
 }

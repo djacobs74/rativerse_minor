@@ -79,7 +79,8 @@ class Destination extends React.Component {
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
 		return (
-			<div>
+			<div className="cpSection destination-wrapper">
+				<div className="header">Navigation</div>
 				<div>
 		  			Set Destination To Selected Sector: 
 		  			{/*<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />*/}
