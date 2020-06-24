@@ -44,7 +44,7 @@ class ControlPanel extends Component {
 
 		if (sectorData.length) {
 			if(sectorData[0].dockingArea && sectorData[0].dockingArea.length) {
-				dockingArea = sectorData[0].dockingArea[0].id;
+				dockingArea = sectorData[0].dockingArea[0].type + ' ' + sectorData[0].dockingArea[0].id;
 			}
 		}
 
