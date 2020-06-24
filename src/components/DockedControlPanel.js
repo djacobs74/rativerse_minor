@@ -95,7 +95,7 @@ class DockedControlPanel extends Component {
 
 		return (
 			<div className="ControlPanel">
-				<div>DOCKED</div>
+				<div className="header">Docking Control Panel</div>
 				{dockingArea.length
     				? dockingArea.map(d =>
     					<div key={d.id}>{`Docking ID ${d.id}`}</div>

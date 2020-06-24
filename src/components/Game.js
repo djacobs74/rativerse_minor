@@ -39,14 +39,16 @@ class Game extends Component {
 			<div>
 
 				<div className="main-wrapper">
-					<div className="hud">
-						<ControlPanel dockHandler = {this.dockHandler} docked={this.state.docked}/>
-					</div>
-					{ this.state.docked &&
-						<div className="hud docked">
-							<DockedControlPanel />
+					<div className="huds-wrapper">
+						<div className="hud">
+							<ControlPanel dockHandler = {this.dockHandler} docked={this.state.docked}/>
 						</div>
-					}
+						{ this.state.docked &&
+							<div className="hud docked">
+								<DockedControlPanel />
+							</div>
+						}
+					</div>
 			        <div className="mapBox">  	
 				    	<Starmap 
 				    	/>
