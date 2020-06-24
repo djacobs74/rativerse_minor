@@ -316,6 +316,12 @@ button {
     margin-top: 5px;
 }
 
-
+.npcShipsData {
+	padding: 5px;
+    background: #252d4d;
+    border: 1px solid white;
+   	margin-bottom: 5px;
+   	border-radius: 5px;
+}
 
 
