@@ -109,11 +109,19 @@ export const getPath = (position, destination, newPath) => {
 	}
 
 	let shortestPath = pathOptions[0];
- 	pathOptions.map(p => {
- 		if (p.length < shortestPath.length) {
- 			shortestPath = p;
- 		}
- 	})
+	console.log('pathOptions', pathOptions);
+	// console.log('shortestPath', shortestPath);
+	// console.log('REDUCE PATHS', pathOptions.reduce((prev, next) => prev.length > next.length ? next : prev));
+
+ 	// pathOptions.map(p => {
+ 	// 	if (p.length < shortestPath.length) {
+ 	// 		shortestPath = p;
+ 	// 	}
+ 	// })
+ 	if(pathOptions.length) {
+ 		shortestPath = pathOptions.reduce((prev, next) => prev.length > next.length ? next : prev);
+ 	}
+ 	
 	
  	path = shortestPath;
 

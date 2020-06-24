@@ -33,31 +33,31 @@ export const SHIP_DATA = [
 ]
 
 export const NPC_SHIPS = [
-	{ value: 'uwcNpcDD', id: 1, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: PLASMA_PROJECTORS[2],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 0, y: 0 },
+	{ value: 'uwcNpcDD', id: 1, label: 'NPC Ship', type: 'Destroyer', faction: FACTIONS[0].value, factionName: FACTIONS[0].label, plasmaProjectors: PLASMA_PROJECTORS[2],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 0, y: 0 },
 	// { value: 'uwcNpcDD', id: 2, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'uwcNpcDD', id: 3, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'uwcNpcDD', id: 4, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'uwcNpcDD', id: 5, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 
-	{ value: 'bfrNpcDD', id: 6,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: -5, y: -5 },
+	{ value: 'bfrNpcDD', id: 6,  label: 'NPC Ship', type: 'Destroyer', faction: FACTIONS[1].value, factionName: FACTIONS[1].label, plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: -5, y: -5 },
 	// { value: 'bfrNpcDD', id: 7,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'bfrNpcDD', id: 8,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'bfrNpcDD', id: 9,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'bfrNpcDD', id: 10, label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 
-	{ value: 'cnpNpcDD', id: 11, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: PLASMA_PROJECTORS[2],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: -5, y: 5 },
+	{ value: 'cnpNpcDD', id: 11, label: 'NPC Ship', type: 'Destroyer', faction: FACTIONS[2].value, factionName: FACTIONS[2].label, plasmaProjectors: PLASMA_PROJECTORS[2],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: -5, y: 5 },
 	// { value: 'cnpNpcDD', id: 12, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'cnpNpcDD', id: 13, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'cnpNpcDD', id: 14, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'cnpNpcDD', id: 15, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 
-	{ value: 'obNpcDD', id: 16, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 5, y: -5 },
+	{ value: 'obNpcDD', id: 16, label: 'NPC Ship', type: 'Destroyer', faction: FACTIONS[3].value, factionName: FACTIONS[3].label, plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 5, y: -5 },
 	// { value: 'obNpcDD', id: 17, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'obNpcDD', id: 18, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'obNpcDD', id: 19, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'obNpcDD', id: 20, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 
-	{ value: 'tsccNpcDD', id: 21, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: PLASMA_PROJECTORS[0], torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 5, y: 5 }
+	{ value: 'tsccNpcDD', id: 21, label: 'NPC Ship', type: 'Destroyer', faction: FACTIONS[4].value, factionName: FACTIONS[4].label, plasmaProjectors: PLASMA_PROJECTORS[0], torpedoes: TORPEDOES[0], shields: SHIELDS[0], signature: 3, x: 5, y: 5 }
 	// { value: 'tsccNpcDD', id: 22, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'tsccNpcDD', id: 23, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},
 	// { value: 'tsccNpcDD', id: 24, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3},

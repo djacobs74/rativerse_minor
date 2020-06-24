@@ -25,27 +25,27 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 
 	if (factionNpcShipCounts['uwc'] < maxShips) {
 		maxId++;
-		npcShips.push({value: 'uwcNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 0, y: 0 })
+		npcShips.push({value: 'uwcNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc', factionName: 'United Worlds Commonwealth', plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 0, y: 0 })
 	}
 
 	if (factionNpcShipCounts['bfr'] < maxShips) {
 		maxId++;
-		npcShips.push({value: 'bfrNpcDD', id: maxId,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: -5})
+		npcShips.push({value: 'bfrNpcDD', id: maxId,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr', factionName: 'Blood Fleet Raiders',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: -5})
 	}
 
 	if (factionNpcShipCounts['cnp'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'cnpNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: 5})
+		npcShips.push({ value: 'cnpNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp', factionName: 'Coral Nebula Pirates',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: 5})
 	}
 
 	if (factionNpcShipCounts['ob'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'obNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'ob',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: -5})
+		npcShips.push({ value: 'obNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'ob', factionName: 'Orion BrotherHood',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: -5})
 	}
 
 	if (factionNpcShipCounts['tscc'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'tsccNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc',  plasmaProjectors: 'PP-MK2', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: 5})
+		npcShips.push({ value: 'tsccNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc', factionName: 'Third Star Cluster Clans',  plasmaProjectors: 'PP-MK2', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: 5})
 	}
 
 

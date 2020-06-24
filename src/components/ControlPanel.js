@@ -14,11 +14,22 @@ class ControlPanel extends Component {
 
 	state = {
 		ship: {},
-		docked: this.props.docked
+		docked: this.props.docked,
+		npcShipsScan: []
 	}
 
 	componentDidMount = () => {
 		this.getShipType();
+	}
+
+	componentDidUpdate(prevProps, props) {
+		// debugger;
+		if (prevProps.sector !== this.props.sector) {
+			this.getShips(this.props.sector);
+			console.log('SECTOR npcShips TEST', this.props.sector);
+		
+		}
+		
 	}
 
 	getShipType() {
@@ -28,12 +39,35 @@ class ControlPanel extends Component {
 		console.log('SHIP', ship);
 	}
 
+	getDockingArea(sectorData) {
+		let dockingArea = 'None';
+
+		if (sectorData.length) {
+			if(sectorData[0].dockingArea && sectorData[0].dockingArea.length) {
+				dockingArea = sectorData[0].dockingArea[0].id;
+			}
+		}
+
+		console.log('dockingArea', dockingArea);
+		return dockingArea
+	}
+
+	getShips(sectorData) {
+		let ships = [];
+
+		if(sectorData[0].npcShips.length) {
+			ships = sectorData[0].npcShips;			
+		}
+		this.setState({npcShipsScan: ships});
+	}
+
 
 	render () {
 		const ship = this.props.currentShip;
 		const selectedShip = this.props.currentShip.label;
 		const moving = this.props.currentPosition.moving || false;
-		const selectedSector = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
+		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
+		const selectedSectorData = this.props.sector;
 		console.log('Selected', this.props.sector);
 
 		return (
@@ -59,7 +93,22 @@ class ControlPanel extends Component {
 						<div>* Cargo Hold: {`${ship.cargo} of ${ship.cargoMax}`}</div>
 					</div>
 				</div>
-				<div>Selected Sector: {prettyCoords(this.props.sector)} {selectedSector && `  ${selectedSector}`}</div>
+
+				<div className="scanData">
+					<div>Selected Sector Scan Data</div>
+					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
+					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
+					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
+					{this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
+						<div key="npcShipsData" className="npcShipsData">
+							<div>Type: {s.type}</div>
+							<div>Faction: {s.factionName}</div>
+						</div>
+					)}
+				</div>
+
+
+
 				<Destination dockHandler = {this.props.dockHandler} docked={this.props.docked}/>
 			</div>
 		);
@@ -75,7 +124,8 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
-  	currentPosition: state.currentPosition
+  	currentPosition: state.currentPosition,
+  	npcShips: state.npcShips
 });
 
 
