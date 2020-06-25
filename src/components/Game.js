@@ -6,6 +6,7 @@ import DockedControlPanel from './DockedControlPanel';
 import { SHIP_DATA } from './_utils/constants';
 import { SHIP_CLASS } from './_utils/constants';
 import { STARTER_SHIPS } from './_utils/constants';
+import { playerData } from '../actions/playerData';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
@@ -23,6 +24,10 @@ class Game extends Component {
 		docked: false
 	}
 
+	componentDidMount = () => {
+		this.props.playerData();
+	}
+
 	dockHandler() {
 		// console.log('DOCKED SECTOR', this.props.sector);
 	    this.setState({
@@ -33,7 +38,7 @@ class Game extends Component {
 
 	render () {
 
-		
+		console.log('PLAYER DATA', this.props.player);
 
 		return (
 			<div>
@@ -70,9 +75,10 @@ class Game extends Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
-  	currentShip: state.selectedShip
+  	currentShip: state.selectedShip,
+  	player: state.playerData
 });
 
 
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, {playerData})(Game);
