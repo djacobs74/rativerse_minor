@@ -68,8 +68,9 @@ class ControlPanel extends Component {
 		const moving = this.props.currentPosition.moving || false;
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
+		const playerData = this.props.player;
 		console.log('Selected', this.props.sector);
-
+	
 		return (
 			<div className="ControlPanel">
 				{/*<div className="header">
@@ -92,6 +93,18 @@ class ControlPanel extends Component {
 						<div>* Scanner: {ship.scanner}</div>
 						<div>* Cargo Hold: {`${ship.cargo} of ${ship.cargoMax}`}</div>
 					</div>
+				</div>
+
+				<div className="cpSection">
+					<div className="header">Credits and Reputation</div>
+					<div>* Credits: {playerData.credits}</div>
+
+					<div>* UWC: {playerData.reputation && playerData.reputation[0].uwc}</div>
+					<div>* BFR: {playerData.reputation && playerData.reputation[1].bfr}</div>
+					<div>* CNP: {playerData.reputation && playerData.reputation[2].cnp}</div>
+					<div>* OB: {playerData.reputation && playerData.reputation[3].ob}</div>
+					<div>* TSCC: {playerData.reputation && playerData.reputation[4].tscc}</div>
+
 				</div>
 
 				<div className="cpSection">
@@ -125,7 +138,8 @@ const mapStateToProps = state => ({
   	path: state.path,
   	currentShip: state.selectedShip,
   	currentPosition: state.currentPosition,
-  	npcShips: state.npcShips
+  	npcShips: state.npcShips,
+  	player: state.playerData
 });
 
 
