@@ -163,7 +163,8 @@ class DockedControlPanel extends Component {
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>
-	    					{t.buyPrice ? 
+	    					{t.buyPrice &&
+	    						(this.getCargoHoldData(t, currentShip) > 0) &&
 	    						<div>Add to Cart
 	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
 	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
@@ -172,7 +173,8 @@ class DockedControlPanel extends Component {
 	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
 	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
 	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Sell</button>{this.getTotal(t, cargoOptions)}
-	    						</div> : 
+	    						</div> }
+	    					{t.sellPrice && 
 	    						<div>Add to Cart
 	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
 	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
