@@ -72,7 +72,7 @@ class DockedControlPanel extends Component {
 		const shipCargoSpaceMax = this.props.currentShip.cargoMax;
 		const availableSpace = (shipCargoSpaceMax - playerShip.cargo);
 		// debugger;
-		if (transactionType === 'sell') { // BUYING CARGO
+		if (transactionType === 'sell') { // BUYING CARGO ***************
 			if (availableSpace >= cargo.amount) {
 				const priceTotal = (cargo.amount * cargo.price);
 				if(playerCredits >= priceTotal) {
@@ -80,19 +80,20 @@ class DockedControlPanel extends Component {
 						if (c.value === cargo.value) {
 							// debugger;
 							c.amount += cargo.amount;
+							playerShip.cargo += cargo.amount;
+							// adjust player credits 
 						} 
 					})
-					playerShip.cargo += cargo.amount;
-					// adjust player credits 
 				}
 			}
-		} else { // SELLING CARGO
+		} else { // SELLING CARGO **************
 			// see if cargo type is in shipCargo
 			playerShip.cargoHold.map(c => {
 				if (c.value === cargo.value) {
 					if (c.amount >= cargo.amount) {
 						c.amount -= cargo.amount;
 						c.cargo -= cargo.amount;
+						playerShip.cargo -= cargo.amount;
 						// adjust player credits
 					}
 				}
