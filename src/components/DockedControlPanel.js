@@ -118,6 +118,16 @@ class DockedControlPanel extends Component {
 		return cargoTotal
 	}
 
+	getCargoHoldData(t, currentShip) {
+		let cargoAmount = 0;
+		currentShip.cargoHold.map(c => {
+			if (c.value === t.value) {
+				cargoAmount = c.amount;
+			}
+		})
+		return cargoAmount
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -149,6 +159,7 @@ class DockedControlPanel extends Component {
 
     					<div key={dockingArea[0].id + t.value} className='tradeGoodWrapper'>
 	    					<div>{t.label}</div>
+	    					<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 	    					<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>
