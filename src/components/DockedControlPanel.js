@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-
+import { selectedShip } from '../actions/selectedShip';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
@@ -63,13 +63,50 @@ class DockedControlPanel extends Component {
 
 	transAction(t, cargoOptions) {
 		let shipCargo = this.props.currentShip.cargoHold;
-		let shipCargoCount = this.props.currentShip.cargo;
-		const transActionType = t.buyPrice ? 'buy' : 'sell';
-		const cargo = this.state.cargoOptions.find((c) => c.value === t.value);
+		// let shipCargoCount = this.props.currentShip.cargo;
+		let playerShip = this.props.currentShip;
+		const transactionType = t.buyPrice ? 'buy' : 'sell';
+		let cargo = cargoOptions.find((c) => c.value === t.value);
+
+		const playerCredits = this.props.player.credits;
+		const shipCargoSpaceMax = this.props.currentShip.cargoMax;
+		const availableSpace = (shipCargoSpaceMax - playerShip.cargo);
+		// debugger;
+		if (transactionType === 'sell') { // BUYING CARGO
+			if (availableSpace >= cargo.amount) {
+				const priceTotal = (cargo.amount * cargo.price);
+				if(playerCredits >= priceTotal) {
+					playerShip.cargoHold.map(c => {
+						if (c.value === cargo.value) {
+							// debugger;
+							c.amount += cargo.amount;
+						} 
+					})
+					playerShip.cargo += cargo.amount;
+					// adjust player credits 
+				}
+			}
+		} else { // SELLING CARGO
+			// see if cargo type is in shipCargo
+			playerShip.cargoHold.map(c => {
+				if (c.value === cargo.value) {
+					if (c.amount >= cargo.amount) {
+						c.amount -= cargo.amount;
+						c.cargo -= cargo.amount;
+						// adjust player credits
+					}
+				}
+			})
+			// debugger;
+		}
+		// { value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, description: 'A small but well rounded frieghter' }
+		this.props.selectedShip(playerShip);
+		cargo.amount = 0;
+		this.setState({cargoOptions:  cargoOptions});
 		// check ship cargo capacity with cargo volume
 		// add / subtract cargo with ship cargohold
 		// adjust player $$
-		debugger;
+		// debugger;
 
 	}
 
@@ -160,4 +197,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps)(DockedControlPanel);
+export default connect(mapStateToProps, {selectedShip})(DockedControlPanel);

@@ -1,7 +1,15 @@
-export const selectedShip = (ship) => {
+import { TRADE_GOODS } from '../components/_utils/constants';
 
-	// let currentShip = [];
-	// currentShip.push(ship);
+export const selectedShip = (ship, newShip) => {
+
+	if(newShip) {
+		let cargoOptions = [];
+		TRADE_GOODS.map(t => {
+			cargoOptions.push({value: t.value, label: t.label, amount: 0})
+		})
+		ship.cargoHold = cargoOptions;
+	}
+
 
   	return (dispatch) => {
   		dispatch({type: 'SHIP_SELECTED', payload: ship});
