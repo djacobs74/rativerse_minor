@@ -25,7 +25,8 @@ class Game extends Component {
 	}
 
 	componentDidMount = () => {
-		this.props.playerData();
+		const newGame = true;
+		this.props.playerData(newGame);
 	}
 
 	dockHandler() {

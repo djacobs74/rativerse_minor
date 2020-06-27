@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
 import { selectedShip } from '../actions/selectedShip';
+import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
@@ -16,9 +17,15 @@ class DockedControlPanel extends Component {
 		cargoOptions: []
 	}
 
-	// componentDidMount = () => {
-	// 	this.setState({cargoOptions: })
-	// }
+	componentDidMount = () => {
+		let cargoOptions = [];
+		const dockingArea = this.getDockingArea(this.props.currentPosition);
+		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		tradeGoods.map(t => {
+			cargoOptions.push({value: t.value, label: t.label, amount: 0})
+		})
+		this.setState({cargoOptions: cargoOptions});
+	}
 
 	getDockingArea(sector) {
 		let dockingArea = [];
@@ -33,60 +40,87 @@ class DockedControlPanel extends Component {
 
 	updateCargo(tradeGood, amount) {
 		let cargoOptions = this.state.cargoOptions;
-		let cargo = this.state.cargoOptions.find((c) => c.value === tradeGood.value);
-		const cargoDetails = {value: tradeGood.value, amount: amount, price: tradeGood.buyPrice || tradeGood.sellPrice }
-		if (!cargo) {
-			cargoOptions.push(cargoDetails);
+		let selectedCargoOption = cargoOptions.find((c) => c.value === tradeGood.value);
+		let selectedTradegood = {value: tradeGood.value, amount: amount, price: tradeGood.buyPrice || tradeGood.sellPrice };
+		const transactionType = tradeGood.buyPrice ? 'buy' : 'sell';
+		const shipCargoTotal = this.getCargoHoldData(tradeGood, this.props.currentShip);
+		const shipCargoAvailable = (this.props.currentShip.cargoMax - this.props.currentShip.cargo);
+		const playerCredits = this.props.player.credits;
+		// debugger;
+		let matchingCargo = this.props.currentShip.cargoHold.find( c => (c.value === selectedCargoOption.value))
+	
+		// debugger;
+
+		if (amount === 0) {
+			selectedCargoOption.amount = 0;
 		} else {
-			if (amount === 0) {
-				// debugger;
-				cargo.amount = 0;
-			} else {
-				// debugger;
-				if (cargo.amount + amount >= tradeGood.amount) {
-					// debugger;
-					cargo.amount = tradeGood.amount
-				} else {
-					cargo.amount += amount;
-				}
-				// debugger;
-				
-			}
-			
 			// debugger;
-		}
+			if (transactionType === 'sell') { // Buying from station
+				let priceTotal = ((selectedCargoOption.amount + amount) * selectedTradegood.price);
+				console.log('PLAYER CREDITS', playerCredits);
+				console.log('PRICE TOTAL', priceTotal);
+				// debugger;
+				if ( ((selectedCargoOption.amount + amount) > shipCargoAvailable) || ((selectedCargoOption.amount + amount) > tradeGood.amount)) {
+					const lowestAmount = Math.min(shipCargoAvailable, tradeGood.amount);
+					selectedCargoOption.amount = lowestAmount;
+					priceTotal = (selectedCargoOption.amount * selectedTradegood.price);
+				} else if (priceTotal > playerCredits) {
+					// TOAST MESSAGE HERE, NOT ENOUGH CREDITS
+					console.log('NOT ENOUGH CREDITS');
+					selectedCargoOption.amount = 0;
+				} else if ((selectedCargoOption.amount + amount) > tradeGood.amount) {
+					selectedCargoOption.amount = tradeGood.amount;
+				} else {
+					selectedCargoOption.amount += amount;
+				}
+				
+				
+			} else { // Selling to station
+				debugger;
+				if (((selectedCargoOption.amount + amount) > matchingCargo.amount) || ((selectedCargoOption.amount + amount) > tradeGood.amount)) {
+					const highestAmont = Math.max(matchingCargo.amount, tradeGood.amount);
+					selectedCargoOption.amount = highestAmont;
+				} else {
+					selectedCargoOption.amount += amount;
+				}
+			}
+	 	}
 
 		this.setState({cargoOptions:  cargoOptions});
-		// PROBLEM HERE
-		console.log('CARGO OPTIONS', this.state.cargoOptions);
+	
+		console.log('CARGO OPTIONS', cargoOptions);
 	}
 
 	transAction(t, cargoOptions) {
+		// debugger;
 		let shipCargo = this.props.currentShip.cargoHold;
 		// let shipCargoCount = this.props.currentShip.cargo;
 		let playerShip = this.props.currentShip;
 		const transactionType = t.buyPrice ? 'buy' : 'sell';
 		let cargo = cargoOptions.find((c) => c.value === t.value);
 
-		const playerCredits = this.props.player.credits;
+		let playerData = this.props.player;
 		const shipCargoSpaceMax = this.props.currentShip.cargoMax;
 		const availableSpace = (shipCargoSpaceMax - playerShip.cargo);
+		const priceTotal = (cargo.amount * (t.sellPrice || t.buyPrice));
 		// debugger;
 		if (transactionType === 'sell') { // BUYING CARGO ***************
+			// debugger;
 			if (availableSpace >= cargo.amount) {
-				const priceTotal = (cargo.amount * cargo.price);
-				if(playerCredits >= priceTotal) {
+				
+				if(playerData.credits >= priceTotal) {
 					playerShip.cargoHold.map(c => {
 						if (c.value === cargo.value) {
 							// debugger;
 							c.amount += cargo.amount;
 							playerShip.cargo += cargo.amount;
-							// adjust player credits 
+							playerData.credits -= priceTotal;
 						} 
 					})
 				}
 			}
 		} else { // SELLING CARGO **************
+			// debugger;
 			// see if cargo type is in shipCargo
 			playerShip.cargoHold.map(c => {
 				if (c.value === cargo.value) {
@@ -94,7 +128,7 @@ class DockedControlPanel extends Component {
 						c.amount -= cargo.amount;
 						c.cargo -= cargo.amount;
 						playerShip.cargo -= cargo.amount;
-						// adjust player credits
+						playerData.credits += priceTotal;
 					}
 				}
 			})
@@ -102,6 +136,7 @@ class DockedControlPanel extends Component {
 		}
 		// { value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, description: 'A small but well rounded frieghter' }
 		this.props.selectedShip(playerShip);
+		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
 		// check ship cargo capacity with cargo volume
@@ -211,4 +246,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {selectedShip})(DockedControlPanel);
+export default connect(mapStateToProps, {selectedShip, playerData})(DockedControlPanel);
