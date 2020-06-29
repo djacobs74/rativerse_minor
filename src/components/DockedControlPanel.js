@@ -7,6 +7,8 @@ import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
 
@@ -25,6 +27,8 @@ class DockedControlPanel extends Component {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});
+		toast("You have docked!");
+
 	}
 
 	getDockingArea(sector) {
@@ -48,7 +52,7 @@ class DockedControlPanel extends Component {
 		const playerCredits = this.props.player.credits;
 		// debugger;
 		let matchingCargo = this.props.currentShip.cargoHold.find( c => (c.value === selectedCargoOption.value))
-	
+		toast("updateCargo");
 		// debugger;
 
 		if (amount === 0) {
@@ -223,10 +227,10 @@ class DockedControlPanel extends Component {
 	    				</div>
     				) : <div></div>
 				}
-
-
 		
 			</div>
+
+			
 		);
 	}
 

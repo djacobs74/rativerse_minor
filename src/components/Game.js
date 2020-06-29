@@ -8,6 +8,7 @@ import { SHIP_CLASS } from './_utils/constants';
 import { STARTER_SHIPS } from './_utils/constants';
 import { playerData } from '../actions/playerData';
 import Dropdown from 'react-dropdown';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-dropdown/style.css';
 
 import { connect } from 'react-redux';
@@ -60,7 +61,19 @@ class Game extends Component {
 				    	/>
 			        </div>
 				</div>
-				
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					/>
+					{/* Same as */}
+				<ToastContainer />
 
 				
 			</div>
