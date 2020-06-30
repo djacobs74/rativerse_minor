@@ -7,7 +7,7 @@ import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
@@ -27,7 +27,7 @@ class DockedControlPanel extends Component {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});
-		toast("You have docked!");
+		toast.success(`Docking at ${dockingArea[0].type} ${dockingArea[0].id}`);
 
 	}
 
@@ -52,7 +52,7 @@ class DockedControlPanel extends Component {
 		const playerCredits = this.props.player.credits;
 		// debugger;
 		let matchingCargo = this.props.currentShip.cargoHold.find( c => (c.value === selectedCargoOption.value))
-		toast("updateCargo");
+
 		// debugger;
 
 		if (amount === 0) {
@@ -64,15 +64,17 @@ class DockedControlPanel extends Component {
 				console.log('PLAYER CREDITS', playerCredits);
 				console.log('PRICE TOTAL', priceTotal);
 				// debugger;
-				if ( ((selectedCargoOption.amount + amount) > shipCargoAvailable) || ((selectedCargoOption.amount + amount) > tradeGood.amount)) {
-					const lowestAmount = Math.min(shipCargoAvailable, tradeGood.amount);
-					selectedCargoOption.amount = lowestAmount;
+				if ( ((selectedCargoOption.amount + amount) > shipCargoAvailable) ) {
+					toast.warn('Not enough Ship Cargo Space Available, Adjusting Amount');
+					// const lowestAmount = Math.min(shipCargoAvailable, tradeGood.amount);
+					selectedCargoOption.amount = shipCargoAvailable;
 					priceTotal = (selectedCargoOption.amount * selectedTradegood.price);
 				} else if (priceTotal > playerCredits) {
-					// TOAST MESSAGE HERE, NOT ENOUGH CREDITS
+					toast.error('Not Enough Credits');
 					console.log('NOT ENOUGH CREDITS');
 					selectedCargoOption.amount = 0;
 				} else if ((selectedCargoOption.amount + amount) > tradeGood.amount) {
+					toast.warn('Sell Amount limited, adjusting total');
 					selectedCargoOption.amount = tradeGood.amount;
 				} else {
 					selectedCargoOption.amount += amount;
@@ -80,10 +82,13 @@ class DockedControlPanel extends Component {
 				
 				
 			} else { // Selling to station
-				debugger;
-				if (((selectedCargoOption.amount + amount) > matchingCargo.amount) || ((selectedCargoOption.amount + amount) > tradeGood.amount)) {
-					const highestAmont = Math.max(matchingCargo.amount, tradeGood.amount);
-					selectedCargoOption.amount = highestAmont;
+				// debugger;
+				if (((selectedCargoOption.amount + amount) > matchingCargo.amount)) {
+					toast.warn('You dont have that many, matching to cargo hold amount');
+					selectedCargoOption.amount = matchingCargo.amount;
+				} else if ((selectedCargoOption.amount + amount) > tradeGood.amount) {
+					toast.warn('Buy Amount limited, adjusting total');
+					selectedCargoOption.amount = tradeGood.amount;
 				} else {
 					selectedCargoOption.amount += amount;
 				}
@@ -121,11 +126,15 @@ class DockedControlPanel extends Component {
 							playerData.credits -= priceTotal;
 						} 
 					})
+				} else {
+					toast.error('Not Enough Credits');
+					return false
 				}
+			} else {
+				toast.error('Not Enough Cargo Space');
+				return false
 			}
 		} else { // SELLING CARGO **************
-			// debugger;
-			// see if cargo type is in shipCargo
 			playerShip.cargoHold.map(c => {
 				if (c.value === cargo.value) {
 					if (c.amount >= cargo.amount) {
