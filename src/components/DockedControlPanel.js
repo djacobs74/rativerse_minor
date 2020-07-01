@@ -64,34 +64,38 @@ class DockedControlPanel extends Component {
 				console.log('PLAYER CREDITS', playerCredits);
 				console.log('PRICE TOTAL', priceTotal);
 				// debugger;
-				if ( ((selectedCargoOption.amount + amount) > shipCargoAvailable) ) {
+				selectedCargoOption.amount += amount;
+				if ( ((selectedCargoOption.amount) > shipCargoAvailable) ) {
 					toast.warn('Not enough Ship Cargo Space Available, Adjusting Amount');
 					// const lowestAmount = Math.min(shipCargoAvailable, tradeGood.amount);
 					selectedCargoOption.amount = shipCargoAvailable;
 					priceTotal = (selectedCargoOption.amount * selectedTradegood.price);
-				} else if (priceTotal > playerCredits) {
+				} 
+				if (priceTotal > playerCredits) {
 					toast.error('Not Enough Credits');
-					console.log('NOT ENOUGH CREDITS');
-					selectedCargoOption.amount = 0;
-				} else if ((selectedCargoOption.amount + amount) > tradeGood.amount) {
+					// adjust to max affordable amount ?
+					const newAmount = playerCredits / selectedTradegood.price;
+				
+					selectedCargoOption.amount = Math.floor(newAmount);
+				} 
+				if ((selectedCargoOption.amount) >= tradeGood.amount) {
 					toast.warn('Sell Amount limited, adjusting total');
 					selectedCargoOption.amount = tradeGood.amount;
-				} else {
-					selectedCargoOption.amount += amount;
-				}
+				} 
 				
 				
-			} else { // Selling to station
+			} else { // Selling to station.   ***** TEST SELLING MORE ******
 				// debugger;
-				if (((selectedCargoOption.amount + amount) > matchingCargo.amount)) {
-					toast.warn('You dont have that many, matching to cargo hold amount');
-					selectedCargoOption.amount = matchingCargo.amount;
-				} else if ((selectedCargoOption.amount + amount) > tradeGood.amount) {
+				selectedCargoOption.amount += amount;
+				if ((selectedCargoOption.amount) > tradeGood.amount) {
 					toast.warn('Buy Amount limited, adjusting total');
 					selectedCargoOption.amount = tradeGood.amount;
-				} else {
-					selectedCargoOption.amount += amount;
 				}
+				if (((selectedCargoOption.amount) > matchingCargo.amount)) { 
+					toast.warn('You dont have that many, matching to cargo hold amount');
+					selectedCargoOption.amount = matchingCargo.amount;
+				} 
+				 
 			}
 	 	}
 
