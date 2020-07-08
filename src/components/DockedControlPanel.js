@@ -180,6 +180,22 @@ class DockedControlPanel extends Component {
 		return cargoAmount
 	}
 
+	addCargoToSellClassname(t, currentShip) {
+		let cargoAmount = 0;
+		let className = '';
+		currentShip.cargoHold.map(c => {
+			if (c.value === t.value) {
+				cargoAmount = c.amount;
+			}
+		})
+
+		if (cargoAmount > 0 && t.buyPrice) {
+			className = 'sell';
+		}
+
+		return className
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -209,7 +225,7 @@ class DockedControlPanel extends Component {
 				{tradeGoods.length
     				? tradeGoods.map(t =>
 
-    					<div key={dockingArea[0].id + t.value} className='tradeGoodWrapper'>
+    					<div key={dockingArea[0].id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
 	    					<div>{t.label}</div>
 	    					<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>

@@ -310,6 +310,14 @@ button {
     margin-top: 5px;
 }
 
+.tradeGoodWrapper.sell {
+	padding: 10px;
+	background-color: #06279c;
+	border: 3px solid #1b1b24;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
 .npcShipsData {
 	padding: 5px;
     background: #252d4d;
