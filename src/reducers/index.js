@@ -7,6 +7,7 @@ import moveShipReducer from './moveShipReducer';
 import npcShipGeneratorReducer from './npcShipGeneratorReducer';
 import selectedShipReducer from './selectedShipReducer';
 import playerDataReducer from './playerDataReducer';
+import dockingAreasReducer from './dockingAreasReducer';
 
 export default combineReducers({
 	map: mapReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
 	currentPosition: moveShipReducer,
 	npcShips: npcShipGeneratorReducer,
 	selectedShip: selectedShipReducer,
-	playerData: playerDataReducer
+	playerData: playerDataReducer,
+	dockingAreas: dockingAreasReducer
 });

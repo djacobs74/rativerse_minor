@@ -22,18 +22,18 @@ class DockedControlPanel extends Component {
 	componentDidMount = () => {
 		let cargoOptions = [];
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
 		tradeGoods.map(t => {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});
-		toast.success(`Docking at ${dockingArea[0].type} ${dockingArea[0].id}`);
+		toast.success(`Docking at ${dockingArea.type} ${dockingArea.id}`);
 
 	}
 
 	getDockingArea(sector) {
 		let dockingArea = [];
-		this.props.map.map(m => {
+		this.props.dockingAreas.map(m => {
 			if ((m.x === sector.position[0]) && (m.y === sector.position[1])) {
 				dockingArea = m.dockingArea;
 			}
@@ -205,7 +205,7 @@ class DockedControlPanel extends Component {
 		const currentShip = this.props.currentShip;
 		const cargoOptions = this.state.cargoOptions;
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
 		const playerData = this.props.player;
 		
 		console.log('DOCKED SECTOR', this.props.currentPosition);
@@ -225,7 +225,7 @@ class DockedControlPanel extends Component {
 				{tradeGoods.length
     				? tradeGoods.map(t =>
 
-    					<div key={dockingArea[0].id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
+    					<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
 	    					<div>{t.label}</div>
 	    					<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
@@ -274,7 +274,8 @@ const mapStateToProps = state => ({
   	currentShip: state.selectedShip,
   	map: state.map,
   	currentPosition: state.currentPosition,
-  	player: state.playerData
+  	player: state.playerData,
+  	dockingAreas: state.dockingAreas
 });
 
 
