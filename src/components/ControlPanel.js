@@ -44,7 +44,7 @@ class ControlPanel extends Component {
 
 		if (sectorData.length) {
 			if(sectorData[0].dockingArea && sectorData[0].dockingArea.length) {
-				dockingArea = sectorData[0].dockingArea[0].id;
+				dockingArea = sectorData[0].dockingArea[0].type + ' ' + sectorData[0].dockingArea[0].id;
 			}
 		}
 
@@ -68,16 +68,17 @@ class ControlPanel extends Component {
 		const moving = this.props.currentPosition.moving || false;
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
+		const playerData = this.props.player;
 		console.log('Selected', this.props.sector);
-
+	
 		return (
 			<div className="ControlPanel">
-				<div className="header">
+				{/*<div className="header">
 					Control Panel
-				</div>
+				</div>*/}
 				{/*<div>Faction: {selectedShip}</div>*/}
-				<div className="shipData">
-					
+				<div className="cpSection">
+					<div className="header">Ship Data</div>
 					<div>Current Ship: {ship.label} ({ship.type})</div>
 				
 					<div className="shipDetail">Ship Systems:
@@ -94,8 +95,20 @@ class ControlPanel extends Component {
 					</div>
 				</div>
 
-				<div className="scanData">
-					<div>Selected Sector Scan Data</div>
+				<div className="cpSection">
+					<div className="header">Credits and Reputation</div>
+					<div>* Credits: {playerData.credits}</div>
+
+					<div>* UWC: {playerData.reputation && playerData.reputation[0].uwc}</div>
+					<div>* BFR: {playerData.reputation && playerData.reputation[1].bfr}</div>
+					<div>* CNP: {playerData.reputation && playerData.reputation[2].cnp}</div>
+					<div>* OB: {playerData.reputation && playerData.reputation[3].ob}</div>
+					<div>* TSCC: {playerData.reputation && playerData.reputation[4].tscc}</div>
+
+				</div>
+
+				<div className="cpSection">
+					<div className="header">Selected Sector Scan Data</div>
 					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
 					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
 					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
@@ -125,7 +138,8 @@ const mapStateToProps = state => ({
   	path: state.path,
   	currentShip: state.selectedShip,
   	currentPosition: state.currentPosition,
-  	npcShips: state.npcShips
+  	npcShips: state.npcShips,
+  	player: state.playerData
 });
 
 

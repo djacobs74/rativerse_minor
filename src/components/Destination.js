@@ -5,7 +5,8 @@ import { getStartingPosition } from '../actions/getStartingPosition';
 import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
 import { getPosition, getDockOption } from './_utils/movement';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Destination extends React.Component {
 
@@ -38,6 +39,7 @@ class Destination extends React.Component {
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
 			this.props.getPath(position, destinationCoords);
+			toast.success(`Destination set to ${destinationCoords}`, 'success');
 		}
 	}
 
@@ -50,6 +52,7 @@ class Destination extends React.Component {
 	  		if( (moving === false || moving == null) && destination.length ) {
 	  			this.moving(true);
 	  			this.props.moveShip(position, this.props.path);
+	  			toast.success('Martel Drive Engaged');
 	  		}
 	  		
 	  	}
@@ -63,6 +66,7 @@ class Destination extends React.Component {
 
 		if ( (destination[0] === position[0]) && (destination[1] === position[1]) && (moving === true)) {
 			shipMoving = false;
+			toast.success(`Destination Reached: ${position}`);
 		} else if (moving) {
 			shipMoving = true;
 		}
@@ -79,7 +83,8 @@ class Destination extends React.Component {
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
 		return (
-			<div>
+			<div className="cpSection destination-wrapper">
+				<div className="header">Navigation</div>
 				<div>
 		  			Set Destination To Selected Sector: 
 		  			{/*<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />*/}

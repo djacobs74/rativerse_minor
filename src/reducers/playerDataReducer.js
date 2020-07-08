@@ -1,9 +1,8 @@
-const initialState = {};
+let initialState = {};
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case 'SHIP_SELECTED':
-			// debugger;
+		case 'PLAYER_DATA':
 			return {
 				...state,
 				...action.payload
@@ -12,5 +11,3 @@ export default (state = initialState, action) => {
 			return state;
 	}
 }
-
-

@@ -69,11 +69,12 @@ button {
 	background-color: #282c42;
 	border: 3px solid #1d2c7a;
 	border-radius: 5px;
-	height: 100%;
+	height: auto;
 }
 
 .hud .header {
 	text-align: center;
+	font-size: 18px;
 }
 
 /*.sector {
@@ -88,9 +89,9 @@ button {
 }*/
 
 .hud.docked {
-	position: absolute;
-    top: 355px;
+	position: relative;
     height: auto;
+    margin-top: 20px;
 }
 
 .sectorWrapper {
@@ -221,13 +222,6 @@ button {
 	border-color: #092bdb
 }
 
-.shipData {
-	background-color: #252d4d;
-	/*border: 3px solid #1d2c7a;
-	border-radius: 5px;*/
-	padding: 5px;
-}
-
 .ControlPanel {
 	padding: 5px;
 }
@@ -238,50 +232,50 @@ button {
 
 .uwcNpcDD {
 	background-color: #0e0b8f;
-	height: 20px;
+	height: 12px;
     position: absolute;
-    bottom: 20px;
-    width: 20px;
+    bottom: 8px;
+    width: 12px;
     border-radius: 50%;
     left: 10px;
 }
 
 .bfrNpcDD {
 	background-color: #eb0e42;
-    height: 20px;
+    height: 12px;
     position: absolute;
     bottom: -8px;
-    width: 20px;
+    width: 12px;
     border-radius: 50%;
     left: 27px;
 }
 
 .cnpNpcDD {
 	background-color: #1fd131;
-	height: 20px;
+	height: 12px;
     position: absolute;
-    bottom: 20px;
-    width: 20px;
+    bottom: 8px;
+    width: 12px;
     border-radius: 50%;
     left: 73px;
 }
 
 .obNpcDD {
 	background-color: #2debdb;
-    height: 20px;
+    height: 12px;
     position: absolute;
-    bottom: 47px;
-    width: 20px;
+    bottom: 6px;
+    width: 12px;
     border-radius: 50%;
-    left: 42px;
+    left: 45px;
 }
 
 .tsccNpcDD {
 	background-color: #b214ba;
-    height: 20px;
+    height: 12px;
     position: absolute;
     bottom: -8px;
-    width: 20px;
+    width: 12px;
     border-radius: 50%;
     left: 58px;
 }
@@ -316,12 +310,43 @@ button {
     margin-top: 5px;
 }
 
+.tradeGoodWrapper.sell {
+	padding: 10px;
+	background-color: #06279c;
+	border: 3px solid #1b1b24;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
 .npcShipsData {
 	padding: 5px;
     background: #252d4d;
-    border: 1px solid white;
+    border: 3px solid #1b1b24;
    	margin-bottom: 5px;
    	border-radius: 5px;
 }
 
+.huds-wrapper {
+	width: 500px;
+}
 
+.cpSection {
+	border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.destination-wrapper .header {
+	margin-bottom: 5px;
+}
+
+.dockingArea {
+	background-color: #f2f255;
+    height: 12px;
+    position: absolute;
+    bottom: 49px;
+    width: 12px;
+    /* border-radius: 50%; */
+    left: 47px;
+}
