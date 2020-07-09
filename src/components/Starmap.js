@@ -25,7 +25,7 @@ class StarMap extends Component {
 
 	componentDidUpdate = (prevProps, props) => {
 		if (!prevProps.map.length && this.props.map.length) {
-			this.props.getDockingAreas(true, this.props.map);
+			this.tradeGoodsInterval(this.props);
 		}
 	}
 
@@ -129,7 +129,22 @@ class StarMap extends Component {
 		return newMap
 	}
 
-	// TODO: ships can be multiple, change sectorWrapper Ships attribute to a function that returns a string or something for Inspecting a sector
+	tradeGoodsInterval() {
+		this.props.getDockingAreas(true, this.props.map);
+		let here = this;
+
+		function goodsAdjust() {
+			setInterval(function () {
+				if (here.props.dockingAreas.length) {
+					// debugger;
+					here.props.getDockingAreas(false, here.props.dockingAreas);
+				}
+				
+			}, 5000)
+		}
+		goodsAdjust();
+	}
+
 
 	render () {
 		const mapData = this.props.map;
