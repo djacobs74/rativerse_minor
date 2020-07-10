@@ -165,6 +165,9 @@ class DockedControlPanel extends Component {
 				// debugger;
 				let cargoId = d.dockingArea.tradeGoods.find(c => c.value === cargo.value);
 				cargoId.amount = (cargoId.amount - cargo.amount);
+				if(cargoId.amount < 0) {
+					cargoId.amount = 0;
+				}
 			}
 		})
 

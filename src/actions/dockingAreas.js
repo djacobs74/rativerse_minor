@@ -26,9 +26,29 @@ export const getDockingAreas = (type, dockingAreas) => dispatch => {
 			if (d.dockingArea.tradeGoods.length) {
 				d.dockingArea.tradeGoods.map(t => {
 					const randomNum = Math.floor(Math.random() * Math.floor(11));
-					
+					// debugger;
 					if (randomNum >= 10) {
-						const amount = Math.floor(Math.random() * (200 - 0 + 1)) + 0;
+						let amount = null;
+						if(t.sellPrice) { // PLAYER IS BUYING
+							amount = Math.floor(Math.random() * (t.maxAmount - 0 + 1)) + 0;
+						} else { // PLAYER IS SELLING
+							const randomAmount = Math.floor(Math.random() * Math.floor(11));
+							amount = t.amount + randomAmount;
+							if(amount > (t.maxAmount / 2)) {
+								if(randomAmount > 8) {
+									amount = t.amount - (randomAmount * 2);
+								}
+							}
+							if(amount >= t.maxAmount) {
+								amount = t.maxAmount;
+							}
+							if(amount <= t.minAmount) {
+								amount = t.minAmount;
+							}
+						}
+
+
+						// const amount = Math.floor(Math.random() * (t.maxAmount - 0 + 1)) + 0;
 						t.amount = amount;
 						console.log('**********************************');
 						console.log('getDockingAreas', d.dockingArea.id, t.value, t.amount);
