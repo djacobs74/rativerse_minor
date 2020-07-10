@@ -1,10 +1,12 @@
 import { TRADE_GOODS } from '../components/_utils/constants';
 
-export const getDockingAreas = (initial, dockingArea) => dispatch => {
+export const getDockingAreas = (type, dockingAreas) => dispatch => {
 	let dockingArray = [];
-	if (initial === true) {
 
-		dockingArea.map(d => {
+
+	if (type === 'start') {
+
+		dockingAreas.map(d => {
 			
 			if (d.dockingArea.length) {
 				dockingArray.push({x: d.x, y: d.y, dockingArea: d.dockingArea[0]});
@@ -14,12 +16,11 @@ export const getDockingAreas = (initial, dockingArea) => dispatch => {
 
 	// debugger;
 
-	if (initial === false) {
+	if (type === 'interval') {
 		// debugger;
 		// const unique = dockingArea.filter( onlyUnique );
 		
-		
-		dockingArray = dockingArea;
+		dockingArray = dockingAreas;
 		// debugger;
 		dockingArray.map(d => {
 			if (d.dockingArea.tradeGoods.length) {
@@ -36,9 +37,11 @@ export const getDockingAreas = (initial, dockingArea) => dispatch => {
 
 				})
 			}
-		})
+		})		
+	}
 
-		
+	if (type === 'adjust') {
+		dockingArray = dockingAreas;
 	}
 
 	// debugger;

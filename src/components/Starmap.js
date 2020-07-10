@@ -130,19 +130,19 @@ class StarMap extends Component {
 	}
 
 	tradeGoodsInterval() {
-		this.props.getDockingAreas(true, this.props.map);
+		this.props.getDockingAreas('start', this.props.map);
 		let here = this;
 
-		function goodsAdjust() {
-			setInterval(function () {
-				if (here.props.dockingAreas.length) {
-					// debugger;
-					here.props.getDockingAreas(false, here.props.dockingAreas);
-				}
+		// function goodsAdjust() {
+		// 	setInterval(function () {
+		// 		if (here.props.dockingAreas.length) {
+		// 			// debugger;
+		// 			here.props.getDockingAreas('interval', here.props.dockingAreas);
+		// 		}
 				
-			}, 5000)
-		}
-		goodsAdjust();
+		// 	}, 5000)
+		// }
+		// goodsAdjust();
 	}
 
 
