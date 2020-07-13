@@ -4,6 +4,7 @@ import { createMap } from '../actions/map';
 import { getSector } from '../actions/selectedSector';
 import { npcShipGenerator } from '../actions/npcShipGenerator';
 import { npcShipMover } from './_utils/npcShipMovement';
+import { getDockingAreas } from '../actions/dockingAreas';
 
 class StarMap extends Component {
 
@@ -18,12 +19,15 @@ class StarMap extends Component {
 		// console.log('NPC SHIPS', this.props.npcShips);
 
 		this.moveNpcShips();
+
+		
 	}
 
-	// componentDidUpdate() {
-	// 	// console.log('StarMap UPDATED', this.props.sector);
-	// 	// console.log('clickedSector', this.clickedSector);
-	// }
+	componentDidUpdate = (prevProps, props) => {
+		if (!prevProps.map.length && this.props.map.length) {
+			this.tradeGoodsInterval(this.props);
+		}
+	}
 
 	constructor(props){
         super(props);      
@@ -125,12 +129,30 @@ class StarMap extends Component {
 		return newMap
 	}
 
-	// TODO: ships can be multiple, change sectorWrapper Ships attribute to a function that returns a string or something for Inspecting a sector
+	tradeGoodsInterval() {
+		this.props.getDockingAreas('start', this.props.map);
+		let here = this;
+
+		function goodsAdjust() {
+			setInterval(function () {
+				if (here.props.dockingAreas.length) {
+					// debugger;
+					here.props.getDockingAreas('interval', here.props.dockingAreas);
+				}
+				
+			}, 10000)
+		}
+		goodsAdjust();
+	}
+
 
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
 		// console.log('SHIP LOCATIONS', this.state.npcShipsActive);
+
+		console.log('DOCKING AREAS', this.props.dockingAreas);
+
 		return (
 			<div>
 				
@@ -163,9 +185,10 @@ const mapStateToProps = state => ({
 	path: state.path,
   	startingPosition: state.startingPosition,
   	currentPosition: state.currentPosition,
-  	npcShips: state.npcShips
+  	npcShips: state.npcShips,
+  	dockingAreas: state.dockingAreas
 });
 
-export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator })(StarMap);
+export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator, getDockingAreas })(StarMap);
 
 

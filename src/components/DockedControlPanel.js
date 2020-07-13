@@ -8,6 +8,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
 import { toast } from 'react-toastify';
+import { getDockingAreas } from '../actions/dockingAreas';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
@@ -22,18 +23,18 @@ class DockedControlPanel extends Component {
 	componentDidMount = () => {
 		let cargoOptions = [];
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
 		tradeGoods.map(t => {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});
-		toast.success(`Docking at ${dockingArea[0].type} ${dockingArea[0].id}`);
+		toast.success(`Docking at ${dockingArea.type} ${dockingArea.id}`);
 
 	}
 
 	getDockingArea(sector) {
 		let dockingArea = [];
-		this.props.map.map(m => {
+		this.props.dockingAreas.map(m => {
 			if ((m.x === sector.position[0]) && (m.y === sector.position[1])) {
 				dockingArea = m.dockingArea;
 			}
@@ -104,8 +105,9 @@ class DockedControlPanel extends Component {
 		console.log('CARGO OPTIONS', cargoOptions);
 	}
 
-	transAction(t, cargoOptions) {
+	transAction(t) {
 		// debugger;
+		let cargoOptions = this.state.cargoOptions;
 		let shipCargo = this.props.currentShip.cargoHold;
 		// let shipCargoCount = this.props.currentShip.cargo;
 		let playerShip = this.props.currentShip;
@@ -151,15 +153,35 @@ class DockedControlPanel extends Component {
 			})
 			// debugger;
 		}
-		// { value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: 2, sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, description: 'A small but well rounded frieghter' }
+
+		const dockingAreaInfo = this.getDockingArea(this.props.currentPosition);
+		const dockingAreaId = dockingAreaInfo.id;
+		let dockingAreas = this.props.dockingAreas;
+		// let cargoCopy = playerShip.cargoHold;
+	
+		// debugger;
+		dockingAreas.map(d => {
+			if(d.dockingArea.id === dockingAreaId) {
+				// debugger;
+				let cargoId = d.dockingArea.tradeGoods.find(c => c.value === cargo.value);
+				cargoId.amount = (cargoId.amount - cargo.amount);
+				if(cargoId.amount < 0) {
+					cargoId.amount = 0;
+				}
+			}
+		})
+
+		this.props.getDockingAreas('adjust', dockingAreas );
+		
+		
+
+
+
 		this.props.selectedShip(playerShip);
 		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
-		// check ship cargo capacity with cargo volume
-		// add / subtract cargo with ship cargohold
-		// adjust player $$
-		// debugger;
+
 
 	}
 
@@ -199,25 +221,23 @@ class DockedControlPanel extends Component {
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
-		console.log('CURRENT SHIP', this.props.currentShip);
+		// console.log('CURRENT SHIP', this.props.currentShip);
 		
 		
 		const currentShip = this.props.currentShip;
 		const cargoOptions = this.state.cargoOptions;
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea[0].tradeGoods : null;
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
 		const playerData = this.props.player;
 		
-		console.log('DOCKED SECTOR', this.props.currentPosition);
+		// console.log('DOCKED SECTOR', this.props.currentPosition);
+
+		console.log('dockingArea', dockingArea);
 
 		return (
 			<div className="ControlPanel">
 				<div className="header">Docking Control Panel</div>
-				{dockingArea.length
-    				? dockingArea.map(d =>
-    					<div key={d.id}>{d.type} {d.id}</div>
-    				) : <div></div>
-				}
+				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
 				<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
 				<div>Credits: {playerData.credits}</div>	
@@ -225,7 +245,7 @@ class DockedControlPanel extends Component {
 				{tradeGoods.length
     				? tradeGoods.map(t =>
 
-    					<div key={dockingArea[0].id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
+    					<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
 	    					<div>{t.label}</div>
 	    					<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
 	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
@@ -240,7 +260,7 @@ class DockedControlPanel extends Component {
 	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
 	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
 	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
-	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Sell</button>{this.getTotal(t, cargoOptions)}
+	    							<button onClick={() => {this.transAction(t)}}>Sell</button>{this.getTotal(t, cargoOptions)}
 	    						</div> }
 	    					{t.sellPrice && 
 	    						<div>Add to Cart
@@ -250,7 +270,7 @@ class DockedControlPanel extends Component {
 	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
 	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
 	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
-	    							<button onClick={() => {this.transAction(t, cargoOptions)}}>Buy</button>{this.getTotal(t, cargoOptions)}
+	    							<button onClick={() => {this.transAction(t)}}>Buy</button>{this.getTotal(t, cargoOptions)}
 	    						</div>
 	    					} 
 	    				</div>
@@ -274,9 +294,10 @@ const mapStateToProps = state => ({
   	currentShip: state.selectedShip,
   	map: state.map,
   	currentPosition: state.currentPosition,
-  	player: state.playerData
+  	player: state.playerData,
+  	dockingAreas: state.dockingAreas
 });
 
 
 
-export default connect(mapStateToProps, {selectedShip, playerData})(DockedControlPanel);
+export default connect(mapStateToProps, {selectedShip, playerData, getDockingAreas})(DockedControlPanel);

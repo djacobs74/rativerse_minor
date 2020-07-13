@@ -73,9 +73,9 @@ export const STARTER_SHIPS = [
 export const TRADE_GOODS = [
 	{ value: 'water', label: 'Water', minPrice: 100, maxPrice: 500, cargoSpace: 1, minAmount: 0, maxAmount: 200},
 	{ value: 'food', label: 'Food', minPrice: 100, maxPrice: 500, cargoSpace: 1, minAmount: 0, maxAmount: 200},
-	{ value: 'plasmaRifle', label: 'Plasma Rifle', minPrice: 750, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'plasmaRifle', label: 'Plasma Rifle', minPrice: 750, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 50},
 	{ value: 'rawOre', label: 'Raw Ore', minPrice: 100, maxPrice: 200, cargoSpace: 1, minAmount: 0, maxAmount: 200},
-	{ value: 'slaves', label: 'Slaves', minPrice: 600, maxPrice: 1200, cargoSpace: 1, minAmount: 0, maxAmount: 200},
-	{ value: 'drugs', label: 'Drugs', minPrice: 800, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 200},
+	{ value: 'slaves', label: 'Slaves', minPrice: 600, maxPrice: 1200, cargoSpace: 1, minAmount: 0, maxAmount: 25},
+	{ value: 'drugs', label: 'Drugs', minPrice: 800, maxPrice: 2000, cargoSpace: 1, minAmount: 0, maxAmount: 75},
 	{ value: 'salvage', label: 'Salvage', minPrice: 120, maxPrice: 300, cargoSpace: 1, minAmount: 0, maxAmount: 200}
 ]
