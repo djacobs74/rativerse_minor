@@ -18,7 +18,7 @@ class StarMap extends Component {
 		this.createNpcShips(this.props)
 		// console.log('NPC SHIPS', this.props.npcShips);
 
-		this.moveNpcShips();
+		// this.moveNpcShips();
 
 		
 	}
@@ -97,25 +97,25 @@ class StarMap extends Component {
 	}
 
 
-	moveNpcShips() {
-		const npcShips = this.props.npcShips;
-		// const playerFaction = this.props.selectedFaction.value;
-		let npcShipsActive = [];
-		const here = this;
+	// moveNpcShips() {
+	// 	const npcShips = this.props.npcShips;
+	// 	// const playerFaction = this.props.selectedFaction.value;
+	// 	let npcShipsActive = [];
+	// 	const here = this;
 
-		function spawnDelay () {
-			setInterval(function () {
+	// 	function spawnDelay () {
+	// 		setInterval(function () {
 				
-				npcShipsActive = npcShipMover(npcShips);
-				here.setState({npcShipsActive: npcShipsActive});
+	// 			npcShipsActive = npcShipMover(npcShips);
+	// 			here.setState({npcShipsActive: npcShipsActive});
 				
-			}, 5000)
-		}
-		spawnDelay();
-	}
+	// 		}, 5000)
+	// 	}
+	// 	spawnDelay();
+	// }
 
 	updateMap(map) {
-		const npcs = this.state.npcShipsActive;
+		const npcs = this.props.npcActiveShips;
 		const newMap = [...map];
 
 		newMap.map(m => { m.npcShips = [] });
@@ -149,9 +149,9 @@ class StarMap extends Component {
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
-		// console.log('SHIP LOCATIONS', this.state.npcShipsActive);
+		console.log('SHIP LOCATIONS', this.props.npcActiveShips);
 
-		console.log('DOCKING AREAS', this.props.dockingAreas);
+		// console.log('DOCKING AREAS', this.props.dockingAreas);
 
 		return (
 			<div>
@@ -186,7 +186,8 @@ const mapStateToProps = state => ({
   	startingPosition: state.startingPosition,
   	currentPosition: state.currentPosition,
   	npcShips: state.npcShips,
-  	dockingAreas: state.dockingAreas
+  	dockingAreas: state.dockingAreas,
+  	npcActiveShips: state.npcActiveShips
 });
 
 export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator, getDockingAreas })(StarMap);

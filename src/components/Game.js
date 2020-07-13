@@ -9,6 +9,7 @@ import { STARTER_SHIPS } from './_utils/constants';
 import { playerData } from '../actions/playerData';
 import Dropdown from 'react-dropdown';
 import { ToastContainer, toast } from 'react-toastify';
+import { npcShipMover } from '../actions/npcShipMover';
 import 'react-dropdown/style.css';
 
 import { connect } from 'react-redux';
@@ -28,6 +29,8 @@ class Game extends Component {
 	componentDidMount = () => {
 		const newGame = true;
 		this.props.playerData(newGame);
+		this.props.npcShipMover();
+		this.moveNpcShips();
 	}
 
 	dockHandler() {
@@ -37,10 +40,29 @@ class Game extends Component {
 	    })
 	}
 
+	moveNpcShips() {
+		const npcShips = this.props.npcShips;
+		// const playerFaction = this.props.selectedFaction.value;
+		let npcShipsActive = [];
+		const here = this;
+
+		function spawnDelay () {
+			setInterval(function () {
+				// debugger;
+				npcShipsActive = here.props.npcShipMover(npcShips);
+				// here.setState({npcShipsActive: npcShipsActive});
+				console.log('npcShips', npcShipsActive);
+				// debugger;
+				
+			}, 5000)
+		}
+		spawnDelay();
+	}
+
 
 	render () {
 
-		console.log('PLAYER DATA', this.props.player);
+		// console.log('npcShips', this.props.npcActiveShips);
 
 		return (
 			<div>
@@ -90,9 +112,11 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
-  	player: state.playerData
+  	player: state.playerData,
+  	npcActiveShips: state.npcActiveShips,
+  	npcShips: state.npcShips,
 });
 
 
 
-export default connect(mapStateToProps, {playerData})(Game);
+export default connect(mapStateToProps, {playerData, npcShipMover})(Game);
