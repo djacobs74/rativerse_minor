@@ -1,5 +1,6 @@
 import { getPath } from '../actions/getPath';
-import { moveCheck } from '.././components/_utils/movement';
+import { moveCheck, combatCheck } from '.././components/_utils/movement';
+
 
 export const moveShip = (position, path) => {
 
@@ -17,7 +18,7 @@ export const moveShip = (position, path) => {
 
 	// console.log('PATH', path);
 
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		function moveDelay () {
 			setTimeout(function () {
 				position = path[0];
@@ -29,9 +30,25 @@ export const moveShip = (position, path) => {
 				dispatch({type: 'MOVE_SHIP', payload: payload});
 				// console.log('SHIP MOVED, NEW POSITION = ', position);
 				
-		
+				let sectorData = getState().npcActiveShips;
+				let player  = getState().playerData;
+			
 
-				if (path.length > 1) {
+				// console.log('** sectorData **', sectorData);
+				// console.log('## position ##', position);
+				let inCombat = false;
+
+				sectorData.map(s => {
+					let check = combatCheck(s, position, player);
+					if(check === true) {
+						inCombat = true
+					}
+					console.log('## CHECK ##', check);
+				})
+
+				// console.log('## inCombat ##', inCombat);
+
+				if (path.length > 1 && !inCombat) {
 					if(position[0] === path[0][0] && position[1] === path[0][1]) {
 						let removed = path.splice(0, 1);
 						
