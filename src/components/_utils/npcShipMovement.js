@@ -8,7 +8,7 @@ export const npcShipMover = (npcShips, playerFaction) => {
 
 	npcShips.map(s => {
 		const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
-		if(moveChance == (moveOptionNum-1)) {
+		if(moveChance === (moveOptionNum-1)) {
 			let posX = s.x;
 			let posY = s.y;
 			let moveOptions = [];

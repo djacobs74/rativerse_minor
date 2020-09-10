@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const pathCheck = (hex) => {
 	if(Math.abs(hex[0]) > 5 || Math.abs(hex[1]) > 5) {
 		return false
@@ -51,3 +53,39 @@ export const getDockOption = (position, map) => {
 	return canDock
 
 }
+
+export const combatCheck = (ship, playerPos, player) => {
+	// console.log('COMBAT CHECK PLAYERDATA', player);
+	// console.log('COMBAT CHECK PLAYERDATA EMPTY ?', _.isEmpty(player));
+	// console.log('COMBAT CHECK SHIP', ship);
+
+	if(!_.isEmpty(player)) {
+		if(ship.x === playerPos[0] && ship.y === playerPos[1]) {
+			console.log('** SHIP **', ship);
+			const shipFaction = ship.faction;
+			const playerRep = player.reputation;
+			let repValue = null;
+
+			player.reputation.map(r => {
+				const key = Object.keys(r).join();
+				console.log('INSIDE MAP, R', r);
+				console.log('INSIDE MAP KEY', key);
+				console.log('INSIDE MAP shipFaction', shipFaction);
+				if(key === shipFaction) {
+
+					repValue = Object.values(r)[0];
+					console.log('COMBAT CHECK repValue, R', repValue, r);
+				}
+			})
+
+			if(repValue < 0) {
+				return true
+			}
+
+		}
+	}
+	
+	return false
+}
+
+

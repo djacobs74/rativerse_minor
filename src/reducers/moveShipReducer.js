@@ -1,4 +1,4 @@
-let initialState = [];
+let initialState = {moving: false, position: [0, 0]};
 
 export default (state = initialState, action) => {
 	switch (action.type) {

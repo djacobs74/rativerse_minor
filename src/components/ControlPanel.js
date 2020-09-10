@@ -26,7 +26,7 @@ class ControlPanel extends Component {
 		// debugger;
 		if (prevProps.sector !== this.props.sector) {
 			this.getShips(this.props.sector);
-			console.log('SECTOR npcShips TEST', this.props.sector);
+			// console.log('SECTOR npcShips TEST', this.props.sector);
 		
 		}
 		
@@ -36,7 +36,7 @@ class ControlPanel extends Component {
 		const selectedShip = this.props.currentShip.value;
 		const ship = STARTER_SHIPS.find(s => s.value === selectedShip)
 		this.setState({ship: ship});
-		console.log('SHIP', ship);
+		// console.log('SHIP', ship);
 	}
 
 	getDockingArea(sectorData) {
@@ -48,7 +48,7 @@ class ControlPanel extends Component {
 			}
 		}
 
-		console.log('dockingArea', dockingArea);
+		// console.log('dockingArea', dockingArea);
 		return dockingArea
 	}
 
@@ -69,7 +69,7 @@ class ControlPanel extends Component {
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
 		const playerData = this.props.player;
-		console.log('Selected', this.props.sector);
+		// console.log('Selected', this.props.sector);
 	
 		return (
 			<div className="ControlPanel">
@@ -114,7 +114,7 @@ class ControlPanel extends Component {
 					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
 					{this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
 						<div key="npcShipsData" className="npcShipsData">
-							<div>Type: {s.type}</div>
+							<div>Type: {s.type} (ID: {s.id})</div>
 							<div>Faction: {s.factionName}</div>
 						</div>
 					)}

@@ -23,7 +23,8 @@ class Game extends Component {
 	 }
 
 	state = {
-		docked: false
+		docked: false,
+		inCombat: false
 	}
 
 	componentDidMount = () => {
@@ -42,16 +43,22 @@ class Game extends Component {
 
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
+		
+		
+		
 		// const playerFaction = this.props.selectedFaction.value;
 		let npcShipsActive = [];
 		const here = this;
 
 		function spawnDelay () {
 			setInterval(function () {
+				const player= here.props.player;
+				const playerPosition = here.props.currentPosition;
 				// debugger;
-				npcShipsActive = here.props.npcShipMover(npcShips);
+				npcShipsActive = here.props.npcShipMover(npcShips, playerPosition, player);
 				// here.setState({npcShipsActive: npcShipsActive});
-				console.log('npcShips', npcShipsActive);
+			
+				
 				// debugger;
 				
 			}, 5000)
@@ -62,7 +69,11 @@ class Game extends Component {
 
 	render () {
 
-		// console.log('npcShips', this.props.npcActiveShips);
+		// console.log('CURRENT', this.props.currentShip);
+		// console.log('npcActiveShips', this.props.npcActiveShips);
+		// console.log('npcShips', this.props.npcShips);
+		// console.log('currentPosition', this.props.currentPosition);
+		// console.log('player', this.props.player);
 
 		return (
 			<div>
@@ -115,6 +126,7 @@ const mapStateToProps = state => ({
   	player: state.playerData,
   	npcActiveShips: state.npcActiveShips,
   	npcShips: state.npcShips,
+  	currentPosition: state.currentPosition
 });
 
 

@@ -149,7 +149,7 @@ class StarMap extends Component {
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
-		console.log('SHIP LOCATIONS', this.props.npcActiveShips);
+		// console.log('SHIP LOCATIONS', this.props.npcActiveShips);
 
 		// console.log('DOCKING AREAS', this.props.dockingAreas);
 
