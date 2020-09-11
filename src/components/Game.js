@@ -19,11 +19,11 @@ class Game extends Component {
 	constructor(props) {
 	    super(props)
 
-	    this.dockHandler = this.dockHandler.bind(this)
+	    // this.dockHandler = this.dockHandler.bind(this)
 	 }
 
 	state = {
-		docked: false,
+		// docked: false,
 		inCombat: false
 	}
 
@@ -34,12 +34,12 @@ class Game extends Component {
 		this.moveNpcShips();
 	}
 
-	dockHandler() {
-		// console.log('DOCKED SECTOR', this.props.sector);
-	    this.setState({
-	      docked: !this.state.docked
-	    })
-	}
+	// dockHandler() {
+	// 	// console.log('DOCKED SECTOR', this.props.sector);
+	//     this.setState({
+	//       docked: !this.state.docked
+	//     })
+	// }
 
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
@@ -81,9 +81,9 @@ class Game extends Component {
 				<div className="main-wrapper">
 					<div className="huds-wrapper">
 						<div className="hud">
-							<ControlPanel dockHandler = {this.dockHandler} docked={this.state.docked}/>
+							<ControlPanel dockHandler = {this.dockHandler}/>
 						</div>
-						{ this.state.docked &&
+						{ this.props.player.docked &&
 							<div className="hud docked">
 								<DockedControlPanel />
 							</div>

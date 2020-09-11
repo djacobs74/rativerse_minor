@@ -55,7 +55,7 @@ export const getDockOption = (position, map) => {
 }
 
 export const combatCheck = (ship, playerPos, player) => {
-	// console.log('COMBAT CHECK PLAYERDATA', player);
+	console.log('COMBAT CHECK PLAYERDATA', player);
 	// console.log('COMBAT CHECK PLAYERPOS', playerPos);
 	// console.log('COMBAT CHECK SHIP', ship);
 
@@ -78,7 +78,7 @@ export const combatCheck = (ship, playerPos, player) => {
 				}
 			})
 
-			if(repValue < 0) {
+			if(repValue < 0 && !player.docked) {
 				// debugger;
 				return true
 			}

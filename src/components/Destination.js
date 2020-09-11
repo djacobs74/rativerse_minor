@@ -6,6 +6,7 @@ import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
 import { getPosition, getDockOption } from './_utils/movement';
 import { toast } from 'react-toastify';
+import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
 
 class Destination extends React.Component {
@@ -73,13 +74,19 @@ class Destination extends React.Component {
 		this.setState({moving: shipMoving})
 	}
 
+	updateDocked() {
+		let player = this.props.player;
+		player.docked = !player.docked;
+		this.props.playerData(false, player);
+	}
+
 
   	render() {
   		const position = this.props.currentPosition.position || [];   		
   		const moving = this.state.moving;
   		const destination = this.state.destination;
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
-  		// console.log('Moving', moving);
+  		console.log('***** DOCKED', this.props.player.docked);
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
 		return (
@@ -94,7 +101,7 @@ class Destination extends React.Component {
 				<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
-	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
+	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
 	  		</div>
 		);
   	}
@@ -105,9 +112,10 @@ const mapStateToProps = state => ({
   	path: state.path,
   	startingPosition: state.startingPosition,
   	currentPosition: state.currentPosition,
-  	map: state.map
+  	map: state.map,
+  	player: state.playerData
 });
 
 
 
-export default connect(mapStateToProps, { getPath, getStartingPosition, moveShip })(Destination);
+export default connect(mapStateToProps, { getPath, getStartingPosition, moveShip, playerData })(Destination);

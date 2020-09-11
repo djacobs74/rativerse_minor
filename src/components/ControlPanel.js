@@ -14,7 +14,7 @@ class ControlPanel extends Component {
 
 	state = {
 		ship: {},
-		docked: this.props.docked,
+		// docked: this.props.docked,
 		npcShipsScan: []
 	}
 
@@ -122,7 +122,7 @@ class ControlPanel extends Component {
 
 
 
-				<Destination dockHandler = {this.props.dockHandler} docked={this.props.docked}/>
+				<Destination dockHandler = {this.props.dockHandler}/>
 			</div>
 		);
 	}
