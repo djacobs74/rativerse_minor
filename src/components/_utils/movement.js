@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { playerData } from '../../actions/playerData';
 
 export const pathCheck = (hex) => {
 	if(Math.abs(hex[0]) > 5 || Math.abs(hex[1]) > 5) {
@@ -80,6 +81,8 @@ export const combatCheck = (ship, playerPos, player) => {
 
 			if(repValue < 0 && !player.docked) {
 				// debugger;
+				player.inCombat = true;
+				playerData(false, player);
 				return true
 			}
 

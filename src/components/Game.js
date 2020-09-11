@@ -73,10 +73,14 @@ class Game extends Component {
 		// console.log('npcActiveShips', this.props.npcActiveShips);
 		// console.log('npcShips', this.props.npcShips);
 		// console.log('currentPosition', this.props.currentPosition);
-		// console.log('player', this.props.player);
+		console.log('player', this.props.player);
 
 		return (
 			<div>
+
+			{this.props.player.inCombat && toast.error('ENTERING COMBAT !!')}
+				
+
 
 				<div className="main-wrapper">
 					<div className="huds-wrapper">
