@@ -47,21 +47,16 @@ export const moveShip = (position, path) => {
 				})
 
 				// console.log('## inCombat ##', inCombat);
-
-				if (path.length > 1 && !inCombat) {
-					if(position[0] === path[0][0] && position[1] === path[0][1]) {
-						let removed = path.splice(0, 1);
-						
-					
-						getNewPath(path);
-						// debugger;
+				if(path) {
+					if (path.length > 1 && !inCombat) {
+						if(position[0] === path[0][0] && position[1] === path[0][1]) {
+							let removed = path.splice(0, 1);
+							getNewPath(path);
+							// debugger;
+						}
+						// counter++;
+						moveDelay();
 					}
-
-
-					// counter++;
-
-					moveDelay();
-					
 				}
 			}, 2000)
 		}
