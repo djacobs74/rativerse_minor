@@ -24,7 +24,7 @@ class Game extends Component {
 
 	state = {
 		// docked: false,
-		inCombat: false
+		startingCombat: false
 	}
 
 	componentDidMount = () => {
@@ -32,6 +32,13 @@ class Game extends Component {
 		this.props.playerData(newGame);
 		this.props.npcShipMover();
 		this.moveNpcShips();
+	}
+
+	componentDidUpdate = (prevProps) => {
+		if(this.state.startingCombat === false && (this.state.startingCombat !== this.props.player.inCombat)) {
+			this.setState({startingCombat: true});
+			this.props.player.inCombat && toast.error('ENTERING COMBAT !!');
+		}
 	}
 
 	// dockHandler() {
@@ -78,26 +85,33 @@ class Game extends Component {
 		return (
 			<div>
 
-			{this.props.player.inCombat && toast.error('ENTERING COMBAT !!')}
-				
-
-
-				<div className="main-wrapper">
-					<div className="huds-wrapper">
-						<div className="hud">
-							<ControlPanel dockHandler = {this.dockHandler}/>
-						</div>
-						{ this.props.player.docked &&
-							<div className="hud docked">
-								<DockedControlPanel />
+				{!this.props.player.inCombat ? 
+					<div>
+						<div className="main-wrapper">
+							<div className="huds-wrapper">
+								<div className="hud">
+									<ControlPanel dockHandler = {this.dockHandler}/>
+								</div>
+								{ this.props.player.docked &&
+									<div className="hud docked">
+										<DockedControlPanel />
+									</div>
+								}
 							</div>
-						}
+					        <div className="mapBox">  	
+						    	<Starmap 
+						    	/>
+					        </div>
+						</div>
 					</div>
-			        <div className="mapBox">  	
-				    	<Starmap 
-				    	/>
-			        </div>
-				</div>
+
+				:
+
+				<div>OH SNAP YOU IN COMBAT MAN</div>
+
+				}
+
+
 				<ToastContainer
 					position="top-right"
 					autoClose={5000}

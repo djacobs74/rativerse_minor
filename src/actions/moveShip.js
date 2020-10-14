@@ -43,7 +43,7 @@ export const moveShip = (position, path) => {
 					if(check === true) {
 						inCombat = true
 					}
-					console.log('## CHECK ##', check);
+					// console.log('## CHECK ##', check);
 				})
 
 				// console.log('## inCombat ##', inCombat);
