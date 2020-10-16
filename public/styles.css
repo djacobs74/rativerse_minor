@@ -401,3 +401,7 @@ button {
 .playerControlWrapper h3 {
 	text-align: center;
 }
+
+.playerControlWrapper .active {
+	background: #095e12;
+}

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import Dropdown from 'react-dropdown';
 // import 'react-dropdown/style.css';
 // import { STARTER_SHIPS } from './_utils/constants';
-import { getStartingRange } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget } from './_utils/combatUtils';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,6 +30,7 @@ class CombatDisplay extends Component {
 		// 	npcsArray.push(ship);
 		// }
 		this.setState({currentTarget: ship});
+		this.startRangeInterval('maintain');
 	}
 
 	addNpcToNpcsArray = (ship) => {
@@ -44,6 +45,36 @@ class CombatDisplay extends Component {
 		}
 	}
 
+	toggleRange = (direction) => {
+		document.getElementById('away').classList.remove("active");
+		document.getElementById('maintain').classList.remove("active");
+		document.getElementById('close').classList.remove("active");
+
+		document.getElementById(direction).classList.add("active");
+
+		this.startRangeInterval(direction);
+	
+
+	}
+
+	startRangeInterval = (direction) => {
+		const here = this;
+
+		function rangeDelay () {
+			setInterval(function () {
+				const targetShip = here.props.npcActiveShips.find(s => s.id === here.state.currentTarget.id);
+				const playerShip = here.props.currentShip;
+			
+				const rangeData = setRangeToTarget(targetShip, playerShip, direction);
+				console.log('&&&& range data', rangeData);
+				
+			}, 5000)
+		}
+		rangeDelay();
+	}
+
+
+	
 
 	// toast.success('Martel Drive Engaged');
 
@@ -98,11 +129,11 @@ class CombatDisplay extends Component {
 					<div className="playerControlWrapper">
 						{ currentTarget ?
 							<div>
-								<div>
+								<div id="rangeWrapper">
 									<h3>Range Control</h3>
-									<div><button>Move Away From Target</button></div>
-									<div><button>Maintain Range To Target</button></div>
-									<div><button>Close Range To Target</button></div>
+									<div><button id="away" onClick={() => this.toggleRange("away")}>Move Away From Target</button></div>
+									<div><button id="maintain" className="active" onClick={() => this.toggleRange("maintain")}>Maintain Range To Target</button></div>
+									<div><button id="close" onClick={() => this.toggleRange("close")}>Close Range To Target</button></div>
 								</div>
 
 								<div>

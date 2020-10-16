@@ -52,8 +52,6 @@ class Game extends Component {
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
 		
-		
-		
 		// const playerFaction = this.props.selectedFaction.value;
 		let npcShipsActive = [];
 		const here = this;
