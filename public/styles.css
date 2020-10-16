@@ -371,4 +371,29 @@ button {
 
 .npcCombatPanel .cpSection {
 	background: #8a0606;
+	cursor: pointer;
+}
+
+.cpSection.currentTarget {
+	background: #095e12;
+}
+
+.playerControlWrapper {
+	position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 100px;
+}
+
+.playerControlWrapper button {
+	margin: 5px;
+	min-width: 200px;
+	color: #FFF;
+	background: #252d4d;
+	padding: 5px;
+	border-radius: 5px;
+	letter-spacing: .5px;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
 }

@@ -31,7 +31,7 @@ class Game extends Component {
 	componentDidMount = () => {
 		const newGame = true;
 		this.props.playerData(newGame);
-		this.props.npcShipMover();
+		// this.props.npcShipMover();
 		this.moveNpcShips();
 	}
 

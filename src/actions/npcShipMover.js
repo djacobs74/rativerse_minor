@@ -16,8 +16,16 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 			const inCombat = combatCheck(s, playerPosition.position, player);
 			s.inCombat = inCombat;
 
-			if(!inCombat) {
+			// shield regen 
+			if(s.shields.shieldsHp < s.shields.shieldsMax) {
+				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
+				if(s.shields.shieldsHp > s.shields.shieldsMax) {
+					s.shields.shieldsHp = s.shields.shieldsMax;
+				}
+			}
 
+			if(!inCombat) {
+				
 				const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
 				if(moveChance == (moveOptionNum-1)) {
 					let posX = s.x;
