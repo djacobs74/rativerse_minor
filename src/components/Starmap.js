@@ -122,7 +122,7 @@ class StarMap extends Component {
 
 		npcs.map(n => {
 			let sector = newMap.find( m => (m.x === n.x) && (m.y === n.y) ) 
-			sector.npcShips.push(n);
+			sector && sector.npcShips.push(n);
 		})
 
 		// console.log('UPDATED MAP', newMap[120]);

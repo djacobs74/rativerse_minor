@@ -14,6 +14,7 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 
 		npcShips.map(s => {
 			const inCombat = combatCheck(s, playerPosition.position, player);
+			s.inCombat = inCombat;
 
 			if(!inCombat) {
 

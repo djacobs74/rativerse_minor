@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
+import CombatDisplay from './CombatDisplay';
 import ControlPanel from './ControlPanel';
 import RativerseInfo from './RativerseInfo';
 import DockedControlPanel from './DockedControlPanel';
@@ -77,11 +78,11 @@ class Game extends Component {
 	render () {
 
 		// console.log('CURRENT', this.props.currentShip);
-		// console.log('npcActiveShips', this.props.npcActiveShips);
-		// console.log('npcShips', this.props.npcShips);
+		console.log('npcActiveShips', this.props.npcActiveShips);
+		console.log('npcShips', this.props.npcShips);
 		// console.log('currentPosition', this.props.currentPosition);
-		console.log('player', this.props.player);
-
+		console.log('player in combat', this.props.player.inCombat);
+		// this.props.player.inCombat = true;
 		return (
 			<div>
 
@@ -107,7 +108,7 @@ class Game extends Component {
 
 				:
 
-				<div>OH SNAP YOU IN COMBAT MAN</div>
+				<CombatDisplay />
 
 				}
 

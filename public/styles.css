@@ -350,3 +350,25 @@ button {
     /* border-radius: 50%; */
     left: 47px;
 }
+
+.combatControlPanelWrapper {
+	width: 400px;
+}
+
+.combatControlPanel {
+	width: 350px;
+	display: inline-block;
+}
+
+.combatControlPanel .cpSection {
+	background: #252d4d;
+}
+
+.npcCombatPanel {
+	width: 350px;
+    display: inline-block;
+}
+
+.npcCombatPanel .cpSection {
+	background: #8a0606;
+}
