@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import Dropdown from 'react-dropdown';
 // import 'react-dropdown/style.css';
 // import { STARTER_SHIPS } from './_utils/constants';
-
+import { getStartingRange } from './_utils/combatUtils';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,20 +19,29 @@ class CombatDisplay extends Component {
 		npcs: []
 	}
 
-	componentDidMount = () => {
-		// debugger;
-		this.props.npcActiveShips.map(s => {
-			s.inCombat && this.state.npcs.push(s);
-		})
-	}
+	// componentDidMount = () => {
+
+	// }
 
 	targetNpc = (ship) => {
-		let npcsArray = this.state.npcs;
-		const currentTarget = npcsArray.find(npc => npc.id ===ship.id);
-		if(!currentTarget) {
-			npcsArray.push(ship);
-		}
+		// let npcsArray = this.state.npcs;
+		// const currentTarget = npcsArray.find(npc => npc.id ===ship.id);
+		// if(!currentTarget) {
+		// 	npcsArray.push(ship);
+		// }
 		this.setState({currentTarget: ship});
+	}
+
+	addNpcToNpcsArray = (ship) => {
+		let npcsArray = this.state.npcs;
+		const currentTarget = npcsArray.find(npc => npc.id === ship.id);
+		if(!currentTarget) {
+			const startingRange = getStartingRange();
+			ship.range = startingRange;
+			npcsArray.push(ship);
+			
+
+		}
 	}
 
 
@@ -41,6 +50,7 @@ class CombatDisplay extends Component {
 	render () {
 		const ship = this.props.currentShip;
 		const npcShipsInCombat = this.state.npcs;
+		const currentTarget = this.state.currentTarget;
 		console.log('/// this.state.npcs', npcShipsInCombat);
 
 		return (
@@ -64,7 +74,8 @@ class CombatDisplay extends Component {
 
 				
 					{ this.props.npcActiveShips.map((s, index) => (
-						s.inCombat &&
+						s.inCombat && this.addNpcToNpcsArray(s),
+						s.inCombat && 
 							<div className="npcCombatPanel" onClick={() => this.targetNpc(s)} key={s.id}>
 								<div className={`cpSection ${this.state.currentTarget && ((s.id === this.state.currentTarget.id) && 'currentTarget')}`}>
 									<div>{s.factionName} {s.type} {s.id}</div>
@@ -75,6 +86,7 @@ class CombatDisplay extends Component {
 										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value}`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
+										<div>{`* Range: ${s.range && s.range}`}</div>
 									</div>
 								</div>
 							</div>
@@ -82,12 +94,26 @@ class CombatDisplay extends Component {
 
 				</div>
 
-				<div className="playerControlWrapper">
-					<div><button>some button</button></div>
-					<div><button>some button</button></div>
-					<div><button>some button</button></div>
-					<div><button>some button</button></div>
-				</div>
+				 
+					<div className="playerControlWrapper">
+						{ currentTarget ?
+							<div>
+								<div>
+									<h3>Range Control</h3>
+									<div><button>Move Away From Target</button></div>
+									<div><button>Maintain Range To Target</button></div>
+									<div><button>Close Range To Target</button></div>
+								</div>
+
+								<div>
+									<h3>Fire Control</h3>
+									<div><button>Fire Plasma Projectors</button></div>
+									<div><button>Fire Torpedoes</button></div>
+								</div>
+							</div>
+						: <h3>Select a Target</h3>}
+					</div>
+				
 			</div>
 		);
 	}

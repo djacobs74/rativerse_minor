@@ -397,3 +397,7 @@ button {
 	font-weight: bold;
 	cursor: pointer;
 }
+
+.playerControlWrapper h3 {
+	text-align: center;
+}
