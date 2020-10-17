@@ -23,18 +23,16 @@ class CombatDisplay extends Component {
 	componentDidMount = () => {
 		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 		this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
-		console.log('&&&& range data', rangeData);
+		// console.log('&&&& range data', rangeData);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
 		// debugger;
 		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs !== this.state.npcs)) {
 			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
-
-			// debugger;
 			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
 
-			console.log('&&&& range data', rangeData);
+			// console.log('&&&& range data', rangeData);
 		}
 	}
 
@@ -51,38 +49,25 @@ class CombatDisplay extends Component {
 	}
 
 	targetNpc = (ship) => {
-		// let npcsArray = this.state.npcs;
-		// const currentTarget = npcsArray.find(npc => npc.id ===ship.id);
-		// if(!currentTarget) {
-		// 	npcsArray.push(ship);
-		// }
 		this.setState({currentTarget: ship});
-		// this.startRangeInterval('close');
 	}
 
 	addNpcToNpcsArray = (ship) => {
 		let npcsArray = this.state.npcs;
 		const currentTarget = npcsArray.find(npc => npc.id === ship.id);
 		if(!currentTarget) {
-			// const startingRange = getStartingRange();
-			// ship.range = startingRange;
 			npcsArray.push(ship);
 		}
 	}
 
 	toggleRange = (direction) => {
 		document.getElementById('away').classList.remove("active");
-		// document.getElementById('maintain').classList.remove("active");
 		document.getElementById('closeRange').classList.remove("active");
 		document.getElementById('maxRange').classList.remove("active");
 
 		document.getElementById(direction).classList.add("active");
 
 		this.setState({rangeSetting: direction});
-
-
-		// const npcsRange = checkRange(this.state.npcs, this.props.currentShip, direction);
-
 	}
 
 	// startRangeInterval = (direction) => {
@@ -102,15 +87,11 @@ class CombatDisplay extends Component {
 	// }
 
 
-	
-
-	// toast.success('Martel Drive Engaged');
-
 	render () {
 		const ship = this.props.currentShip;
 		const npcShipsInCombat = this.state.npcs;
 		const currentTarget = this.state.currentTarget;
-		console.log('/// this.state.npcs', npcShipsInCombat);
+		console.log('/// this.state', this.state);
 
 		return (
 			<div>
@@ -154,25 +135,21 @@ class CombatDisplay extends Component {
 				</div>
 
 				 
-					<div className="playerControlWrapper">
-		
-							
-								<div id="rangeWrapper">
-									<h3>Range Control</h3>
-									<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
-									<div><button id="closeRange" onClick={() => this.toggleRange("closeRange")}>Move to Close Weapons Range</button></div>
-									<div><button id="maxRange" onClick={() => this.toggleRange("maxRange")}>Move to Max Weapons Range</button></div>
-								</div>
-							{ currentTarget ?
-								<div>
-									<h3>Fire Control</h3>
-									<div><button>Fire Plasma Projectors</button></div>
-									<div><button>Fire Torpedoes</button></div>
-								</div>
-							
-							: <h3>Select a Target</h3>}
+				<div className="playerControlWrapper">	
+					<div id="rangeWrapper">
+						<h3>Range Control</h3>
+						<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
+						<div><button id="closeRange" onClick={() => this.toggleRange("closeRange")}>Move to Close Weapons Range</button></div>
+						<div><button id="maxRange" onClick={() => this.toggleRange("maxRange")}>Move to Max Weapons Range</button></div>
 					</div>
-				
+					{ currentTarget ?
+						<div>
+							<h3>Fire Control</h3>
+							<div><button className={`${(this.state.currentTarget.inRange !== 'Out of Weapons Range') && 'plasmaProjectorsReady'}`}>Fire Plasma Projectors</button></div>
+							{ship.torpedoes && <div><button className={`${(this.state.currentTarget.inRange === 'In Range of All Weapons') && 'torpedoesReady'}`}>Fire Torpedoes</button></div>}
+						</div>
+					: <h3>Select a Target</h3>}
+				</div>
 			</div>
 		);
 	}

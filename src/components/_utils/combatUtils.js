@@ -79,7 +79,7 @@ export const checkRange = (npcs, playerShip, direction) => {
 				n.inRange = 'Out of Weapons Range';
 				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
 			} else {
-				n.inRange = 'In Weapons Range';
+				n.inRange = 'In Range of All Weapons';
 				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 			}
 		}

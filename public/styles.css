@@ -405,3 +405,11 @@ button {
 .playerControlWrapper .active {
 	background: #095e12;
 }
+
+.playerControlWrapper button.plasmaProjectorsReady {
+	background: #047375;
+}
+
+.playerControlWrapper button.torpedoesReady {
+	background: #047375;
+}
