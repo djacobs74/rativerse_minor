@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import Dropdown from 'react-dropdown';
 // import 'react-dropdown/style.css';
 // import { STARTER_SHIPS } from './_utils/constants';
-import { getStartingRange, setRangeToTarget } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange } from './_utils/combatUtils';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,12 +16,39 @@ class CombatDisplay extends Component {
 
 	state = {
 		currentTarget: null,
-		npcs: []
+		npcs: [],
+		rangeSetting: 'away'
 	}
 
-	// componentDidMount = () => {
+	componentDidMount = () => {
+		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
+		this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
+		console.log('&&&& range data', rangeData);
+	}
 
-	// }
+	componentDidUpdate = (prevProps, prevState) => {
+		// debugger;
+		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs !== this.state.npcs)) {
+			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
+
+			// debugger;
+			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
+
+			console.log('&&&& range data', rangeData);
+		}
+	}
+
+	toastMessage = (toastType, toastMsg) => {
+		if(toastType === 'success') {
+			toast.success(toastMsg);
+		}
+		if(toastType === 'warning') {
+			toast.warning(toastMsg);
+		}
+		if(toastType === 'error') {
+			toast.error(toastMsg);
+		}
+	}
 
 	targetNpc = (ship) => {
 		// let npcsArray = this.state.npcs;
@@ -30,48 +57,48 @@ class CombatDisplay extends Component {
 		// 	npcsArray.push(ship);
 		// }
 		this.setState({currentTarget: ship});
-		this.startRangeInterval('maintain');
+		// this.startRangeInterval('close');
 	}
 
 	addNpcToNpcsArray = (ship) => {
 		let npcsArray = this.state.npcs;
 		const currentTarget = npcsArray.find(npc => npc.id === ship.id);
 		if(!currentTarget) {
-			const startingRange = getStartingRange();
-			ship.range = startingRange;
+			// const startingRange = getStartingRange();
+			// ship.range = startingRange;
 			npcsArray.push(ship);
-			
-
 		}
 	}
 
 	toggleRange = (direction) => {
 		document.getElementById('away').classList.remove("active");
-		document.getElementById('maintain').classList.remove("active");
+		// document.getElementById('maintain').classList.remove("active");
 		document.getElementById('close').classList.remove("active");
 
 		document.getElementById(direction).classList.add("active");
 
-		this.startRangeInterval(direction);
-	
+		this.setState({rangeSetting: direction});
+
+
+		// const npcsRange = checkRange(this.state.npcs, this.props.currentShip, direction);
 
 	}
 
-	startRangeInterval = (direction) => {
-		const here = this;
+	// startRangeInterval = (direction) => {
+	// 	const here = this;
 
-		function rangeDelay () {
-			setInterval(function () {
-				const targetShip = here.props.npcActiveShips.find(s => s.id === here.state.currentTarget.id);
-				const playerShip = here.props.currentShip;
+	// 	function rangeDelay () {
+	// 		setInterval(function () {
+	// 			const targetShip = here.props.npcActiveShips.find(s => s.id === here.state.currentTarget.id);
+	// 			const playerShip = here.props.currentShip;
 			
-				const rangeData = setRangeToTarget(targetShip, playerShip, direction);
-				console.log('&&&& range data', rangeData);
+	// 			const rangeData = setRangeToTarget(targetShip, playerShip, direction);
+	// 			console.log('&&&& range data', rangeData);
 				
-			}, 5000)
-		}
-		rangeDelay();
-	}
+	// 		}, 5000)
+	// 	}
+	// 	rangeDelay();
+	// }
 
 
 	
@@ -117,7 +144,7 @@ class CombatDisplay extends Component {
 										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value}`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
-										<div>{`* Range: ${s.range && s.range}`}</div>
+										<div>{s.inRange && `* ${s.inRange}`}</div>
 									</div>
 								</div>
 							</div>
@@ -131,9 +158,8 @@ class CombatDisplay extends Component {
 							<div>
 								<div id="rangeWrapper">
 									<h3>Range Control</h3>
-									<div><button id="away" onClick={() => this.toggleRange("away")}>Move Away From Target</button></div>
-									<div><button id="maintain" className="active" onClick={() => this.toggleRange("maintain")}>Maintain Range To Target</button></div>
-									<div><button id="close" onClick={() => this.toggleRange("close")}>Close Range To Target</button></div>
+									<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
+									<div><button id="close" onClick={() => this.toggleRange("close")}>Move Inside Weapons Range</button></div>
 								</div>
 
 								<div>
