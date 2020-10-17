@@ -154,21 +154,21 @@ class CombatDisplay extends Component {
 
 				 
 					<div className="playerControlWrapper">
-						{ currentTarget ?
-							<div>
+		
+							
 								<div id="rangeWrapper">
 									<h3>Range Control</h3>
 									<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
 									<div><button id="close" onClick={() => this.toggleRange("close")}>Move Inside Weapons Range</button></div>
 								</div>
-
+							{ currentTarget ?
 								<div>
 									<h3>Fire Control</h3>
 									<div><button>Fire Plasma Projectors</button></div>
 									<div><button>Fire Torpedoes</button></div>
 								</div>
-							</div>
-						: <h3>Select a Target</h3>}
+							
+							: <h3>Select a Target</h3>}
 					</div>
 				
 			</div>
