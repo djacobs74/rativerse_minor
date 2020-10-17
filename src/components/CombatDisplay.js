@@ -73,7 +73,8 @@ class CombatDisplay extends Component {
 	toggleRange = (direction) => {
 		document.getElementById('away').classList.remove("active");
 		// document.getElementById('maintain').classList.remove("active");
-		document.getElementById('close').classList.remove("active");
+		document.getElementById('closeRange').classList.remove("active");
+		document.getElementById('maxRange').classList.remove("active");
 
 		document.getElementById(direction).classList.add("active");
 
@@ -120,8 +121,8 @@ class CombatDisplay extends Component {
 						
 							<div className="shipDetail">Ship Systems:
 								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
-								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} (range: ${ship.plasmaProjectors.range})`}</div>
-								<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} (Range: ${ship.plasmaProjectors.range})`}</div>
+								<div>{ship.torpedoes && `* ${ship.torpedoes.name} (Range: ${ship.torpedoes.range})`}</div>
 								<div>* Sublight Speed: {ship.sublightSpeed}</div>
 								<div>* Signature: {ship.signature}</div>
 								<div>* Scanner: {ship.scanner}</div>
@@ -140,8 +141,8 @@ class CombatDisplay extends Component {
 								
 									<div className="shipDetail">Ship Systems:
 										<div>{`* Shields: ${s.shields.name} (${s.shields.shieldsHp})`}</div>
-										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value}`}</div>
-										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value}`}</div>}
+										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value} (Range: ${s.plasmaProjectors.range})`}</div>
+										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
 										<div>{s.inRange && `* ${s.inRange}`}</div>
@@ -159,7 +160,8 @@ class CombatDisplay extends Component {
 								<div id="rangeWrapper">
 									<h3>Range Control</h3>
 									<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
-									<div><button id="close" onClick={() => this.toggleRange("close")}>Move Inside Weapons Range</button></div>
+									<div><button id="closeRange" onClick={() => this.toggleRange("closeRange")}>Move to Close Weapons Range</button></div>
+									<div><button id="maxRange" onClick={() => this.toggleRange("maxRange")}>Move to Max Weapons Range</button></div>
 								</div>
 							{ currentTarget ?
 								<div>

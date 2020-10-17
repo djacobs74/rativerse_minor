@@ -83,10 +83,20 @@ export const checkRange = (npcs, playerShip, direction) => {
 				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 			}
 		}
-		if(direction === 'close') {
-			n.inRange = 'In Weapons Range';
+		if(direction === 'closeRange') {
+			n.inRange = 'In Range of All Weapons';
 			npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 		}
+		if(direction === 'maxRange') {
+			if(playerShipSpeed > targetShipSpeed) {
+				n.inRange = 'In Plasma Projector Weapons Range';
+				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
+			} else {
+				n.inRange = 'In Range of All Weapons';
+				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
+			}
+		}
+
 	})
 
 	if(direction === 'away') {
@@ -101,10 +111,21 @@ export const checkRange = (npcs, playerShip, direction) => {
 		}
 	}
 
-	if(direction === 'close') {
+	if(direction === 'closeRange') {
 		toastData = {type: 'success', msg: 'Moving Inside Weapons Range of All Hostile Ships'};
 	}
 
+	if(direction === 'maxRange') {
+		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster === 0) {
+			toastData = {type: 'success', msg: 'Moving to Max Plasma Projector Weapons Range'};
+		}
+		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster > 0) {
+			toastData = {type: 'warning', msg: 'Moving to Max Plasma Projector Weapons Range of Slower Hostile Ships'};
+		}
+		if(npcSpeedTracker.npcsSlower === 0 && npcSpeedTracker.npcsFaster > 0) {
+			toastData = {type: 'error', msg: 'Unable to Move to Max Plasma Projector Weapons Range of Any Hostile Ships'};
+		}
+	}
 
 	// debugger;
 	const rangeData = {npcs, toastData};
