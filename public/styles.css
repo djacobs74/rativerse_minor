@@ -410,6 +410,10 @@ button {
 	background: #047375;
 }
 
+.playerControlWrapper button.plasmaProjectorsReady.active {
+	background: #095e12;
+}
+
 .playerControlWrapper button.torpedoesReady {
 	background: #047375;
 }

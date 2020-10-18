@@ -17,7 +17,8 @@ class CombatDisplay extends Component {
 	state = {
 		currentTarget: null,
 		npcs: [],
-		rangeSetting: 'away'
+		rangeSetting: 'away',
+		plasmaProjectors: false
 	}
 
 	componentDidMount = () => {
@@ -31,8 +32,15 @@ class CombatDisplay extends Component {
 		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs !== this.state.npcs)) {
 			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
+			console.log('!!!!!!!! componentDidUpdate');
 
-			// console.log('&&&& range data', rangeData);
+			if(this.state.currentTarget) {
+				const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
+				if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
+					document.getElementById('plasmaProjectors').classList.remove("active");
+					this.setState({plasmaProjectors: false});
+				}
+			}
 		}
 	}
 
@@ -68,6 +76,11 @@ class CombatDisplay extends Component {
 		document.getElementById(direction).classList.add("active");
 
 		this.setState({rangeSetting: direction});
+	}
+
+	togglePlasmas = () => {
+		const inPPRange = this.state.currentTarget.inRangePP;
+		inPPRange && this.setState({plasmaProjectors: !this.state.plasmaProjectors});
 	}
 
 	// startRangeInterval = (direction) => {
@@ -126,7 +139,7 @@ class CombatDisplay extends Component {
 										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
-										<div>{s.inRange && `* ${s.inRange}`}</div>
+										<div>{s.inRangeMsg && `* ${s.inRangeMsg}`}</div>
 									</div>
 								</div>
 							</div>
@@ -145,8 +158,8 @@ class CombatDisplay extends Component {
 					{ currentTarget ?
 						<div>
 							<h3>Fire Control</h3>
-							<div><button className={`${(this.state.currentTarget.inRange !== 'Out of Weapons Range') && 'plasmaProjectorsReady'}`}>Fire Plasma Projectors</button></div>
-							{ship.torpedoes && <div><button className={`${(this.state.currentTarget.inRange === 'In Range of All Weapons') && 'torpedoesReady'}`}>Fire Torpedoes</button></div>}
+							<div><button id="plasmaProjectors" className={`${(this.state.currentTarget.inRangePP === true) && 'plasmaProjectorsReady'} ${this.state.plasmaProjectors && 'active'}`} onClick={() => this.togglePlasmas()}>Fire Plasma Projectors</button></div>
+							{ship.torpedoes && <div><button className={`${(this.state.currentTarget.inRangeT === true) && 'torpedoesReady'}`}>Fire Torpedoes</button></div>}
 						</div>
 					: <h3>Select a Target</h3>}
 				</div>

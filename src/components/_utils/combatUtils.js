@@ -76,23 +76,33 @@ export const checkRange = (npcs, playerShip, direction) => {
 
 		if(direction === 'away') {
 			if(playerShipSpeed > targetShipSpeed) {
-				n.inRange = 'Out of Weapons Range';
+				n.inRangeMsg = 'Out of Weapons Range';
+				n.inRangePP = false;
+				n.inRangeT = false;
 				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
 			} else {
-				n.inRange = 'In Range of All Weapons';
+				n.inRangeMsg = 'In Range of All Weapons';
+				n.inRangePP = true;
+				n.inRangeT = true;
 				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 			}
 		}
 		if(direction === 'closeRange') {
-			n.inRange = 'In Range of All Weapons';
+			n.inRangeMsg = 'In Range of All Weapons';
+			n.inRangePP = true;
+			n.inRangeT = true;
 			npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 		}
 		if(direction === 'maxRange') {
 			if(playerShipSpeed > targetShipSpeed) {
-				n.inRange = 'In Plasma Projector Weapons Range';
+				n.inRangeMsg = 'In Plasma Projector Weapons Range';
+				n.inRangePP = true;
+				n.inRangeT = false;
 				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
 			} else {
-				n.inRange = 'In Range of All Weapons';
+				n.inRangeMsg = 'In Range of All Weapons';
+				n.inRangePP = true;
+				n.inRangeT = true;
 				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
 			}
 		}
