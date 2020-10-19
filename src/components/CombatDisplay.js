@@ -29,7 +29,7 @@ class CombatDisplay extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		// debugger;
-		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs !== this.state.npcs)) {
+		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs.length !== this.state.npcs.length)) {
 			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
 			console.log('!!!!!!!! componentDidUpdate');
