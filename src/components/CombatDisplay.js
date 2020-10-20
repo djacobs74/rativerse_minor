@@ -18,7 +18,8 @@ class CombatDisplay extends Component {
 		currentTarget: null,
 		npcs: [],
 		rangeSetting: 'away',
-		plasmaProjectors: false
+		plasmaProjectors: false,
+		torpedoes: false
 	}
 
 	componentDidMount = () => {
@@ -39,6 +40,10 @@ class CombatDisplay extends Component {
 				if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
 					document.getElementById('plasmaProjectors').classList.remove("active");
 					this.setState({plasmaProjectors: false});
+				}
+				if(targetNpc.inRangeT === false && (this.state.torpedoes === true)) {
+					document.getElementById('torpedoes').classList.remove("active");
+					this.setState({torpedoes: false});
 				}
 			}
 		}
@@ -81,6 +86,11 @@ class CombatDisplay extends Component {
 	togglePlasmas = () => {
 		const inPPRange = this.state.currentTarget.inRangePP;
 		inPPRange && this.setState({plasmaProjectors: !this.state.plasmaProjectors});
+	}
+
+	toggleTorpedoes = () => {
+		const inTRange = this.state.currentTarget.inRangeT;
+		inTRange && this.setState({torpedoes: !this.state.torpedoes});
 	}
 
 	// startRangeInterval = (direction) => {
@@ -159,7 +169,7 @@ class CombatDisplay extends Component {
 						<div>
 							<h3>Fire Control</h3>
 							<div><button id="plasmaProjectors" className={`${(this.state.currentTarget.inRangePP === true) && 'plasmaProjectorsReady'} ${this.state.plasmaProjectors && 'active'}`} onClick={() => this.togglePlasmas()}>Fire Plasma Projectors</button></div>
-							{ship.torpedoes && <div><button className={`${(this.state.currentTarget.inRangeT === true) && 'torpedoesReady'}`}>Fire Torpedoes</button></div>}
+							{ship.torpedoes && <div><button id="torpedoes" className={`${(this.state.currentTarget.inRangeT === true) && 'torpedoesReady'} ${this.state.torpedoes && 'active'}`} onClick={() => this.toggleTorpedoes()}>Fire Torpedoes</button></div>}
 						</div>
 					: <h3>Select a Target</h3>}
 				</div>

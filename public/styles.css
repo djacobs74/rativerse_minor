@@ -417,3 +417,7 @@ button {
 .playerControlWrapper button.torpedoesReady {
 	background: #047375;
 }
+
+.playerControlWrapper button.torpedoesReady.active {
+	background: #095e12;
+}
