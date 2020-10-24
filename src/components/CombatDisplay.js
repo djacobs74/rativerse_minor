@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import Dropdown from 'react-dropdown';
 // import 'react-dropdown/style.css';
 // import { STARTER_SHIPS } from './_utils/constants';
-import { getStartingRange, setRangeToTarget, checkRange } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons } from './_utils/combatUtils';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,10 +30,11 @@ class CombatDisplay extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		// debugger;
+		console.log('!!!!!!!! componentDidUpdate');
 		if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs.length !== this.state.npcs.length)) {
 			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
-			console.log('!!!!!!!! componentDidUpdate');
+			
 
 			if(this.state.currentTarget) {
 				const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
@@ -46,6 +47,19 @@ class CombatDisplay extends Component {
 					this.setState({torpedoes: false});
 				}
 			}
+		}
+		if(this.state.plasmaProjectors || this.state.torpedoes) {
+			// deals dmg to npcs
+			let currentTarget = this.props.npcActiveShips.find(npc => npc.id === this.state.currentTarget.id);
+
+			const data = firePlayerWeapons(this.state.plasmaProjectors, this.state.torpedoes, this.props.currentShip, currentTarget);
+			this.toastMessage(data.toastData.type, data.toastData.msg);
+
+
+
+
+			// update target ship stats
+			// debugger;
 		}
 	}
 

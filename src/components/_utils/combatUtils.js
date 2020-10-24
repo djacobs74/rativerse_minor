@@ -146,4 +146,51 @@ export const checkRange = (npcs, playerShip, direction) => {
 
 }
 
+export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, currentTarget) => {
+	
+
+	// get damage from PP, T
+	// add that damage together
+	// Math.floor(Math.random() * (max - min) + min);
+	let pDmg = 0;
+	let tDmg = 0;
+	let totalDmg = 0;
+	let toastData = {type: null, msg: null};
+
+	if(plasmaProjectors) {
+		pDmg = Math.floor(Math.random() * (currentShip.plasmaProjectors.maxDamage - currentShip.plasmaProjectors.minDamage) + currentShip.plasmaProjectors.minDamage);
+	}
+
+	if(torpedoes) {
+		tDmg = Math.floor(Math.random() * (currentShip.torpedoes.maxDamage - currentShip.torpedoes.minDamage) + currentShip.torpedoes.minDamage);
+	}
+
+	totalDmg = pDmg + tDmg;
+
+	let npcShields = currentTarget.shields.shieldsHp;
+	let npcHull = currentShip.hullHp;
+
+	npcShields = (npcShields - totalDmg);
+
+	if (Math.sign(npcShields) === -1) {
+		npcShields = 0;
+		npcHull = (npcHull + npcShields);
+	}
+
+	const npcDestroyed = npcHull < 1 ? true : false;
+	
+
+	currentTarget.shields.shieldsHp = npcShields;
+	currentTarget.shields.hullsHp = npcHull;
+
+	toastData = {type: 'success', msg: `${totalDmg} damage to ${currentTarget.faction} ${currentTarget.type} ${currentTarget.id}!`};
+	// debugger
+
+	return {npcDestroyed, currentTarget, toastData}
+
+	;
+
+	// 	this need to be set to a timer
+}
+
 
