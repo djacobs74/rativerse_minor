@@ -168,22 +168,34 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, curr
 	totalDmg = pDmg + tDmg;
 
 	let npcShields = currentTarget.shields.shieldsHp;
-	let npcHull = currentShip.hullHp;
+	let npcHull = currentTarget.hullHp;
 
-	npcShields = (npcShields - totalDmg);
-
-	if (Math.sign(npcShields) === -1) {
+	if((npcShields - totalDmg) < 0) {
+		const leftOverDmg = (npcShields - totalDmg) * -1;
+		if((npcHull - leftOverDmg) <= 0) {
+			npcHull = 0;
+		} else {
+			npcHull = npcHull - leftOverDmg;
+		}
 		npcShields = 0;
-		npcHull = (npcHull + npcShields);
+		
+	} else {
+		npcShields = (npcShields - totalDmg);
 	}
 
 	const npcDestroyed = npcHull < 1 ? true : false;
 	
-
 	currentTarget.shields.shieldsHp = npcShields;
-	currentTarget.shields.hullsHp = npcHull;
+	currentTarget.hullHp = npcHull;
+	currentTarget.isDestroyed = npcDestroyed;
 
-	toastData = {type: 'success', msg: `${totalDmg} damage to ${currentTarget.faction} ${currentTarget.type} ${currentTarget.id}!`};
+	if(npcDestroyed) {
+		toastData = {type: 'success', msg: `${currentTarget.faction} ${currentTarget.type} ${currentTarget.id} DESTOYED!`};
+	} else {
+		toastData = {type: 'success', msg: `${totalDmg} damage to ${currentTarget.faction} ${currentTarget.type} ${currentTarget.id}!`};
+	}
+
+	
 	// debugger
 
 	return {npcDestroyed, currentTarget, toastData}

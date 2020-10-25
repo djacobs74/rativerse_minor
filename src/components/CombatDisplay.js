@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 
 
@@ -19,13 +20,24 @@ class CombatDisplay extends Component {
 		npcs: [],
 		rangeSetting: 'away',
 		plasmaProjectors: false,
-		torpedoes: false
+		torpedoes: false,
+		fire: false
 	}
 
 	componentDidMount = () => {
 		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 		this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
 		// console.log('&&&& range data', rangeData);
+
+		this.props.npcActiveShips.map(s => {
+			if(s.inCombat) {
+				let npcsArray = this.state.npcs;
+				const currentTarget = npcsArray.find(npc => npc.id === s.id);
+				if(!currentTarget) {
+					npcsArray.push(s);
+				}
+			}
+		})
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -48,19 +60,53 @@ class CombatDisplay extends Component {
 				}
 			}
 		}
-		if(this.state.plasmaProjectors || this.state.torpedoes) {
-			// deals dmg to npcs
-			let currentTarget = this.props.npcActiveShips.find(npc => npc.id === this.state.currentTarget.id);
 
-			const data = firePlayerWeapons(this.state.plasmaProjectors, this.state.torpedoes, this.props.currentShip, currentTarget);
-			this.toastMessage(data.toastData.type, data.toastData.msg);
-
-
-
-
-			// update target ship stats
-			// debugger;
+		if(this.state.currentTarget) {
+			clearInterval(this.intervalId);
+			if(!this.state.currentTarget.isDestroyed) {
+				this.intervalId  = setInterval(this.startCombat, 3000);
+			}
+			
 		}
+
+		
+
+
+		this.props.npcActiveShips.map(s => {
+			if(s.inCombat) {
+				let npcsArray = this.state.npcs;
+				const currentTarget = npcsArray.find(npc => npc.id === s.id);
+				if(!currentTarget) {
+					npcsArray.push(s);
+				}
+			}
+		})
+
+	}
+
+
+	startCombat = () => {
+		clearInterval(this.intervalId);
+
+		const npcsArrayCopy = _.cloneDeep(this.state.npcs);
+		let currentTargetCopy = npcsArrayCopy.find(npc => npc.id === this.state.currentTarget.id);
+		let currentTarget = this.state.npcs.find(npcc => npcc.id === this.state.currentTarget.id);
+		const data = firePlayerWeapons(this.state.plasmaProjectors, this.state.torpedoes, this.props.currentShip, currentTargetCopy);
+
+
+
+		this.toastMessage(data.toastData.type, data.toastData.msg);
+		this.setState({npcs: npcsArrayCopy});
+		if(data.npcDestroyed) {
+			this.setState({currentTarget: null});
+			clearInterval(this.intervalId);
+		}
+
+		// if((currentTarget.shields.shieldsHp !== currentTargetCopy.shields.shieldsHp) || (currentTarget.hullHp !== currentTargetCopy.hullHp)) {
+
+		// 	this.toastMessage(data.toastData.type, data.toastData.msg);
+		// 	this.setState({npcs: npcsArrayCopy});
+		// }
 	}
 
 	toastMessage = (toastType, toastMsg) => {
@@ -76,6 +122,7 @@ class CombatDisplay extends Component {
 	}
 
 	targetNpc = (ship) => {
+		ship.isDestroyed = false;
 		this.setState({currentTarget: ship});
 	}
 
@@ -150,15 +197,15 @@ class CombatDisplay extends Component {
 					</div>
 
 				
-					{ this.props.npcActiveShips.map((s, index) => (
-						s.inCombat && this.addNpcToNpcsArray(s),
-						s.inCombat && 
+					{ this.state.npcs.map((s, index) => (
+						!s.isDestroyed && 
 							<div className="npcCombatPanel" onClick={() => this.targetNpc(s)} key={s.id}>
 								<div className={`cpSection ${this.state.currentTarget && ((s.id === this.state.currentTarget.id) && 'currentTarget')}`}>
 									<div>{s.factionName} {s.type} {s.id}</div>
 								
 									<div className="shipDetail">Ship Systems:
 										<div>{`* Shields: ${s.shields.name} (${s.shields.shieldsHp})`}</div>
+										<div>{`* Hull: ${s.hullHp}`}</div>
 										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value} (Range: ${s.plasmaProjectors.range})`}</div>
 										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>

@@ -19,9 +19,9 @@ export const TORPEDOES = [
 ]
 
 export const SHIELDS = [
-	{ name: 'Shields MK1',  value: 'S-MK2',  shieldsHp: 30, shieldsRegen: 2, shieldsMax: 30 },
-	{ name: 'Shields MK2',  value: 'S-MK2',  shieldsHp: 40, shieldsRegen: 3, shieldsMax: 40 },
-	{ name: 'Shields MK3',  value: 'S-MK2',  shieldsHp: 50, shieldsRegen: 4, shieldsMax: 50 }
+	{ name: 'Shields MK1',  value: 'S-MK2',  shieldsHp: 60, shieldsRegen: 2, shieldsMax: 60 },
+	{ name: 'Shields MK2',  value: 'S-MK2',  shieldsHp: 70, shieldsRegen: 3, shieldsMax: 70 },
+	{ name: 'Shields MK3',  value: 'S-MK2',  shieldsHp: 80, shieldsRegen: 4, shieldsMax: 80 }
 ]
 
 export const SHIP_DATA = [
