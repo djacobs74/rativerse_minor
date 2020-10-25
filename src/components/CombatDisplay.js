@@ -63,7 +63,7 @@ class CombatDisplay extends Component {
 
 		if(this.state.currentTarget) {
 			clearInterval(this.intervalId);
-			if(!this.state.currentTarget.isDestroyed) {
+			if(!this.state.currentTarget.isDestroyed && (this.state.plasmaProjectors || this.state.torpedoes)) {
 				this.intervalId  = setInterval(this.startCombat, 3000);
 			}
 			
@@ -100,6 +100,8 @@ class CombatDisplay extends Component {
 		if(data.npcDestroyed) {
 			this.setState({currentTarget: null});
 			clearInterval(this.intervalId);
+			this.togglePlasmas();
+			this.toggleTorpedoes();
 		}
 
 		// if((currentTarget.shields.shieldsHp !== currentTargetCopy.shields.shieldsHp) || (currentTarget.hullHp !== currentTargetCopy.hullHp)) {
@@ -145,13 +147,27 @@ class CombatDisplay extends Component {
 	}
 
 	togglePlasmas = () => {
-		const inPPRange = this.state.currentTarget.inRangePP;
-		inPPRange && this.setState({plasmaProjectors: !this.state.plasmaProjectors});
+		let plasmas = this.state.plasmaProjectors;
+		const currentTarget = this.state.currentTarget;
+		if(currentTarget && currentTarget.inRangePP) {
+			plasmas = !plasmas;
+		} else {
+			plasmas = false;
+		}
+
+		this.setState({plasmaProjectors: plasmas});
 	}
 
 	toggleTorpedoes = () => {
-		const inTRange = this.state.currentTarget.inRangeT;
-		inTRange && this.setState({torpedoes: !this.state.torpedoes});
+		let torps = this.state.torpedoes;
+		const currentTarget = this.state.currentTarget;
+		if(currentTarget && currentTarget.inRangeT) {
+			torps = !torps;
+		} else {
+			torps = false;
+		}
+
+		this.setState({torpedoes: torps});
 	}
 
 	// startRangeInterval = (direction) => {
