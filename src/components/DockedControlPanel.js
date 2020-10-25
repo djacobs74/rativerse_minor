@@ -23,8 +23,8 @@ class DockedControlPanel extends Component {
 	componentDidMount = () => {
 		let cargoOptions = [];
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
-		tradeGoods.map(t => {
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
+		tradeGoods && tradeGoods.map(t => {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});

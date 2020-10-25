@@ -90,7 +90,7 @@ class StarMap extends Component {
 		function spawnDelay () {
 			setInterval(function () {
 				
-				npcShipGenerator(here.props.npcShips)
+				here.props.npcShipGenerator(here.props.npcShips)
 				
 			}, 10000)
 		}

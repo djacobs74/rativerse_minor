@@ -61,7 +61,7 @@ class Game extends Component {
 				const player= here.props.player;
 				const playerPosition = here.props.currentPosition;
 				// debugger;
-				npcShipsActive = here.props.npcShipMover(npcShips, playerPosition, player);
+				npcShipsActive = here.props.npcShipMover(here.props.npcShips, playerPosition, player, here.props.npcActiveShips);
 				// here.setState({npcShipsActive: npcShipsActive});
 			
 				

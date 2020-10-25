@@ -61,10 +61,19 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		npcShips.push(ship);
 	}
 
+	// let updatedNpcShips = _.cloneDeep(npcShips);
 
-	// console.log('NPC_SHIPS', npcShips);
+	let updatedNpcShips = [];
+	npcShips.map(n => {
+		if(!n.isDestroyed) {
+			updatedNpcShips.push(n);
+		}
+	})
+
+
+	console.log('@@@@@  npcShipGenerator updatedNpcShips', updatedNpcShips);
 	// console.log('MAXID', maxId);
   	return (dispatch) => {
-  		dispatch({type: 'NPC_SHIPS', payload: npcShips});
+  		dispatch({type: 'NPC_SHIPS', payload: updatedNpcShips});
   	}
 };

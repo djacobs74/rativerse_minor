@@ -1,7 +1,7 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 import { pathCheck, combatCheck } from '.././components/_utils/movement';
 
-export const npcShipMover = (npcShips, playerPosition, player) => {
+export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) => {
 
 	let npcShipsActive = [];
 	const moveOptionNum = 5;
@@ -14,7 +14,16 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 
 		npcShips.map(s => {
 			const inCombat = combatCheck(s, playerPosition.position, player);
-			s.inCombat = inCombat;
+			const npc = npcActiveShips.find(x => x.id === s.id);
+
+
+			if(npc && npc.isDestroyed) {
+				s.inCombat = false;
+				s.isDestroyed = true;
+			} else {
+				s.inCombat = inCombat;
+			}
+
 
 			// shield regen 
 			if(s.shields.shieldsHp < s.shields.shieldsMax) {
@@ -24,7 +33,7 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 				}
 			}
 
-			if(!inCombat) {
+			if(!s.inCombat && !s.isDestroyed) {
 				
 				const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
 				if(moveChance == (moveOptionNum-1)) {
@@ -79,6 +88,7 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 		})
 
 	}
+	console.log('### npcShipMover npcShipsActive', npcShipsActive);
 	// debugger;
 	return (dispatch) => {
   		dispatch({type: 'NPC_SHIP_MOVER', payload: npcShipsActive});
