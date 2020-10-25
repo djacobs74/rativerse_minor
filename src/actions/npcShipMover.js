@@ -71,7 +71,9 @@ export const npcShipMover = (npcShips, playerPosition, player) => {
 					s.y = newCoords[1];
 				}
 			}
-			npcShipsActive.push(s);
+			if(!s.isDestroyed) {
+				npcShipsActive.push(s);
+			}
 			
 			// set hostile here?
 		})

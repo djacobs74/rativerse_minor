@@ -69,6 +69,12 @@ class CombatDisplay extends Component {
 			
 		}
 
+		if(!this.state.npcs.length) {
+			// debugger;
+			this.props.player.inCombat = false;
+			this.props.playerData(false, this.props.player);
+		}
+
 		
 
 
@@ -102,6 +108,15 @@ class CombatDisplay extends Component {
 			clearInterval(this.intervalId);
 			this.togglePlasmas();
 			this.toggleTorpedoes();
+
+			const npcsIndex = this.state.npcs.findIndex(x => x.isDestroyed === true);
+			this.state.npcs.splice(npcsIndex, 1);
+
+			let destroyedNpc = this.props.npcShips.find(x => x.id === data.currentTarget.id);
+
+			destroyedNpc.isDestroyed = true;
+			// debugger;
+
 		}
 
 		// if((currentTarget.shields.shieldsHp !== currentTargetCopy.shields.shieldsHp) || (currentTarget.hullHp !== currentTargetCopy.hullHp)) {

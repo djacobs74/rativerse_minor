@@ -83,13 +83,14 @@ class StarMap extends Component {
 	}
 
 	createNpcShips(props) {
-		const npcShips = this.props.npcShips;
+		// const npcShips = this.props.npcShips;
 		// const playerFaction = this.props.selectedFaction.value;
+		const here = this;
 
 		function spawnDelay () {
 			setInterval(function () {
 				
-				npcShipGenerator(npcShips)
+				npcShipGenerator(here.props.npcShips)
 				
 			}, 10000)
 		}

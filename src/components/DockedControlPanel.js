@@ -227,7 +227,7 @@ class DockedControlPanel extends Component {
 		const currentShip = this.props.currentShip;
 		const cargoOptions = this.state.cargoOptions;
 		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
 		
 		// console.log('DOCKED SECTOR', this.props.currentPosition);
@@ -242,7 +242,7 @@ class DockedControlPanel extends Component {
 				<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
 				<div>Credits: {playerData.credits}</div>	
 
-				{tradeGoods.length
+				{tradeGoods && (tradeGoods.length > 0)
     				? tradeGoods.map(t =>
 
     					<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>

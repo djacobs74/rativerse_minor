@@ -79,7 +79,8 @@ class Game extends Component {
 		console.log('npcActiveShips', this.props.npcActiveShips);
 		console.log('npcShips', this.props.npcShips);
 		// console.log('currentPosition', this.props.currentPosition);
-		console.log('player in combat', this.props.player.inCombat);
+		console.log('game state', this.state);
+		console.log('player data', this.props.player);
 		// this.props.player.inCombat = true;
 		return (
 			<div>
@@ -106,7 +107,7 @@ class Game extends Component {
 
 				:
 
-				<CombatDisplay />
+				<CombatDisplay playerInCombat={this.props.player.inCombat} />
 
 				}
 
