@@ -111,6 +111,7 @@ class CombatDisplay extends Component {
 
 			const npcsIndex = this.state.npcs.findIndex(x => x.isDestroyed === true);
 			this.state.npcs.splice(npcsIndex, 1);
+			this.setState({npcs: this.state.npcs});
 
 			let destroyedNpc = this.props.npcShips.find(x => x.id === data.currentTarget.id);
 

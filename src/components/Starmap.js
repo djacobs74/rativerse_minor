@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createMap } from '../actions/map';
 import { getSector } from '../actions/selectedSector';
 import { npcShipGenerator } from '../actions/npcShipGenerator';
 import { npcShipMover } from './_utils/npcShipMovement';
@@ -13,14 +12,12 @@ class StarMap extends Component {
 	}
 
 	componentDidMount() {
-		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
 		this.createNpcShips(this.props)
 		// console.log('NPC SHIPS', this.props.npcShips);
 
 		// this.moveNpcShips();
 
-		
 	}
 
 	componentDidUpdate = (prevProps, props) => {
@@ -191,6 +188,6 @@ const mapStateToProps = state => ({
   	npcActiveShips: state.npcActiveShips
 });
 
-export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator, getDockingAreas })(StarMap);
+export default connect(mapStateToProps, { getSector, npcShipGenerator, getDockingAreas })(StarMap);
 
 

@@ -11,6 +11,7 @@ import { playerData } from '../actions/playerData';
 import Dropdown from 'react-dropdown';
 import { ToastContainer, toast } from 'react-toastify';
 import { npcShipMover } from '../actions/npcShipMover';
+import { createMap } from '../actions/map';
 import 'react-dropdown/style.css';
 
 import { connect } from 'react-redux';
@@ -33,6 +34,7 @@ class Game extends Component {
 		this.props.playerData(newGame);
 		// this.props.npcShipMover();
 		this.moveNpcShips();
+		this.props.createMap();
 	}
 
 	componentDidUpdate = (prevProps) => {
@@ -149,4 +151,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {playerData, npcShipMover})(Game);
+export default connect(mapStateToProps, {playerData, npcShipMover, createMap})(Game);
