@@ -13,14 +13,20 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 	if(npcShips) {
 
 		npcShips.map(s => {
-			const inCombat = combatCheck(s, playerPosition.position, player);
+
+			// const inCombat = combatCheck(s, playerPosition.position, player);
 			const npc = npcActiveShips.find(x => x.id === s.id);
 
+			let inCombat = false;
+
+			if(npc) {
+				inCombat = combatCheck(s, playerPosition.position, player);
+			}
 
 			if(npc && npc.isDestroyed) {
 				s.inCombat = false;
 				s.isDestroyed = true;
-			} else {
+			} else if(npc && !npc.isDestroyed) {
 				s.inCombat = inCombat;
 			}
 

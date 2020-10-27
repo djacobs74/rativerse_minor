@@ -79,7 +79,7 @@ export const combatCheck = (ship, playerPos, player) => {
 				}
 			})
 
-			if(repValue < 0 && !player.docked) {
+			if(repValue < 0 && !player.docked && !ship.isDestroyed) {
 				// debugger;
 				player.inCombat = true;
 				playerData(false, player);
