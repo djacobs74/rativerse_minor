@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getSector } from '../actions/selectedSector';
-import { npcShipGenerator } from '../actions/npcShipGenerator';
+// import { npcShipGenerator } from '../actions/npcShipGenerator';
 import { npcShipMover } from './_utils/npcShipMovement';
 import { getDockingAreas } from '../actions/dockingAreas';
 
@@ -13,7 +13,7 @@ class StarMap extends Component {
 
 	componentDidMount() {
 		// START NPC SHIP SPAWN FUNCTION
-		this.createNpcShips(this.props)
+		// this.createNpcShips(this.props)
 		// console.log('NPC SHIPS', this.props.npcShips);
 
 		// this.moveNpcShips();
@@ -79,20 +79,20 @@ class StarMap extends Component {
 		return pathingSec
 	}
 
-	createNpcShips(props) {
-		// const npcShips = this.props.npcShips;
-		// const playerFaction = this.props.selectedFaction.value;
-		const here = this;
+	// createNpcShips(props) {
+	// 	// const npcShips = this.props.npcShips;
+	// 	// const playerFaction = this.props.selectedFaction.value;
+	// 	const here = this;
 
-		function spawnDelay () {
-			setInterval(function () {
+	// 	function spawnDelay () {
+	// 		setInterval(function () {
 				
-				here.props.npcShipGenerator(here.props.npcShips)
+	// 			here.props.npcShipGenerator(here.props.npcShips)
 				
-			}, 10000)
-		}
-		spawnDelay();
-	}
+	// 		}, 10000)
+	// 	}
+	// 	spawnDelay();
+	// }
 
 
 	// moveNpcShips() {
@@ -188,6 +188,6 @@ const mapStateToProps = state => ({
   	npcActiveShips: state.npcActiveShips
 });
 
-export default connect(mapStateToProps, { getSector, npcShipGenerator, getDockingAreas })(StarMap);
+export default connect(mapStateToProps, { getSector, getDockingAreas })(StarMap);
 
 

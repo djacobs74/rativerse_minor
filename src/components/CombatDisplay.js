@@ -47,7 +47,7 @@ class CombatDisplay extends Component {
 			const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
 			this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
 			
-
+		
 			if(this.state.currentTarget) {
 				const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
 				if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
@@ -59,6 +59,8 @@ class CombatDisplay extends Component {
 					this.setState({torpedoes: false});
 				}
 			}
+			
+				
 		}
 
 		if(this.state.currentTarget) {
@@ -75,16 +77,15 @@ class CombatDisplay extends Component {
 			this.props.playerData(false, this.props.player);
 		}
 
-		
-
 
 		this.props.npcActiveShips.map(s => {
-			if(s.inCombat) {
+			if(s.inCombat && !s.isDestroyed) {
 				let npcsArray = this.state.npcs;
-				const currentTarget = npcsArray.find(npc => npc.id === s.id);
-				if(!currentTarget) {
+				if(!npcsArray.some(npc => npc.id === s.id)) {
 					npcsArray.push(s);
+					checkRange(npcsArray, this.props.currentShip, this.state.rangeSetting);
 				}
+
 			}
 		})
 
@@ -92,7 +93,7 @@ class CombatDisplay extends Component {
 
 
 	startCombat = () => {
-		clearInterval(this.intervalId);
+		// clearInterval(this.intervalId);
 
 		const npcsArrayCopy = _.cloneDeep(this.state.npcs);
 		let currentTargetCopy = npcsArrayCopy.find(npc => npc.id === this.state.currentTarget.id);
@@ -102,21 +103,19 @@ class CombatDisplay extends Component {
 
 
 		this.toastMessage(data.toastData.type, data.toastData.msg);
-		this.setState({npcs: npcsArrayCopy});
+		if(!data.npcDestroyed) {
+			this.setState({npcs: npcsArrayCopy});
+		}
+		
 		if(data.npcDestroyed) {
-			this.setState({currentTarget: null});
-			clearInterval(this.intervalId);
-			this.togglePlasmas();
-			this.toggleTorpedoes();
-
-			const npcsIndex = this.state.npcs.findIndex(x => x.isDestroyed === true);
-			this.state.npcs.splice(npcsIndex, 1);
-			this.setState({npcs: this.state.npcs});
-
 			let destroyedNpc = this.props.npcShips.find(x => x.id === data.currentTarget.id);
-
 			destroyedNpc.isDestroyed = true;
-			// debugger;
+			let npcsIndex = npcsArrayCopy.findIndex(x => x.id === data.currentTarget.id);
+			npcsArrayCopy.splice(npcsIndex, 1);
+			this.setState({npcs: npcsArrayCopy, currentTarget: null, plasmaProjectors: false, torpedoes: false});
+
+			clearInterval(this.intervalId);
+			
 
 		}
 
@@ -144,13 +143,13 @@ class CombatDisplay extends Component {
 		this.setState({currentTarget: ship});
 	}
 
-	addNpcToNpcsArray = (ship) => {
-		let npcsArray = this.state.npcs;
-		const currentTarget = npcsArray.find(npc => npc.id === ship.id);
-		if(!currentTarget) {
-			npcsArray.push(ship);
-		}
-	}
+	// addNpcToNpcsArray = (ship) => {
+	// 	let npcsArray = this.state.npcs;
+	// 	const currentTarget = npcsArray.find(npc => npc.id === ship.id);
+	// 	if(!currentTarget) {
+	// 		npcsArray.push(ship);
+	// 	}
+	// }
 
 	toggleRange = (direction) => {
 		document.getElementById('away').classList.remove("active");

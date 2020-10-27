@@ -12,6 +12,7 @@ import Dropdown from 'react-dropdown';
 import { ToastContainer, toast } from 'react-toastify';
 import { npcShipMover } from '../actions/npcShipMover';
 import { createMap } from '../actions/map';
+import { npcShipGenerator } from '../actions/npcShipGenerator';
 import 'react-dropdown/style.css';
 
 import { connect } from 'react-redux';
@@ -35,6 +36,7 @@ class Game extends Component {
 		// this.props.npcShipMover();
 		this.moveNpcShips();
 		this.props.createMap();
+		this.createNpcShips(this.props);
 	}
 
 	componentDidUpdate = (prevProps) => {
@@ -50,6 +52,21 @@ class Game extends Component {
 	//       docked: !this.state.docked
 	//     })
 	// }
+
+	createNpcShips(props) {
+		// const npcShips = this.props.npcShips;
+		// const playerFaction = this.props.selectedFaction.value;
+		const here = this;
+
+		function spawnDelay () {
+			setInterval(function () {
+				
+				here.props.npcShipGenerator(here.props.npcShips)
+				
+			}, 10000)
+		}
+		spawnDelay();
+	}
 
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
@@ -151,4 +168,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {playerData, npcShipMover, createMap})(Game);
+export default connect(mapStateToProps, {playerData, npcShipMover, createMap, npcShipGenerator})(Game);
