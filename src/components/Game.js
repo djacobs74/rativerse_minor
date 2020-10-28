@@ -60,7 +60,7 @@ class Game extends Component {
 
 		function spawnDelay () {
 			setInterval(function () {
-				
+				// console.log('^^^^^^^^^^ npcShips', here.props.npcShips);
 				here.props.npcShipGenerator(here.props.npcShips)
 				
 			}, 10000)

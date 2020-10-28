@@ -70,8 +70,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		}
 	})
 
-
-	console.log('@@@@@  npcShipGenerator updatedNpcShips', updatedNpcShips);
+	// console.log('@@@@@  npcShipGenerator npcShips', npcShips);
+	// console.log('@@@@@  npcShipGenerator updatedNpcShips', updatedNpcShips);
 	// console.log('MAXID', maxId);
   	return (dispatch) => {
   		dispatch({type: 'NPC_SHIPS', payload: updatedNpcShips});
