@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import Dropdown from 'react-dropdown';
 // import 'react-dropdown/style.css';
 // import { STARTER_SHIPS } from './_utils/constants';
-import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings } from './_utils/combatUtils';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -112,7 +112,12 @@ class CombatDisplay extends Component {
 			destroyedNpc.isDestroyed = true;
 			let npcsIndex = npcsArrayCopy.findIndex(x => x.id === data.currentTarget.id);
 			npcsArrayCopy.splice(npcsIndex, 1);
+
+			adjustStandings(data.currentTarget.faction, this.props.player);
+
+
 			this.setState({npcs: npcsArrayCopy, currentTarget: null, plasmaProjectors: false, torpedoes: false});
+
 
 			clearInterval(this.intervalId);
 			

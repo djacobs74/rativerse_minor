@@ -205,4 +205,52 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, curr
 	// 	this need to be set to a timer
 }
 
+export const adjustStandings = (faction, playerData) => {
+
+	let playerRep = playerData.reputation;
+
+	if (faction === 'uwc') {
+		playerRep[0]["uwc"] = playerRep[0]["uwc"] - 1;
+		playerRep[1]["bfr"] = playerRep[1]["bfr"] + 1;
+		playerRep[2]["cnp"] = playerRep[2]["cnp"] + 1;
+		playerRep[3]["ob"] = playerRep[3]["ob"] - 1;
+		playerRep[4]["tscc"] = playerRep[4]["tscc"] + 1;
+	} else if (faction === 'bfr') {
+		playerRep[0]["uwc"] = playerRep[0]["uwc"] + 1;
+		playerRep[1]["bfr"] = playerRep[1]["bfr"] - 1;
+		// playerRep[2]["cnp"] = playerRep[2]["cnp"] + 1;
+		playerRep[3]["ob"] = playerRep[3]["ob"] + 1;
+		// playerRep[4]["tscc"] = playerRep[4]["tscc"] + 1;
+	} else if (faction === 'cnp') {
+		playerRep[0]["uwc"] = playerRep[0]["uwc"] + 1;
+		// playerRep[1]["bfr"] = playerRep[1]["bfr"] + 1;
+		playerRep[2]["cnp"] = playerRep[2]["cnp"] - 1;
+		// playerRep[3]["ob"] = playerRep[3]["ob"] - 1;
+		// playerRep[4]["tscc"] = playerRep[4]["tscc"] + 1;
+	} else if (faction === 'ob') {
+		playerRep[0]["uwc"] = playerRep[0]["uwc"] - 1;
+		playerRep[1]["bfr"] = playerRep[1]["bfr"] + 1;
+		// playerRep[2]["cnp"] = playerRep[2]["cnp"] + 1;
+		playerRep[3]["ob"] = playerRep[3]["ob"] - 1;
+		// playerRep[4]["tscc"] = playerRep[4]["tscc"] + 1;
+	} else if (faction === 'tscc') {
+		playerRep[0]["uwc"] = playerRep[0]["uwc"] + 1;
+		// playerRep[1]["bfr"] = playerRep[1]["bfr"] + 1;
+		// playerRep[2]["cnp"] = playerRep[2]["cnp"] + 1;
+		// playerRep[3]["ob"] = playerRep[3]["ob"] - 1;
+		playerRep[4]["tscc"] = playerRep[4]["tscc"] - 1;
+	}
+
+
+	playerRep.map((r, index) => {
+		const key = Object.keys(r);
+		if (r[key[0]] > 10) {
+			r[key[0]] = 10;
+		} else if (r[key[0]] < -10) {
+			r[key[0]] = -10;
+		}
+	})
+
+}
+
 
