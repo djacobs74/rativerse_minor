@@ -2,13 +2,14 @@ import { getPath } from '../actions/getPath';
 import { moveCheck, combatCheck } from '.././components/_utils/movement';
 
 
-export const moveShip = (position, path) => {
+export const moveShip = (position, path, martelDriveRating) => {
 
 	const pathLength = path.length - 1;
 	const destination = path[pathLength];
 	let counter = 0;
 	const nullPosition = null;
 	const nullDestination = null;
+	const delay = martelDriveRating.value;
 
 
 	function getNewPath (newPath) {
@@ -58,7 +59,7 @@ export const moveShip = (position, path) => {
 						moveDelay();
 					}
 				}
-			}, 2000)
+			}, delay)
 		}
 
 		moveDelay();

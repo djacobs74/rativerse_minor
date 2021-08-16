@@ -47,12 +47,13 @@ class Destination extends React.Component {
   	martelDrive() {
 	  	const position = getPosition(this.props);
 	  	const moving = this.state.moving;
-	  	const destination = this.state.destination;
+			const destination = this.state.destination;
+			const martelDriveRating = this.props.currentShip.martelDrive;
 	  	
 	  	if( (destination[0] !== position[0]) || (destination[1] !== position[1]) ) {
 	  		if( (moving === false || moving == null) && destination.length ) {
 	  			this.moving(true);
-	  			this.props.moveShip(position, this.props.path);
+	  			this.props.moveShip(position, this.props.path, martelDriveRating);
 	  			toast.success('Martel Drive Engaged');
 	  		}
 	  		
@@ -113,7 +114,8 @@ const mapStateToProps = state => ({
   	startingPosition: state.startingPosition,
   	currentPosition: state.currentPosition,
   	map: state.map,
-  	player: state.playerData
+		player: state.playerData,
+		currentShip: state.selectedShip
 });
 
 
