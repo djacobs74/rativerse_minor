@@ -95,11 +95,11 @@ class Game extends Component {
 	render () {
 
 		// console.log('CURRENT', this.props.currentShip);
-		console.log('npcActiveShips', this.props.npcActiveShips);
-		console.log('npcShips', this.props.npcShips);
+		// console.log('npcActiveShips', this.props.npcActiveShips);
+		// console.log('npcShips', this.props.npcShips);
 		// console.log('currentPosition', this.props.currentPosition);
-		console.log('game state', this.state);
-		console.log('player data', this.props.player);
+		// console.log('game state', this.state);
+		// console.log('player data', this.props.player);
 		// this.props.player.inCombat = true;
 		return (
 			<div>

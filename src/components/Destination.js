@@ -86,7 +86,7 @@ class Destination extends React.Component {
   		const moving = this.state.moving;
   		const destination = this.state.destination;
   		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
-  		console.log('***** DOCKED', this.props.player.docked);
+  		// console.log('***** DOCKED', this.props.player.docked);
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
 		return (

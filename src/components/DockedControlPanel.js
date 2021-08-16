@@ -187,7 +187,6 @@ class DockedControlPanel extends Component {
 
 	getTotal(tradeGood, cargoOptions) {
 		let cargoTotal = cargoOptions.find((c) => c.value === tradeGood.value);
-		console.log('CARGO TOTAL', cargoTotal);
 		cargoTotal = cargoTotal ? cargoTotal.amount : null;
 		return cargoTotal
 	}
