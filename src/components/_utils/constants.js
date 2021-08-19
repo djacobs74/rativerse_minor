@@ -10,7 +10,7 @@ export const PLASMA_PROJECTORS = [
 	{ name: 'Plasma Projectors MK2',  value: 'PP-MK2',  range: 3, minDamage: 5, maxDamage: 10 },
 	{ name: 'Plasma Projectors MK2C', value: 'PP-MK2C', range: 2, minDamage: 6, maxDamage: 11 },
 	{ name: 'Plasma Projectors MK2L', value: 'PP-MK2L', range: 4, minDamage: 4, maxDamage: 9 },
-	{ name: 'Plasma Projectors MK3', value: 'PP-MK3', range: 4, minDamage: 8, maxDamage: 14 }
+	{ name: 'Plasma Projectors MK3',  value: 'PP-MK3', range: 4, minDamage: 8, maxDamage: 14 }
 ]
 
 export const TORPEDOES = [
@@ -20,9 +20,9 @@ export const TORPEDOES = [
 ]
 
 export const SHIELDS = [
-	{ name: 'Shields MK1',  value: 'S-MK2',  shieldsHp: 60, shieldsRegen: 2, shieldsMax: 60 },
+	{ name: 'Shields MK1',  value: 'S-MK1',  shieldsHp: 60, shieldsRegen: 2, shieldsMax: 60 },
 	{ name: 'Shields MK2',  value: 'S-MK2',  shieldsHp: 70, shieldsRegen: 3, shieldsMax: 70 },
-	{ name: 'Shields MK3',  value: 'S-MK2',  shieldsHp: 80, shieldsRegen: 4, shieldsMax: 80 }
+	{ name: 'Shields MK3',  value: 'S-MK3',  shieldsHp: 80, shieldsRegen: 4, shieldsMax: 80 }
 ]
 
 export const MartelDrives = [
@@ -53,10 +53,10 @@ export const NPC_SHIPS = [
 ]
 
 export const STARTER_SHIPS = [
-	{ value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: MartelDrives[1], sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, hullHp: 20, hullMax: 20, description: 'A small but well rounded freighter' },
+	{ value: 'monolith', label: 'Monolith', type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: MartelDrives[1], sublightSpeed: 2, scanner: 2, signature: 6, cargo: 0, cargoHold: [], cargoMax: 40, price: 0, hullHp: 20, hullMax: 20, description: 'A well rounded freighter with moderate cargo space.' },
 	{ value: 'badger',   label: 'Badger',   type: 'Frigate',   faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[1],  torpedoes: TORPEDOES[0], shields: SHIELDS[1], martelDrive: MartelDrives[1], sublightSpeed: 5, scanner: 2, signature: 3, cargo: 0, cargoHold: [], cargoMax: 10, price: 0, hullHp: 20, hullMax: 20, description: 'The Badger provides good firepower for its size, but dont expect to win any fights against bigger ships.' },
-	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: MartelDrives[3], sublightSpeed: 5, scanner: 3, signature: 3, cargo: 0, cargoHold: [], cargoMax: 20, price: 0, hullHp: 20, hullMax: 20, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature and good speed. A good choice for those who wish to haul cargo without drawing a lot of attention.' },
-	{ value: 'hercules',   label: 'Hercules',   type: 'Gunship', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[3],  torpedoes: TORPEDOES[2], shields: SHIELDS[2], martelDrive: MartelDrives[2], sublightSpeed: 4, scanner: 3, signature: 4, cargo: 0, cargoHold: [], cargoMax: 5, price: 0, hullHp: 20, hullMax: 20, description: 'The aptly named Hercules was designed for one purpose: combat. This capable warship is a good choice for bounty hunters, pirates, or even haulers concerned with defending valuable cargo.' }
+	{ value: 'shadow',   label: 'Shadow',   type: 'Freighter', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[0],  torpedoes: null, shields: SHIELDS[0], martelDrive: MartelDrives[3], sublightSpeed: 5, scanner: 3, signature: 3, cargo: 0, cargoHold: [], cargoMax: 20, price: 0, hullHp: 20, hullMax: 20, description: 'Less cargo space than a standard freighter, the Shadow was designed to have a low signature and good speed. A good choice for those who wish to haul cargo quickly without drawing a lot of attention.' },
+	{ value: 'hercules',   label: 'Hercules',   type: 'Gunship', faction: 'none',  plasmaProjectors: PLASMA_PROJECTORS[3],  torpedoes: TORPEDOES[2], shields: SHIELDS[2], martelDrive: MartelDrives[2], sublightSpeed: 4, scanner: 3, signature: 4, cargo: 0, cargoHold: [], cargoMax: 5, price: 0, hullHp: 20, hullMax: 20, description: 'The aptly named Hercules was designed for one purpose: combat. This capable warship is a good choice for bounty hunters, pirates, or even haulers concerned with defending a small load of valuable cargo.' }
 ]
 
 export const TRADE_GOODS = [
