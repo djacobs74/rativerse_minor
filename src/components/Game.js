@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
 // import CombatDisplay from './CombatDisplay';
-import NewCombatDisplay from './newCombatDisplay';
+import NewCombatDisplay from './NewCombatDisplay';
 import ControlPanel from './ControlPanel';
 import RativerseInfo from './RativerseInfo';
 import DockedControlPanel from './DockedControlPanel';

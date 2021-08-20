@@ -40,56 +40,53 @@ class NewCombatDisplay extends Component {
 		})
 	}
 
-	// componentDidUpdate = (prevProps, prevState) => {
-	// 	// debugger;
-	// 	console.log('!!!!!!!! componentDidUpdate');
-	// 	if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs.length !== this.state.npcs.length)) {
-	// 		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
-	// 		this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
+	componentDidUpdate = (prevProps, prevState) => {
+		// debugger;
+		console.log('!!!!!!!! componentDidUpdate');
+		// if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs.length !== this.state.npcs.length)) {
+		// 	const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
+		// 	this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
 			
 		
-	// 		if(this.state.currentTarget) {
-	// 			const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
-	// 			if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
-	// 				document.getElementById('plasmaProjectors').classList.remove("active");
-	// 				this.setState({plasmaProjectors: false});
-	// 			}
-	// 			if(targetNpc.inRangeT === false && (this.state.torpedoes === true)) {
-	// 				document.getElementById('torpedoes').classList.remove("active");
-	// 				this.setState({torpedoes: false});
-	// 			}
-	// 		}
-			
-				
-	// 	}
+		// 	if(this.state.currentTarget) {
+		// 		const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
+		// 		if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
+		// 			document.getElementById('plasmaProjectors').classList.remove("active");
+		// 			this.setState({plasmaProjectors: false});
+		// 		}
+		// 		if(targetNpc.inRangeT === false && (this.state.torpedoes === true)) {
+		// 			document.getElementById('torpedoes').classList.remove("active");
+		// 			this.setState({torpedoes: false});
+		// 		}
+		// 	}	
+		// }
 
-	// 	if(this.state.currentTarget) {
-	// 		clearInterval(this.intervalId);
-	// 		if(!this.state.currentTarget.isDestroyed && (this.state.plasmaProjectors || this.state.torpedoes)) {
-	// 			this.intervalId  = setInterval(this.startCombat, 3000);
-	// 		}
-			
-	// 	}
+		// if(this.state.currentTarget) {
+		// 	clearInterval(this.intervalId);
+		// 	if(!this.state.currentTarget.isDestroyed && (this.state.plasmaProjectors || this.state.torpedoes)) {
+		// 		this.intervalId  = setInterval(this.startCombat, 3000);
+		// 	}
+		// }
 
-	// 	if(!this.state.npcs.length) {
-	// 		// debugger;
-	// 		this.props.player.inCombat = false;
-	// 		this.props.playerData(false, this.props.player);
-	// 	}
+		if(!this.state.npcs.length) {
+			// debugger;
+			this.props.player.inCombat = false;
+			this.props.playerData(false, this.props.player);
+		}
 
 
-	// 	this.props.npcActiveShips.map(s => {
-	// 		if(s.inCombat && !s.isDestroyed) {
-	// 			let npcsArray = this.state.npcs;
-	// 			if(!npcsArray.some(npc => npc.id === s.id)) {
-	// 				npcsArray.push(s);
-	// 				checkRange(npcsArray, this.props.currentShip, this.state.rangeSetting);
-	// 			}
+		this.props.npcActiveShips.map(s => {
+			if(s.inCombat && !s.isDestroyed) {
+				let npcsArray = this.state.npcs;
+				if(!npcsArray.some(npc => npc.id === s.id)) {
+					npcsArray.push(s);
+					checkRange(npcsArray, this.props.currentShip, this.state.rangeSetting);
+				}
 
-	// 		}
-	// 	})
+			}
+		})
 
-	// }
+	}
 
 
 	// startCombat = () => {
@@ -129,7 +126,7 @@ class NewCombatDisplay extends Component {
 		// 	this.toastMessage(data.toastData.type, data.toastData.msg);
 		// 	this.setState({npcs: npcsArrayCopy});
 		// }
-	}
+	// }
 
 	toastMessage = (toastType, toastMsg) => {
 		if(toastType === 'success') {
@@ -253,23 +250,6 @@ class NewCombatDisplay extends Component {
 					))}
 
 				</div>
-
-				 
-				{/* <div className="playerControlWrapper">	
-					<div id="rangeWrapper">
-						<h3>Range Control</h3>
-						<div><button id="away" className="active" onClick={() => this.toggleRange("away")}>Move Outside of Weapons Range</button></div>
-						<div><button id="closeRange" onClick={() => this.toggleRange("closeRange")}>Move to Close Weapons Range</button></div>
-						<div><button id="maxRange" onClick={() => this.toggleRange("maxRange")}>Move to Max Weapons Range</button></div>
-					</div>
-					{ currentTarget ?
-						<div>
-							<h3>Fire Control</h3>
-							<div><button id="plasmaProjectors" className={`${(this.state.currentTarget.inRangePP === true) && 'plasmaProjectorsReady'} ${this.state.plasmaProjectors && 'active'}`} onClick={() => this.togglePlasmas()}>Fire Plasma Projectors</button></div>
-							{ship.torpedoes && <div><button id="torpedoes" className={`${(this.state.currentTarget.inRangeT === true) && 'torpedoesReady'} ${this.state.torpedoes && 'active'}`} onClick={() => this.toggleTorpedoes()}>Fire Torpedoes</button></div>}
-						</div>
-					: <h3>Select a Target</h3>}
-				</div> */}
 			</div>
 		);
 	}
