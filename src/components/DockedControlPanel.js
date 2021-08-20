@@ -291,7 +291,7 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
-  	map: state.map,
+  	map: state.map.gameMap,
   	currentPosition: state.currentPosition,
   	player: state.playerData,
   	dockingAreas: state.dockingAreas

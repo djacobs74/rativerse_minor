@@ -113,7 +113,7 @@ const mapStateToProps = state => ({
   	path: state.path,
   	startingPosition: state.startingPosition,
   	currentPosition: state.currentPosition,
-  	map: state.map,
+  	map: state.map.gameMap,
 		player: state.playerData,
 		currentShip: state.selectedShip
 });

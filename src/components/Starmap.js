@@ -178,7 +178,7 @@ class StarMap extends Component {
 }
 
 const mapStateToProps = state => ({
-	map: state.map,
+	map: state.map.gameMap,
 	sector: state.selectedSector,
 	path: state.path,
 	startingPosition: state.startingPosition,

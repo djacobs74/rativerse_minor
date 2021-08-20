@@ -32,7 +32,6 @@ export const moveCheck = (position, destination) => {
 }
 
 export const getDockOption = (position, map) => {
-
 	// console.log('POSITION', position);
 	let canDock = false;
 	

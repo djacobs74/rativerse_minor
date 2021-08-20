@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
-import CombatDisplay from './CombatDisplay';
+// import CombatDisplay from './CombatDisplay';
+import newCombatDisplay from './newCombatDisplay';
 import ControlPanel from './ControlPanel';
 import RativerseInfo from './RativerseInfo';
 import DockedControlPanel from './DockedControlPanel';
@@ -32,10 +33,11 @@ class Game extends Component {
 
 	componentDidMount = () => {
 		const newGame = true;
+		const mapSize = [0, 1, 2, 3, 4, 5];
 		this.props.playerData(newGame);
 		// this.props.npcShipMover();
 		this.moveNpcShips();
-		this.props.createMap();
+		this.props.createMap(mapSize, 'game');
 		this.createNpcShips(this.props);
 	}
 
@@ -126,7 +128,8 @@ class Game extends Component {
 
 				:
 
-				<CombatDisplay playerInCombat={this.props.player.inCombat} />
+				// <CombatDisplay playerInCombat={this.props.player.inCombat} />
+				<newCombatDisplay playerInCombat={this.props.player.inCombat} />
 
 				}
 
