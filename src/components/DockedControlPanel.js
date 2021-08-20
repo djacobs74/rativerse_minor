@@ -22,7 +22,7 @@ class DockedControlPanel extends Component {
 
 	componentDidMount = () => {
 		let cargoOptions = [];
-		const dockingArea = this.getDockingArea(this.props.currentPosition);
+		const dockingArea = this.getDockingArea(this.props.sectorPosition);
 		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		tradeGoods && tradeGoods.map(t => {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
@@ -154,7 +154,7 @@ class DockedControlPanel extends Component {
 			// debugger;
 		}
 
-		const dockingAreaInfo = this.getDockingArea(this.props.currentPosition);
+		const dockingAreaInfo = this.getDockingArea(this.props.sectorPosition);
 		const dockingAreaId = dockingAreaInfo.id;
 		let dockingAreas = this.props.dockingAreas;
 		// let cargoCopy = playerShip.cargoHold;
@@ -225,11 +225,11 @@ class DockedControlPanel extends Component {
 		
 		const currentShip = this.props.currentShip;
 		const cargoOptions = this.state.cargoOptions;
-		const dockingArea = this.getDockingArea(this.props.currentPosition);
+		const dockingArea = this.getDockingArea(this.props.sectorPosition);
 		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
 		
-		// console.log('DOCKED SECTOR', this.props.currentPosition);
+		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
 		console.log('dockingArea', dockingArea);
 
@@ -292,7 +292,7 @@ const mapStateToProps = state => ({
   	path: state.path,
   	currentShip: state.selectedShip,
   	map: state.map.gameMap,
-  	currentPosition: state.currentPosition,
+  	sectorPosition: state.sectorPosition,
   	player: state.playerData,
   	dockingAreas: state.dockingAreas
 });

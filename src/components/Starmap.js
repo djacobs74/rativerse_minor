@@ -54,7 +54,7 @@ class StarMap extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
-		let position = this.props.currentPosition.position || [];
+		let position = this.props.sectorPosition.position || [];
 	
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
@@ -148,7 +148,7 @@ const mapStateToProps = state => ({
 	sector: state.selectedSector,
 	path: state.path,
 	startingPosition: state.startingPosition,
-	currentPosition: state.currentPosition,
+	sectorPosition: state.sectorPosition,
 	npcShips: state.npcShips,
 	dockingAreas: state.dockingAreas,
 	npcActiveShips: state.npcActiveShips

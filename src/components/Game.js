@@ -80,7 +80,7 @@ class Game extends Component {
 		function spawnDelay () {
 			setInterval(function () {
 				const player= here.props.player;
-				const playerPosition = here.props.currentPosition;
+				const playerPosition = here.props.sectorPosition;
 				// debugger;
 				npcShipsActive = here.props.npcShipMover(here.props.npcShips, playerPosition, player, here.props.npcActiveShips);
 				// here.setState({npcShipsActive: npcShipsActive});
@@ -96,13 +96,6 @@ class Game extends Component {
 
 	render () {
 
-		// console.log('CURRENT', this.props.currentShip);
-		// console.log('npcActiveShips', this.props.npcActiveShips);
-		// console.log('npcShips', this.props.npcShips);
-		// console.log('currentPosition', this.props.currentPosition);
-		// console.log('game state', this.state);
-		// console.log('player data', this.props.player);
-		// this.props.player.inCombat = true;
 		return (
 			<div>
 
@@ -166,7 +159,7 @@ const mapStateToProps = state => ({
   	player: state.playerData,
   	npcActiveShips: state.npcActiveShips,
   	npcShips: state.npcShips,
-  	currentPosition: state.currentPosition
+  	sectorPosition: state.sectorPosition
 });
 
 

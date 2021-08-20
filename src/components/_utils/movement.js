@@ -10,9 +10,9 @@ export const pathCheck = (hex) => {
 
 export const getPosition = (props) => {
 	let position = [];
-	let currentPosition = props.currentPosition.position || [];
-	if(currentPosition.length) {
-      position = currentPosition;
+	let sectorPosition = props.sectorPosition.position || [];
+	if(sectorPosition.length) {
+      position = sectorPosition;
     } else {
       position = props.startingPosition;
     }

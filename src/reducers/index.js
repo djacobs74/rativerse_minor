@@ -15,7 +15,7 @@ export default combineReducers({
 	selectedSector: selectedSectorReducer,
 	path: getPathReducer,
 	startingPosition: getStartingPositionReducer,
-	currentPosition: moveShipReducer,
+	sectorPosition: moveShipReducer,
 	npcShips: npcShipGeneratorReducer,
 	selectedShip: selectedShipReducer,
 	playerData: playerDataReducer,

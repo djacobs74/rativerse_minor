@@ -55,7 +55,7 @@ class ControlPanel extends Component {
 	render () {
 		const ship = this.props.currentShip;
 		const selectedShip = this.props.currentShip.label;
-		const moving = this.props.currentPosition.moving || false;
+		const moving = this.props.sectorPosition.moving || false;
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
 		const playerData = this.props.player;
@@ -124,7 +124,7 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
-  	currentPosition: state.currentPosition,
+  	sectorPosition: state.sectorPosition,
   	npcShips: state.npcShips,
   	player: state.playerData
 });

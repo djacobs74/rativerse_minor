@@ -21,7 +21,7 @@ class Destination extends React.Component {
 
 	componentDidUpdate(prevProps, props) {
 		// debugger;
-		if (prevProps.currentPosition !== this.props.currentPosition) {
+		if (prevProps.sectorPosition !== this.props.sectorPosition) {
 			this.moving(true);
 		}
 	}
@@ -83,10 +83,10 @@ class Destination extends React.Component {
 
 
   	render() {
-  		const position = this.props.currentPosition.position || [];   		
+  		const position = this.props.sectorPosition.position || [];   		
   		const moving = this.state.moving;
   		const destination = this.state.destination;
-  		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
+  		let dockOption = getDockOption(this.props.sectorPosition, this.props.map);
   		// console.log('***** DOCKED', this.props.player.docked);
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
@@ -112,7 +112,7 @@ const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
   	startingPosition: state.startingPosition,
-  	currentPosition: state.currentPosition,
+  	sectorPosition: state.sectorPosition,
   	map: state.map.gameMap,
 		player: state.playerData,
 		currentShip: state.selectedShip
