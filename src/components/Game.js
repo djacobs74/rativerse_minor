@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Starmap from './Starmap';
-import CombatDisplay from './CombatDisplay';
-// import newCombatDisplay from './newCombatDisplay';
+// import CombatDisplay from './CombatDisplay';
+import NewCombatDisplay from './newCombatDisplay';
 import ControlPanel from './ControlPanel';
 import RativerseInfo from './RativerseInfo';
 import DockedControlPanel from './DockedControlPanel';
@@ -121,8 +121,8 @@ class Game extends Component {
 
 				:
 
-				<CombatDisplay playerInCombat={this.props.player.inCombat} />
-				// <newCombatDisplay playerInCombat={this.props.player.inCombat} />
+				// <CombatDisplay playerInCombat={this.props.player.inCombat} />
+				<NewCombatDisplay playerInCombat={this.props.player.inCombat} />
 
 				}
 
