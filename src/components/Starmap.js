@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getSector } from '../actions/selectedSector';
 // import { npcShipGenerator } from '../actions/npcShipGenerator';
-import { npcShipMover } from './_utils/npcShipMovement';
 import { getDockingAreas } from '../actions/dockingAreas';
 
 class StarMap extends Component {
@@ -78,39 +77,6 @@ class StarMap extends Component {
 		
 		return pathingSec
 	}
-
-	// createNpcShips(props) {
-	// 	// const npcShips = this.props.npcShips;
-	// 	// const playerFaction = this.props.selectedFaction.value;
-	// 	const here = this;
-
-	// 	function spawnDelay () {
-	// 		setInterval(function () {
-				
-	// 			here.props.npcShipGenerator(here.props.npcShips)
-				
-	// 		}, 10000)
-	// 	}
-	// 	spawnDelay();
-	// }
-
-
-	// moveNpcShips() {
-	// 	const npcShips = this.props.npcShips;
-	// 	// const playerFaction = this.props.selectedFaction.value;
-	// 	let npcShipsActive = [];
-	// 	const here = this;
-
-	// 	function spawnDelay () {
-	// 		setInterval(function () {
-				
-	// 			npcShipsActive = npcShipMover(npcShips);
-	// 			here.setState({npcShipsActive: npcShipsActive});
-				
-	// 		}, 5000)
-	// 	}
-	// 	spawnDelay();
-	// }
 
 	updateMap(map) {
 		const npcs = this.props.npcActiveShips;
