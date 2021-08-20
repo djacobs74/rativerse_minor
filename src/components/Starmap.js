@@ -70,7 +70,7 @@ class StarMap extends Component {
 				pathingSec = 'currentSector';
 			}
 		} else {
-			if(this.props.startingPosition[0] === mapSec[0] && this.props.startingPosition[1] === mapSec[1]) {
+			if(this.props.sectorStartingPosition[0] === mapSec[0] && this.props.sectorStartingPosition[1] === mapSec[1]) {
 				pathingSec = 'currentSector';
 			}
 		}
@@ -147,7 +147,7 @@ const mapStateToProps = state => ({
 	map: state.map.gameMap,
 	sector: state.selectedSector,
 	path: state.path,
-	startingPosition: state.startingPosition,
+	sectorStartingPosition: state.sectorStartingPosition,
 	sectorPosition: state.sectorPosition,
 	npcShips: state.npcShips,
 	dockingAreas: state.dockingAreas,

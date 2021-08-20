@@ -14,7 +14,7 @@ export const getPosition = (props) => {
 	if(sectorPosition.length) {
       position = sectorPosition;
     } else {
-      position = props.startingPosition;
+      position = props.sectorStartingPosition;
     }
 
     return position

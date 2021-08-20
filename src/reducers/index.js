@@ -14,7 +14,7 @@ export default combineReducers({
 	map: mapReducer,
 	selectedSector: selectedSectorReducer,
 	path: getPathReducer,
-	startingPosition: getStartingPositionReducer,
+	sectorStartingPosition: getStartingPositionReducer,
 	sectorPosition: moveShipReducer,
 	npcShips: npcShipGeneratorReducer,
 	selectedShip: selectedShipReducer,

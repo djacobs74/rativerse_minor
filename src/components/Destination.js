@@ -111,7 +111,7 @@ class Destination extends React.Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
   	path: state.path,
-  	startingPosition: state.startingPosition,
+  	sectorStartingPosition: state.sectorStartingPosition,
   	sectorPosition: state.sectorPosition,
   	map: state.map.gameMap,
 		player: state.playerData,
