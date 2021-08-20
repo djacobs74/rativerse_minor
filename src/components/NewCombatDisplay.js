@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-// import { prettyCoords } from './_utils/displayUtils';
-// import { SHIP_DATA } from './_utils/constants';
-// import Dropdown from 'react-dropdown';
-// import 'react-dropdown/style.css';
-// import { STARTER_SHIPS } from './_utils/constants';
 import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings } from './_utils/combatUtils';
+import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
+import { createMap } from '../actions/map';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
 
 
 class NewCombatDisplay extends Component {
@@ -23,6 +19,12 @@ class NewCombatDisplay extends Component {
 		torpedoes: false,
 		fire: false
 	}
+
+	constructor(props){
+		super(props);
+		this.getCoords = this.props.getSector;     
+		this.clickedSector = [];
+	}	
 
 	componentDidMount = () => {
 		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
@@ -38,35 +40,12 @@ class NewCombatDisplay extends Component {
 				}
 			}
 		})
+
+		const mapSize = [0, 1, 2, 3, 4, 5];
+		this.props.createMap(mapSize, 'combat');
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
-		// debugger;
-		console.log('!!!!!!!! componentDidUpdate');
-		// if((prevState.rangeSetting !== this.state.rangeSetting) || (prevState.npcs.length !== this.state.npcs.length)) {
-		// 	const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
-		// 	this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
-			
-		
-		// 	if(this.state.currentTarget) {
-		// 		const targetNpc = this.state.npcs.find(npc => npc.id === this.state.currentTarget.id);
-		// 		if(targetNpc.inRangePP === false && (this.state.plasmaProjectors === true)) {
-		// 			document.getElementById('plasmaProjectors').classList.remove("active");
-		// 			this.setState({plasmaProjectors: false});
-		// 		}
-		// 		if(targetNpc.inRangeT === false && (this.state.torpedoes === true)) {
-		// 			document.getElementById('torpedoes').classList.remove("active");
-		// 			this.setState({torpedoes: false});
-		// 		}
-		// 	}	
-		// }
-
-		// if(this.state.currentTarget) {
-		// 	clearInterval(this.intervalId);
-		// 	if(!this.state.currentTarget.isDestroyed && (this.state.plasmaProjectors || this.state.torpedoes)) {
-		// 		this.intervalId  = setInterval(this.startCombat, 3000);
-		// 	}
-		// }
 
 		if(!this.state.npcs.length) {
 			// debugger;
@@ -85,48 +64,14 @@ class NewCombatDisplay extends Component {
 
 			}
 		})
-
 	}
 
 
-	// startCombat = () => {
-	// 	// clearInterval(this.intervalId);
-
-	// 	const npcsArrayCopy = _.cloneDeep(this.state.npcs);
-	// 	let currentTargetCopy = npcsArrayCopy.find(npc => npc.id === this.state.currentTarget.id);
-	// 	let currentTarget = this.state.npcs.find(npcc => npcc.id === this.state.currentTarget.id);
-	// 	const data = firePlayerWeapons(this.state.plasmaProjectors, this.state.torpedoes, this.props.currentShip, currentTargetCopy);
 
 
 
-	// 	this.toastMessage(data.toastData.type, data.toastData.msg);
-	// 	if(!data.npcDestroyed) {
-	// 		this.setState({npcs: npcsArrayCopy});
-	// 	}
-		
-	// 	if(data.npcDestroyed) {
-	// 		let destroyedNpc = this.props.npcShips.find(x => x.id === data.currentTarget.id);
-	// 		destroyedNpc.isDestroyed = true;
-	// 		let npcsIndex = npcsArrayCopy.findIndex(x => x.id === data.currentTarget.id);
-	// 		npcsArrayCopy.splice(npcsIndex, 1);
-
-	// 		adjustStandings(data.currentTarget.faction, this.props.player);
 
 
-	// 		this.setState({npcs: npcsArrayCopy, currentTarget: null, plasmaProjectors: false, torpedoes: false});
-
-
-	// 		clearInterval(this.intervalId);
-			
-
-	// 	}
-
-		// if((currentTarget.shields.shieldsHp !== currentTargetCopy.shields.shieldsHp) || (currentTarget.hullHp !== currentTargetCopy.hullHp)) {
-
-		// 	this.toastMessage(data.toastData.type, data.toastData.msg);
-		// 	this.setState({npcs: npcsArrayCopy});
-		// }
-	// }
 
 	toastMessage = (toastType, toastMsg) => {
 		if(toastType === 'success') {
@@ -145,69 +90,42 @@ class NewCombatDisplay extends Component {
 		this.setState({currentTarget: ship});
 	}
 
-	// addNpcToNpcsArray = (ship) => {
-	// 	let npcsArray = this.state.npcs;
-	// 	const currentTarget = npcsArray.find(npc => npc.id === ship.id);
-	// 	if(!currentTarget) {
-	// 		npcsArray.push(ship);
-	// 	}
-	// }
+	oddEven(num) {
+		if(num % 2 === 0) {
+			return 'even'
+		} else {
+			return 'odd'
+		}
+	}
 
-	// toggleRange = (direction) => {
-	// 	document.getElementById('away').classList.remove("active");
-	// 	document.getElementById('closeRange').classList.remove("active");
-	// 	document.getElementById('maxRange').classList.remove("active");
+	updateMap(map) {
+		const npcs = this.state.npcs;
+		const newMap = [...map];
 
-	// 	document.getElementById(direction).classList.add("active");
+		newMap.map(m => { m.npcShips = [] });
 
-	// 	this.setState({rangeSetting: direction});
-	// }
+		npcs.map(n => {
+			let sector = newMap.find( m => (m.x === n.x) && (m.y === n.y) ) 
+			sector && sector.npcShips.push(n);
+		})
+		// debugger;
+		return newMap
+	}
 
-	// togglePlasmas = () => {
-	// 	let plasmas = this.state.plasmaProjectors;
-	// 	const currentTarget = this.state.currentTarget;
-	// 	if(currentTarget && currentTarget.inRangePP) {
-	// 		plasmas = !plasmas;
-	// 	} else {
-	// 		plasmas = false;
-	// 	}
-
-	// 	this.setState({plasmaProjectors: plasmas});
-	// }
-
-	// toggleTorpedoes = () => {
-	// 	let torps = this.state.torpedoes;
-	// 	const currentTarget = this.state.currentTarget;
-	// 	if(currentTarget && currentTarget.inRangeT) {
-	// 		torps = !torps;
-	// 	} else {
-	// 		torps = false;
-	// 	}
-
-	// 	this.setState({torpedoes: torps});
-	// }
-
-	// startRangeInterval = (direction) => {
-	// 	const here = this;
-
-	// 	function rangeDelay () {
-	// 		setInterval(function () {
-	// 			const targetShip = here.props.npcActiveShips.find(s => s.id === here.state.currentTarget.id);
-	// 			const playerShip = here.props.currentShip;
-			
-	// 			const rangeData = setRangeToTarget(targetShip, playerShip, direction);
-	// 			console.log('&&&& range data', rangeData);
-				
-	// 		}, 5000)
-	// 	}
-	// 	rangeDelay();
-	// }
+	clickHandler(m, event) {
+		// debugger;
+		this.clickedSector = [];
+		this.clickedSector.push(m.x, m.y);
+		this.getCoords(m);
+	}
 
 
 	render () {
 		const ship = this.props.currentShip;
 		const npcShipsInCombat = this.state.npcs;
 		const currentTarget = this.state.currentTarget;
+		const mapUpdated = this.updateMap(this.props.map);
+
 		console.log('/// this.state', this.state);
 
 		return (
@@ -240,7 +158,7 @@ class NewCombatDisplay extends Component {
 										<div>{`* Shields: ${s.shields.name} (${s.shields.shieldsHp})`}</div>
 										<div>{`* Hull: ${s.hullHp}`}</div>
 										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value} (Range: ${s.plasmaProjectors.range})`}</div>
-										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
+										{s.toredoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
 										<div>{s.inRangeMsg && `* ${s.inRangeMsg}`}</div>
@@ -250,26 +168,47 @@ class NewCombatDisplay extends Component {
 					))}
 
 				</div>
+
+
+
+
+				<div className="mapBox">
+				
+				{mapUpdated && mapUpdated.map((m, index) => (
+					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={() => this.clickHandler(m)} > 
+						<div className={`sector sectorTop ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+		    			<div className={`sector sectorMiddle ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
+		    				{m.npcShips.length
+			    				? m.npcShips.map(ship =>
+			    					<div className={`${ship.value}`} key={ship.id}></div>
+			    				) : <div></div>
+		    				}
+		    			</div>
+		    			<div className={`sector sectorBottom ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+					</div>
+	    		))}
+				</div>
+
+
+
 			</div>
 		);
 	}
-
-
-
 }
-	
+
+
+
 
 
 const mapStateToProps = state => ({
-  	sector: state.selectedSector,
+	sector: state.selectedSector,
   	path: state.path,
   	currentShip: state.selectedShip,
   	sectorPosition: state.sectorPosition,
   	npcShips: state.npcShips,
   	npcActiveShips: state.npcActiveShips,
-  	player: state.playerData
+		player: state.playerData,
+		map: state.map.combatMap
 });
 
-
-
-export default connect(mapStateToProps, {playerData})(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData })(NewCombatDisplay);

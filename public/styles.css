@@ -61,7 +61,9 @@ button {
 	padding-left: 50px;
     display: inline-block;
     position: relative;
-    width: 1250px;
+		width: 1250px;
+		margin-right: 350px;
+		margin-left: 475px;
 }
 
 .hud {
@@ -328,6 +330,8 @@ button {
 
 .huds-wrapper {
 	width: 500px;
+	z-index: 99;
+	position: fixed;
 }
 
 .cpSection {
@@ -420,4 +424,8 @@ button {
 
 .playerControlWrapper button.torpedoesReady.active {
 	background: #095e12;
+}
+
+.combatControlPanelWrapper {
+	display: inline-block;
 }

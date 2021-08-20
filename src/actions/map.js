@@ -120,7 +120,7 @@ export const createMap = (mapSize, type) => async dispatch => {
 	if(type === 'combat') {
 		dispatch({type: 'COMBAT_MAP_CREATED', payload: starMap});
 	}
-	console.log('starMap', starMap);
+	console.log(`${type} map created!` , starMap);
 
 	// dispatch({type: 'MAP_CREATED', payload: starMap});
 	
