@@ -109,7 +109,7 @@ export const getPath = (position, destination, newPath) => {
 	}
 
 	let shortestPath = pathOptions[0];
-	console.log('pathOptions', pathOptions);
+	// console.log('pathOptions', pathOptions);
 	// console.log('shortestPath', shortestPath);
 	// console.log('REDUCE PATHS', pathOptions.reduce((prev, next) => prev.length > next.length ? next : prev));
 
@@ -132,7 +132,7 @@ export const getPath = (position, destination, newPath) => {
 	}
 
 	
-	console.log('PATH', path);
+	// console.log('PATH', path);
 
 
   	// return {type: 'PATH_SET', payload: path};
