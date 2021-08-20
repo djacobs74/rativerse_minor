@@ -12,7 +12,7 @@
 // 	map: createMapReducer
 // });
 
-let initialState = {gameMap: []};
+let initialState = {gameMap: [], combatMap: []};
 
 export default (state = initialState, action) => {
 	switch (action.type) {
@@ -20,6 +20,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				gameMap: action.payload
+			}
+		case 'COMBAT_MAP_CREATED':
+			return {
+				...state,
+				combatMap: action.payload
 			}
 		default:
 			return state;

@@ -97,9 +97,18 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 	console.log('### npcShipMover npcShipsActive', npcShipsActive);
 	// debugger;
 	return (dispatch) => {
-  		dispatch({type: 'NPC_SHIP_MOVER', payload: npcShipsActive});
+			dispatch({type: 'NPC_SHIP_MOVER'});
+			dispatch(npcShipsUpdated(npcShipsActive))
   	}
 
 
 };
+
+
+export const npcShipsUpdated = (npcShipsUpdated) => {
+	return (dispatch) => { dispatch({type: 'NPC_SHIPS_UPDATED', payload: npcShipsUpdated})} ;
+}
+
+
+
 
