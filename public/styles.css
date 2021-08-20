@@ -428,4 +428,5 @@ button {
 
 .combatControlPanelWrapper {
 	display: inline-block;
+	position: absolute;
 }
