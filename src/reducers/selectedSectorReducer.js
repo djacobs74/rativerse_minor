@@ -1,14 +1,27 @@
-const initialState = [];
+const initialState = {gameMapSector:[], combatMapSector:[]};
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case 'SECTOR_SELECTED':
-		// debugger;
-			let selected = [];
-			selected.push(action.payload);
-			// debugger;
-			return selected;
+		// case 'GAME_SECTOR_SELECTED':
+		// 	let selected = [];
+		// 	selected.push(action.payload);
+		// 	debugger;
+		// 	return selected;
+		case 'GAME_SECTOR_SELECTED':
+			let selectedGameSector = [];
+			selectedGameSector.push(action.payload);
+			return {...state,
+				gameMapSector: selectedGameSector
+			}
+		case 'COMBAT_SECTOR_SELECTED':
+			let selectedCombatSector = [];
+			selectedCombatSector.push(action.payload);
+			return {...state,
+				combatMapSector: selectedCombatSector
+			}
 		default:
 			return state;
 	}
 }
+
+

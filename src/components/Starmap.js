@@ -44,7 +44,7 @@ class StarMap extends Component {
 		// debugger;
 		this.clickedSector = [];
 		this.clickedSector.push(m.x, m.y);
-		this.getCoords(m);
+		this.getCoords(m, 'game');
 	}
 
 	pathSec(m) {

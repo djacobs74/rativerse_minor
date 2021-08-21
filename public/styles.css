@@ -92,8 +92,9 @@ button {
 
 .hud.docked {
 	position: relative;
-    height: auto;
-    margin-top: 20px;
+	height: auto;
+	margin-top: 20px;
+	margin-bottom: 25px;
 }
 
 .sectorWrapper {
@@ -332,6 +333,8 @@ button {
 	width: 500px;
 	z-index: 99;
 	position: fixed;
+	overflow-y: auto;
+	height: 100%;
 }
 
 .cpSection {

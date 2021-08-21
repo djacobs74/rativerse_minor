@@ -22,7 +22,7 @@ class NewCombatDisplay extends Component {
 
 	constructor(props){
 		super(props);
-		this.getCoords = this.props.getSector;     
+		// this.getCoords = this.props.getSector;     
 		this.clickedSector = [];
 	}	
 
@@ -116,7 +116,7 @@ class NewCombatDisplay extends Component {
 		// debugger;
 		this.clickedSector = [];
 		this.clickedSector.push(m.x, m.y);
-		this.getCoords(m);
+		this.props.getSector(m, 'combat');
 	}
 
 
