@@ -53,7 +53,7 @@ class Destination extends React.Component {
 	  	if( (destination[0] !== position[0]) || (destination[1] !== position[1]) ) {
 	  		if( (moving === false || moving == null) && destination.length ) {
 	  			this.moving(true);
-	  			this.props.moveShip(position, this.props.path, martelDriveRating);
+	  			this.props.moveShip(position, this.props.path, martelDriveRating, 'game');
 	  			toast.success('Martel Drive Engaged');
 	  		}
 	  		
