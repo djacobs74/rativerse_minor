@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
+import { getPath } from '../actions/getPath';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
+import { getPosition } from './_utils/movement';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -17,7 +19,9 @@ class NewCombatDisplay extends Component {
 		rangeSetting: 'away',
 		plasmaProjectors: false,
 		torpedoes: false,
-		fire: false
+		fire: false,
+		destination: [],
+		moving: false
 	}
 
 	constructor(props){
@@ -66,9 +70,47 @@ class NewCombatDisplay extends Component {
 		})
 	}
 
+	setDestination() {
+		if(this.props.sector.length) {
+			const position = getPosition(this.props);
+			// debugger;
+			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
+			this.setState({destination: destinationCoords});
+			this.props.getPath(position, destinationCoords);
+			toast.success(`Destination set to ${destinationCoords}`, 'success');
+		}
+	}
 
+	sublightDrive() {
+		const position = getPosition(this.props);
+		const moving = this.state.moving;
+		const destination = this.state.destination;
+		const martelDriveRating = this.props.currentShip.martelDrive;
+		
+		if( (destination[0] !== position[0]) || (destination[1] !== position[1]) ) {
+			if( (moving === false || moving == null) && destination.length ) {
+				this.moving(true);
+				this.props.moveShip(position, this.props.path, martelDriveRating);
+				toast.success('Martel Drive Engaged');
+			}
+			
+		}
+	}
 
+	moving(moving) {
+		// debugger;
+		const position = getPosition(this.props);
+		const destination = this.state.destination;
+		let shipMoving = false;
 
+		if ( (destination[0] === position[0]) && (destination[1] === position[1]) && (moving === true)) {
+			shipMoving = false;
+			toast.success(`Destination Reached: ${position}`);
+		} else if (moving) {
+			shipMoving = true;
+		}
+		this.setState({moving: shipMoving})
+	}
 
 
 
@@ -119,12 +161,47 @@ class NewCombatDisplay extends Component {
 		this.props.getSector(m, 'combat');
 	}
 
+	pathSec(m) {
+		let pathingSec = '';
+		let mapSec = [];
+		mapSec.push(m['x'], m['y']);
+		const setPath = this.props.path;
+		const pathLength = setPath.length;
+		let i = 0;
+		let position = this.props.sectorPosition.position || [];
+	
+		if(pathLength > 1){
+			for (i = 0; i < pathLength; i++) {
+			
+			 	if(setPath[i][0] === mapSec[0] && setPath[i][1] === mapSec[1]) {
+			 		pathingSec = 'pathingSec';
+			 	}
+			}
+		}
+
+		if(position.length) {
+			if(position[0] === mapSec[0] && position[1] === mapSec[1]) {
+				pathingSec = 'currentSector';
+			}
+		} else {
+			if(this.props.sectorStartingPosition[0] === mapSec[0] && this.props.sectorStartingPosition[1] === mapSec[1]) {
+				pathingSec = 'currentSector';
+			}
+		}
+		
+		return pathingSec
+	}
+
 
 	render () {
 		const ship = this.props.currentShip;
 		const npcShipsInCombat = this.state.npcs;
 		const currentTarget = this.state.currentTarget;
 		const mapUpdated = this.updateMap(this.props.map);
+		const moving = this.state.moving;
+		const destination = this.state.destination;
+		const position = this.props.sectorPosition.position || [];
+		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 
 		console.log('/// this.state', this.state);
 
@@ -139,12 +216,27 @@ class NewCombatDisplay extends Component {
 								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} (Range: ${ship.plasmaProjectors.range})`}</div>
 								<div>{ship.torpedoes && `* ${ship.torpedoes.name} (Range: ${ship.torpedoes.range})`}</div>
-								<div>* Sublight Speed: {ship.sublightSpeed}</div>
+								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
 								<div>* Signature: {ship.signature}</div>
 								<div>* Scanner: {ship.scanner}</div>
 						
 							</div>
 						</div>
+					</div>
+
+
+					<div className="cpSection destination-wrapper">
+						<div className="header">Navigation</div>
+						<div>
+								Set Destination To Selected Sector: 
+								{/*<input className="moveLabelInput" type="text" value={this.props.sector} onChange={this.handleChange} />*/}
+								<button ref="destinationBtn" disabled={moving} className="moveLabelInput" onClick={() => this.setDestination()}>Set Destination</button>
+						</div>
+						{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
+						<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
+							<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
+							<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.sublightDrive()}>Engage Martel Drive</button>
+							<button ref="dockBtn" disabled={moving} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
 					</div>
 
 				
@@ -176,15 +268,15 @@ class NewCombatDisplay extends Component {
 				
 				{mapUpdated && mapUpdated.map((m, index) => (
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={() => this.clickHandler(m)} > 
-						<div className={`sector sectorTop ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
-		    			<div className={`sector sectorMiddle ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
+						<div className={`sector sectorTop ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length
 			    				? m.npcShips.map(ship =>
 			    					<div className={`${ship.value}`} key={ship.id}></div>
 			    				) : <div></div>
 		    				}
 		    			</div>
-		    			<div className={`sector sectorBottom ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
+		    			<div className={`sector sectorBottom ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>
 	    		))}
 				</div>
@@ -201,14 +293,14 @@ class NewCombatDisplay extends Component {
 
 
 const mapStateToProps = state => ({
-	sector: state.selectedSector,
-  	path: state.path,
-  	currentShip: state.selectedShip,
-  	sectorPosition: state.sectorPosition,
-  	npcShips: state.npcShips,
-  	npcActiveShips: state.npcActiveShips,
-		player: state.playerData,
-		map: state.map.combatMap
+	sector: state.selectedSector.combatMapSector,
+	path: state.path,
+	currentShip: state.selectedShip,
+	sectorPosition: state.sectorPosition,
+	npcShips: state.npcShips,
+	npcActiveShips: state.npcActiveShips,
+	player: state.playerData,
+	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath })(NewCombatDisplay);

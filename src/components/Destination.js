@@ -103,7 +103,7 @@ class Destination extends React.Component {
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 	  			<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
 	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
-	  		</div>
+	  	</div>
 		);
   	}
 }
