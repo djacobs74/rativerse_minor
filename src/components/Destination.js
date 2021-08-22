@@ -4,7 +4,7 @@ import { getPath } from '../actions/getPath';
 import { getStartingPosition } from '../actions/getStartingPosition';
 import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
-import { getPosition, getDockOption } from './_utils/movement';
+import { getDockOption } from './_utils/movement';
 import { toast } from 'react-toastify';
 import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,8 +35,9 @@ class Destination extends React.Component {
 
 	setDestination() {
 		if(this.props.sector.length) {
-			const position = getPosition(this.props);
+			// const position = getPosition(this.props);
 			// debugger;
+			const position = this.props.sectorPosition;
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
 			this.props.getPath(position, destinationCoords);
@@ -45,7 +46,8 @@ class Destination extends React.Component {
 	}
 
   	martelDrive() {
-	  	const position = getPosition(this.props);
+			// const position = getPosition(this.props);
+			const position = this.props.sectorPosition;
 	  	const moving = this.state.moving;
 			const destination = this.state.destination;
 			const martelDriveRating = this.props.currentShip.martelDrive;
@@ -62,7 +64,8 @@ class Destination extends React.Component {
 
 	moving(moving) {
 		// debugger;
-		const position = getPosition(this.props);
+		// const position = getPosition(this.props);
+		const position = this.props.sectorPosition;
 		const destination = this.state.destination;
 		let shipMoving = false;
 
@@ -83,10 +86,10 @@ class Destination extends React.Component {
 
 
   	render() {
-  		const position = this.props.sectorPosition.position || [];   		
+  		const position = this.props.sectorPosition || [];   		
   		const moving = this.state.moving;
   		const destination = this.state.destination;
-  		let dockOption = getDockOption(this.props.sectorPosition, this.props.map);
+  		let dockOption = getDockOption(position, this.props.map);
   		// console.log('***** DOCKED', this.props.player.docked);
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
@@ -111,8 +114,7 @@ class Destination extends React.Component {
 const mapStateToProps = state => ({
   	sector: state.selectedSector.gameMapSector,
   	path: state.path,
-  	sectorStartingPosition: state.sectorStartingPosition,
-  	sectorPosition: state.sectorPosition,
+  	sectorPosition: state.sectorPosition.position,
   	map: state.map.gameMap,
 		player: state.playerData,
 		currentShip: state.selectedShip

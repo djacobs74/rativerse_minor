@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
-import { getPosition } from './_utils/movement';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -72,7 +71,7 @@ class NewCombatDisplay extends Component {
 
 	setDestination() {
 		if(this.props.sector.length) {
-			const position = getPosition(this.props);
+			const position = this.props.sectorPosition;
 			// debugger;
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
@@ -82,7 +81,7 @@ class NewCombatDisplay extends Component {
 	}
 
 	sublightDrive() {
-		const position = getPosition(this.props);
+		const position = this.props.sectorPosition;
 		const moving = this.state.moving;
 		const destination = this.state.destination;
 		const martelDriveRating = this.props.currentShip.martelDrive;
@@ -99,7 +98,7 @@ class NewCombatDisplay extends Component {
 
 	moving(moving) {
 		// debugger;
-		const position = getPosition(this.props);
+		const position = this.props.sectorPosition;
 		const destination = this.state.destination;
 		let shipMoving = false;
 
@@ -183,11 +182,7 @@ class NewCombatDisplay extends Component {
 			if(position[0] === mapSec[0] && position[1] === mapSec[1]) {
 				pathingSec = 'currentSector';
 			}
-		} else {
-			if(this.props.sectorStartingPosition[0] === mapSec[0] && this.props.sectorStartingPosition[1] === mapSec[1]) {
-				pathingSec = 'currentSector';
-			}
-		}
+		} 
 		
 		return pathingSec
 	}
@@ -296,7 +291,7 @@ const mapStateToProps = state => ({
 	sector: state.selectedSector.combatMapSector,
 	path: state.path,
 	currentShip: state.selectedShip,
-	sectorPosition: state.sectorPosition,
+	sectorPosition: state.sectorPosition.combatPosition,
 	npcShips: state.npcShips,
 	npcActiveShips: state.npcActiveShips,
 	player: state.playerData,

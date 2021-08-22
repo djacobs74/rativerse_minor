@@ -54,7 +54,7 @@ class StarMap extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
-		let position = this.props.sectorPosition.position || [];
+		let position = this.props.sectorPosition || [];
 	
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
@@ -69,11 +69,13 @@ class StarMap extends Component {
 			if(position[0] === mapSec[0] && position[1] === mapSec[1]) {
 				pathingSec = 'currentSector';
 			}
-		} else {
-			if(this.props.sectorStartingPosition[0] === mapSec[0] && this.props.sectorStartingPosition[1] === mapSec[1]) {
-				pathingSec = 'currentSector';
-			}
-		}
+		} 
+		// else {
+		// 	debugger;
+		// 	if(this.props.sectorStartingPosition[0] === mapSec[0] && this.props.sectorStartingPosition[1] === mapSec[1]) {
+		// 		pathingSec = 'currentSector';
+		// 	}
+		// }
 		
 		return pathingSec
 	}
@@ -147,8 +149,7 @@ const mapStateToProps = state => ({
 	map: state.map.gameMap,
 	sector: state.selectedSector,
 	path: state.path,
-	sectorStartingPosition: state.sectorStartingPosition,
-	sectorPosition: state.sectorPosition,
+	sectorPosition: state.sectorPosition.position,
 	npcShips: state.npcShips,
 	dockingAreas: state.dockingAreas,
 	npcActiveShips: state.npcActiveShips

@@ -9,18 +9,6 @@ export const pathCheck = (hex, mapType) => {
 	return true
 }
 
-export const getPosition = (props) => {
-	let position = [];
-	let sectorPosition = props.sectorPosition.position || [];
-	if(sectorPosition.length) {
-      position = sectorPosition;
-    } else {
-      position = props.sectorStartingPosition;
-    }
-
-    return position
-}
-
 export const moveCheck = (position, destination) => {
 	let moving = true;
 	if(position && destination) {
@@ -36,10 +24,10 @@ export const getDockOption = (position, map) => {
 	// console.log('POSITION', position);
 	let canDock = false;
 	
-	if (position.position && position.position.length) {
+	if (position && position.length) {
 		
 		map.map(m => {
-			if ((position.position[0] === m.x) && (position.position[1] === m.y)) {
+			if ((position[0] === m.x) && (position[1] === m.y)) {
 			
 				if (m.dockingArea.length) {
 					canDock = true;
