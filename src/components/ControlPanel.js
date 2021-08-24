@@ -122,7 +122,6 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector.gameMapSector,
-  	path: state.path,
   	currentShip: state.selectedShip,
   	sectorPosition: state.sectorPosition,
   	npcShips: state.npcShips,

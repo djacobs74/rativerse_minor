@@ -154,7 +154,6 @@ class Game extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	path: state.path,
   	currentShip: state.selectedShip,
   	player: state.playerData,
   	npcActiveShips: state.npcActiveShips,

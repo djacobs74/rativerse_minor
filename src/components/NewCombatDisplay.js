@@ -289,7 +289,7 @@ class NewCombatDisplay extends Component {
 
 const mapStateToProps = state => ({
 	sector: state.selectedSector.combatMapSector,
-	path: state.path,
+	path: state.path.combatPath,
 	currentShip: state.selectedShip,
 	sectorPosition: state.sectorPosition.combatPosition,
 	npcShips: state.npcShips,
