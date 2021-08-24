@@ -1,7 +1,7 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 import { pathCheck } from '.././components/_utils/movement';
 
-export const getPath = (position, destination, newPath) => {
+export const getPath = (position, destination, newPath, mapType) => {
 	// debugger;
 	// PUT TIMEOUT HERE? WILL BE BASED ON MARTEL DRIVE, FOR NOW DEFAULT TIME
 
@@ -134,11 +134,11 @@ export const getPath = (position, destination, newPath) => {
 	
 	// console.log('PATH', path);
 
-
-  	// return {type: 'PATH_SET', payload: path};
-  	return (dispatch) => {
-  		dispatch({type: 'PATH_SET', payload: path});
-  	}
+	const pathType = mapType === 'game' ? 'PATH_SET' : 'COMBAT_PATH_SET';
+	// return {type: 'PATH_SET', payload: path};
+	return (dispatch) => {
+		dispatch({type: pathType, payload: path});
+	}
 };
 
 // TODO : func for path. show path in control panel? flagged sectors appear as red

@@ -13,7 +13,7 @@ export const moveShip = (position, path, speedRating, mapType) => {
 
 
 	function getNewPath (newPath) {
-		getPath(nullPosition, nullDestination, newPath);
+		getPath(nullPosition, nullDestination, newPath, mapType);
 	}
 	// debugger;
 

@@ -40,7 +40,7 @@ class Destination extends React.Component {
 			const position = this.props.sectorPosition;
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
-			this.props.getPath(position, destinationCoords);
+			this.props.getPath(position, destinationCoords, null, 'game');
 			toast.success(`Destination set to ${destinationCoords}`, 'success');
 		}
 	}
