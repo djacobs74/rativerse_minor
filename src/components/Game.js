@@ -26,11 +26,6 @@ class Game extends Component {
 	    // this.dockHandler = this.dockHandler.bind(this)
 	 }
 
-	state = {
-		// docked: false,
-		startingCombat: false
-	}
-
 	componentDidMount = () => {
 		const newGame = true;
 		const mapSize = [0, 1, 2, 3, 4, 5];
@@ -41,12 +36,6 @@ class Game extends Component {
 		this.createNpcShips(this.props);
 	}
 
-	componentDidUpdate = (prevProps) => {
-		if(this.state.startingCombat === false && (this.state.startingCombat !== this.props.player.inCombat)) {
-			this.setState({startingCombat: true});
-			this.props.player.inCombat && toast.error('ENTERING COMBAT !!');
-		}
-	}
 
 	// dockHandler() {
 	// 	// console.log('DOCKED SECTOR', this.props.sector);

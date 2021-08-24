@@ -131,9 +131,6 @@ export const getPath = (position, destination, newPath, mapType) => {
 		}
 	}
 
-	
-	console.log('*** PATH', path);
-
 	const pathType = mapType === 'game' ? 'PATH_SET' : 'COMBAT_PATH_SET';
 	// return {type: 'PATH_SET', payload: path};
 	return (dispatch) => {
