@@ -57,7 +57,6 @@ class StarMap extends Component {
 		let position = this.props.sectorPosition || [];
 
 		if(pathLength > 1){
-			console.log('!!', pathLength);
 			for (i = 0; i < pathLength; i++) {
 			
 			 	if(setPath[i][0] === mapSec[0] && setPath[i][1] === mapSec[1]) {
