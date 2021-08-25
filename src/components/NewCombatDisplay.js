@@ -3,6 +3,7 @@ import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adju
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
+import { moveShip } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
 import 'react-toastify/dist/ReactToastify.css';
@@ -68,6 +69,10 @@ class NewCombatDisplay extends Component {
 
 			}
 		})
+
+		if (prevProps.sectorPosition !== this.props.sectorPosition) {
+			this.moving(true);
+		}
 	}
 
 	setDestination() {
@@ -85,13 +90,13 @@ class NewCombatDisplay extends Component {
 		const position = this.props.sectorPosition;
 		const moving = this.state.moving;
 		const destination = this.state.destination;
-		const martelDriveRating = this.props.currentShip.martelDrive;
+		const sublightDriveRating = this.props.currentShip.sublightSpeed;
 		
 		if( (destination[0] !== position[0]) || (destination[1] !== position[1]) ) {
 			if( (moving === false || moving == null) && destination.length ) {
 				this.moving(true);
-				this.props.moveShip(position, this.props.path, martelDriveRating, 'combat');
-				toast.success('Martel Drive Engaged');
+				this.props.moveShip(position, this.props.path, sublightDriveRating, 'combat');
+				toast.success('Sublight Drive Engaged');
 			}
 			
 		}
@@ -196,7 +201,7 @@ class NewCombatDisplay extends Component {
 		const mapUpdated = this.updateMap(this.props.map);
 		const moving = this.state.moving;
 		const destination = this.state.destination;
-		const position = this.props.sectorPosition.position || [];
+		const position = this.props.sectorPosition || [];
 		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 
 		console.log('/// this.state', this.state);
@@ -298,4 +303,4 @@ const mapStateToProps = state => ({
 	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip })(NewCombatDisplay);

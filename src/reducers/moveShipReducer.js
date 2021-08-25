@@ -9,9 +9,10 @@ export default (state = initialState, action) => {
 				position: action.payload.position
 			}
 		case 'COMBAT_MOVE_SHIP':
+			// debugger;
 			return {...state,
-				combatMoving: action.payload.combatMoving,
-				combatPosition: action.payload.combatPosition
+				combatMoving: action.payload.moving,
+				combatPosition: action.payload.position
 			}
 		default:
 			return state;
