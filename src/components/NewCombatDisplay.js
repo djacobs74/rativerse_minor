@@ -168,7 +168,7 @@ class NewCombatDisplay extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
-		let position = this.props.sectorPosition.position || [];
+		let position = this.props.sectorPosition || [];
 	
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
