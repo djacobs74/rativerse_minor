@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation, moveNpcShip } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -46,6 +46,9 @@ class NewCombatDisplay extends Component {
 		const mapSize = [0, 1, 2, 3, 4, 5];
 		this.props.createMap(mapSize, 'combat');
 		toast.error('ENTERING COMBAT !!');
+
+		console.log('!!!!! MOUNTED startNpcMovement');
+		this.intervalId  = setInterval(this.startNpcMovement, 4000);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -56,7 +59,6 @@ class NewCombatDisplay extends Component {
 			this.props.playerData(false, this.props.player);
 		}
 
-
 		this.props.npcActiveShips.map(s => {
 			if(s.inCombat && !s.isDestroyed) {
 				let npcsArray = this.state.npcs;
@@ -64,7 +66,6 @@ class NewCombatDisplay extends Component {
 					setNpcStartingLocation(s);
 					npcsArray.push(s);
 				}
-
 			}
 		})
 
@@ -114,9 +115,6 @@ class NewCombatDisplay extends Component {
 		}
 		this.setState({moving: shipMoving})
 	}
-
-
-
 
 	toastMessage = (toastType, toastMsg) => {
 		if(toastType === 'success') {
@@ -190,6 +188,14 @@ class NewCombatDisplay extends Component {
 		} 
 		
 		return pathingSec
+	}
+
+	startNpcMovement = () => {
+		const npcs = this.state.npcs;
+		console.log('!!!!!  startNpcMovement');
+		npcs.forEach(n => {
+			moveNpcShip(n);
+		})
 	}
 
 

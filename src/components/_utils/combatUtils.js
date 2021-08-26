@@ -1,3 +1,5 @@
+import { rangeOne } from './rangeOne';
+import { pathCheck } from './movement';
 
 export const getStartingRange = () => {
   	return Math.floor(Math.random() * (11 - 5) + 5);
@@ -261,11 +263,56 @@ export const setNpcStartingLocation = (ship) => {
 
 	let y = Math.floor(Math.random()*5) + 1;
 	y *= Math.round(Math.random()) ? 1 : -1;
-	
+
 	ship.combatPositionX = x;
 	ship.combatPositionY = y;
 
 	return ship
 }
 
+export const moveNpcShip = (npc) => {
+	let posX = npc.combatPositionX;
+	let posY = npc.combatPositionY;
+	let moveOptions = [];
+	let newCoords = [];
+	let rangeOneResults = rangeOne(posX, posY);
+
+	if(pathCheck(rangeOneResults.bottomRight)) {
+		moveOptions.push(rangeOneResults.bottomRight);
+	}
+	
+	if(pathCheck(rangeOneResults.bottomLeft)) {
+		moveOptions.push(rangeOneResults.bottomLeft);
+	}
+
+	if(pathCheck(rangeOneResults.topLeft)) {
+		moveOptions.push(rangeOneResults.topLeft);
+	}
+
+	if(pathCheck(rangeOneResults.topRight)) {
+		moveOptions.push(rangeOneResults.topRight);
+	}
+
+	if(pathCheck(rangeOneResults.left)) {
+		moveOptions.push(rangeOneResults.left);
+	}
+
+	if(pathCheck(rangeOneResults.right)) {
+		moveOptions.push(rangeOneResults.right);
+	}
+
+	let option = 0;
+	
+	let length = moveOptions.length;
+
+	if (moveOptions.length) {
+		option = Math.floor(Math.random() * Math.floor(length));
+	}
+
+	newCoords = moveOptions[option];
+
+	npc.combatPositionX = newCoords[0];
+	npc.combatPositionY = newCoords[1];
+
+}
 
