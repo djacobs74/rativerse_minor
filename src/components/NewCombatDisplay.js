@@ -251,7 +251,7 @@ class NewCombatDisplay extends Component {
 										<div>{`* Hull: ${s.hullHp}`}</div>
 										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value} (Range: ${s.plasmaProjectors.range})`}</div>
 										{s.toredoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
-										<div>{`* Sublight Speed: ${s.sublightSpeed}`}</div>
+										<div>{`* Sublight Drive: ${s.sublightSpeed.name}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
 										<div>{s.inRangeMsg && `* ${s.inRangeMsg}`}</div>
 									</div>
