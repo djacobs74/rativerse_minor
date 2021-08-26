@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation, moveNpcShip } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation, moveNpcShips } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -64,6 +64,7 @@ class NewCombatDisplay extends Component {
 				let npcsArray = this.state.npcs;
 				if(!npcsArray.some(npc => npc.id === s.id)) {
 					setNpcStartingLocation(s);
+					console.log('!!!!! Updated setNpcStartingLocation');
 					npcsArray.push(s);
 				}
 			}
@@ -193,9 +194,9 @@ class NewCombatDisplay extends Component {
 	startNpcMovement = () => {
 		const npcs = this.state.npcs;
 		console.log('!!!!!  startNpcMovement');
-		npcs.forEach(n => {
-			moveNpcShip(n);
-		})
+
+		const updatedNpcs = moveNpcShips(npcs);
+		this.setState({npcs: updatedNpcs});
 	}
 
 

@@ -270,49 +270,56 @@ export const setNpcStartingLocation = (ship) => {
 	return ship
 }
 
-export const moveNpcShip = (npc) => {
-	let posX = npc.combatPositionX;
-	let posY = npc.combatPositionY;
-	let moveOptions = [];
-	let newCoords = [];
-	let rangeOneResults = rangeOne(posX, posY);
+export const moveNpcShips = (npcs) => {
 
-	if(pathCheck(rangeOneResults.bottomRight)) {
-		moveOptions.push(rangeOneResults.bottomRight);
-	}
+	let updatedNpcs = [];
+
+	npcs.map(npc => {
+		let posX = npc.combatPositionX;
+		let posY = npc.combatPositionY;
+		let moveOptions = [];
+		let newCoords = [];
+		let rangeOneResults = rangeOne(posX, posY);
 	
-	if(pathCheck(rangeOneResults.bottomLeft)) {
-		moveOptions.push(rangeOneResults.bottomLeft);
-	}
-
-	if(pathCheck(rangeOneResults.topLeft)) {
-		moveOptions.push(rangeOneResults.topLeft);
-	}
-
-	if(pathCheck(rangeOneResults.topRight)) {
-		moveOptions.push(rangeOneResults.topRight);
-	}
-
-	if(pathCheck(rangeOneResults.left)) {
-		moveOptions.push(rangeOneResults.left);
-	}
-
-	if(pathCheck(rangeOneResults.right)) {
-		moveOptions.push(rangeOneResults.right);
-	}
-
-	let option = 0;
+		if(pathCheck(rangeOneResults.bottomRight)) {
+			moveOptions.push(rangeOneResults.bottomRight);
+		}
+		
+		if(pathCheck(rangeOneResults.bottomLeft)) {
+			moveOptions.push(rangeOneResults.bottomLeft);
+		}
 	
-	let length = moveOptions.length;
+		if(pathCheck(rangeOneResults.topLeft)) {
+			moveOptions.push(rangeOneResults.topLeft);
+		}
+	
+		if(pathCheck(rangeOneResults.topRight)) {
+			moveOptions.push(rangeOneResults.topRight);
+		}
+	
+		if(pathCheck(rangeOneResults.left)) {
+			moveOptions.push(rangeOneResults.left);
+		}
+	
+		if(pathCheck(rangeOneResults.right)) {
+			moveOptions.push(rangeOneResults.right);
+		}
+	
+		let option = 0;
+		
+		let length = moveOptions.length;
+	
+		if (moveOptions.length) {
+			option = Math.floor(Math.random() * Math.floor(length));
+		}
+	
+		newCoords = moveOptions[option];
+	
+		npc.combatPositionX = newCoords[0];
+		npc.combatPositionY = newCoords[1];
 
-	if (moveOptions.length) {
-		option = Math.floor(Math.random() * Math.floor(length));
-	}
-
-	newCoords = moveOptions[option];
-
-	npc.combatPositionX = newCoords[0];
-	npc.combatPositionY = newCoords[1];
-
+		updatedNpcs.push(npc);
+	})
+	return updatedNpcs
 }
 
