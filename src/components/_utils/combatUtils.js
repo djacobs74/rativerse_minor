@@ -254,3 +254,16 @@ export const adjustStandings = (faction, playerData) => {
 }
 
 
+export const setNpcStartingLocation = (ship) => {
+	let x = Math.floor(Math.random()*5) + 1;
+	x *= Math.round(Math.random()) ? 1 : -1;
+
+	let y = Math.floor(Math.random()*5) + 1;
+	y *= Math.round(Math.random()) ? 1 : -1;
+	ship.combatPositionX = x;
+	ship.combatPositionY = y;
+
+	return ship
+}
+
+

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings } from './_utils/combatUtils';
+import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -38,10 +38,8 @@ class NewCombatDisplay extends Component {
 		this.props.npcActiveShips.map(s => {
 			if(s.inCombat) {
 				let npcsArray = this.state.npcs;
-				const currentTarget = npcsArray.find(npc => npc.id === s.id);
-				if(!currentTarget) {
-					npcsArray.push(s);
-				}
+				setNpcStartingLocation(s);
+				npcsArray.push(s);
 			}
 		})
 
@@ -63,8 +61,8 @@ class NewCombatDisplay extends Component {
 			if(s.inCombat && !s.isDestroyed) {
 				let npcsArray = this.state.npcs;
 				if(!npcsArray.some(npc => npc.id === s.id)) {
+					setNpcStartingLocation(s);
 					npcsArray.push(s);
-					checkRange(npcsArray, this.props.currentShip, this.state.rangeSetting);
 				}
 
 			}
@@ -152,7 +150,8 @@ class NewCombatDisplay extends Component {
 		newMap.map(m => { m.npcShips = [] });
 
 		npcs.map(n => {
-			let sector = newMap.find( m => (m.x === n.x) && (m.y === n.y) ) 
+			// debugger;
+			let sector = newMap.find( m => (m.x === n.combatPositionX) && (m.y === n.combatPositionY) ) 
 			sector && sector.npcShips.push(n);
 		})
 		// debugger;
