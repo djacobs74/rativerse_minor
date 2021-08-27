@@ -270,9 +270,17 @@ export const setNpcStartingLocation = (ship) => {
 	return ship
 }
 
-export const moveNpcShips = (npcs) => {
+export const moveNpcShips = (npcs, playerPosition) => {
+	//  user getPath.js logic //
+	/////// LOGIC ////////
+	// get optimal range for npc - 
+	// set dest to player ship - check path length (range)
+	// at optimal - dont move
+	// outside optimal - move toward
+	// closer than optimal - move away
 
 	let updatedNpcs = [];
+
 
 	npcs.map(npc => {
 		let posX = npc.combatPositionX;
@@ -280,29 +288,58 @@ export const moveNpcShips = (npcs) => {
 		let moveOptions = [];
 		let newCoords = [];
 		let rangeOneResults = rangeOne(posX, posY);
+
+		const destX = playerPosition[0];
+		const destY = playerPosition[1];
 	
-		if(pathCheck(rangeOneResults.bottomRight)) {
-			moveOptions.push(rangeOneResults.bottomRight);
+		if (posX < destX) {
+			if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
+				// console.log('moving down-right');
+				if(pathCheck(rangeOneResults.bottomRight)) {
+					moveOptions.push(rangeOneResults.bottomRight);
+				}
+				
+			}
+		} 
+		if (posX < destX) {
+			if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
+				// console.log('moving down-left');
+				if(pathCheck(rangeOneResults.bottomLeft)) {
+					moveOptions.push(rangeOneResults.bottomLeft);
+				}
+			}
 		}
-		
-		if(pathCheck(rangeOneResults.bottomLeft)) {
-			moveOptions.push(rangeOneResults.bottomLeft);
+		if (destX < posX) {
+			if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
+				// console.log('moving top-left');
+				if(pathCheck(rangeOneResults.topLeft)) {
+					moveOptions.push(rangeOneResults.topLeft);
+				}
+			}	
 		}
-	
-		if(pathCheck(rangeOneResults.topLeft)) {
-			moveOptions.push(rangeOneResults.topLeft);
+		if (destX < posX) {
+			if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
+				// console.log('moving top-right');
+				if(pathCheck(rangeOneResults.topRight)) {
+					moveOptions.push(rangeOneResults.topRight);
+				}
+			}
 		}
-	
-		if(pathCheck(rangeOneResults.topRight)) {
-			moveOptions.push(rangeOneResults.topRight);
+		if (destY < posY) {
+			if ((posX === destX) || ((destY - posY) <= 3)) {
+				// console.log('moving left');
+				if(pathCheck(rangeOneResults.left)) {
+					moveOptions.push(rangeOneResults.left);
+				}
+			}
 		}
-	
-		if(pathCheck(rangeOneResults.left)) {
-			moveOptions.push(rangeOneResults.left);
-		}
-	
-		if(pathCheck(rangeOneResults.right)) {
-			moveOptions.push(rangeOneResults.right);
+		if (destY > posY) {
+			if ((posX === destX) || ((destY - posY) >= 3)) {
+				// console.log('moving right');
+				if(pathCheck(rangeOneResults.right)) {
+					moveOptions.push(rangeOneResults.right);
+				}
+			}
 		}
 	
 		let option = 0;
@@ -314,10 +351,15 @@ export const moveNpcShips = (npcs) => {
 		}
 	
 		newCoords = moveOptions[option];
-	
-		npc.combatPositionX = newCoords[0];
-		npc.combatPositionY = newCoords[1];
 
+
+		if(newCoords) {
+			npc.combatPositionX = newCoords[0];
+			npc.combatPositionY = newCoords[1];
+		} else {
+			npc.combatPositionX = posX;
+			npc.combatPositionY = posY;
+		}
 		updatedNpcs.push(npc);
 	})
 	return updatedNpcs

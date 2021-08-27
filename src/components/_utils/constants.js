@@ -14,9 +14,9 @@ export const PLASMA_PROJECTORS = [
 ]
 
 export const TORPEDOES = [
-	{ name: 'Torpedoes MK1',  value: 'T-MK2',  range: 3, minDamage: 8, maxDamage: 12 },
-	{ name: 'Torpedoes MK2',  value: 'T-MK2',  range: 3, minDamage: 10, maxDamage: 14 },
-	{ name: 'Torpedoes MK3',  value: 'T-MK2',  range: 3, minDamage: 12, maxDamage: 16 }
+	{ name: 'Torpedoes MK1',  value: 'T-MK2',  range: 2, minDamage: 8, maxDamage: 12 },
+	{ name: 'Torpedoes MK2',  value: 'T-MK2',  range: 2, minDamage: 10, maxDamage: 14 },
+	{ name: 'Torpedoes MK3',  value: 'T-MK2',  range: 2, minDamage: 12, maxDamage: 16 }
 ]
 
 export const SHIELDS = [

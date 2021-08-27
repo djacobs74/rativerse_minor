@@ -193,9 +193,10 @@ class NewCombatDisplay extends Component {
 
 	startNpcMovement = () => {
 		const npcs = this.state.npcs;
+		const playerPosition = this.props.sectorPosition;
 		console.log('!!!!!  startNpcMovement');
 
-		const updatedNpcs = moveNpcShips(npcs);
+		const updatedNpcs = moveNpcShips(npcs, playerPosition);
 		this.setState({npcs: updatedNpcs});
 	}
 
