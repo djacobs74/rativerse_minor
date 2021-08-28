@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getStartingRange, setRangeToTarget, checkRange, firePlayerWeapons, adjustStandings, setNpcStartingLocation, moveNpcShips } from './_utils/combatUtils';
+import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -31,10 +31,6 @@ class NewCombatDisplay extends Component {
 	}	
 
 	componentDidMount = () => {
-		const rangeData = checkRange(this.state.npcs, this.props.currentShip, this.state.rangeSetting);
-		this.toastMessage(rangeData.toastData.type, rangeData.toastData.msg);
-		// console.log('&&&& range data', rangeData);
-
 		this.props.npcActiveShips.map(s => {
 			if(s.inCombat) {
 				let npcsArray = this.state.npcs;
@@ -47,8 +43,8 @@ class NewCombatDisplay extends Component {
 		this.props.createMap(mapSize, 'combat');
 		toast.error('ENTERING COMBAT !!');
 
-		console.log('!!!!! MOUNTED startNpcMovement');
-		this.intervalId  = setInterval(this.startNpcMovement, 1000);
+		this.intervalNpcMpvementId  = setInterval(this.startNpcMovement, 1000);
+		this.intervalPlayerFireId  = setInterval(this.startPlayerFire, 1000);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -156,8 +152,10 @@ class NewCombatDisplay extends Component {
 
 		npcs.map(n => {
 			// debugger;
-			let sector = newMap.find( m => (m.x === n.combatPositionX) && (m.y === n.combatPositionY) ) 
-			sector && sector.npcShips.push(n);
+			if(!n.isDestroyed) {
+				let sector = newMap.find( m => (m.x === n.combatPositionX) && (m.y === n.combatPositionY) ) 
+				sector && sector.npcShips.push(n);
+			}
 		})
 		// debugger;
 		return newMap
@@ -206,7 +204,20 @@ class NewCombatDisplay extends Component {
 		this.setState({npcs: updatedNpcs});
 	}
 
+	startPlayerFire = () => {
+		const currentTarget = this.state.currentTarget;
+		const playerShip = this.props.currentShip;
+		const npcs = this.state.npcs;
+		let npcsArray = [...npcs];
+		if(currentTarget) {
+			const {npcDestroyed, updatedNpc, toastData} = playerFire(currentTarget, playerShip);
 
+			let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
+			npcToUpdate = updatedNpc;
+
+			this.setState({npcs: npcsArray});
+		}
+	}
 
 
 	render () {
@@ -219,7 +230,7 @@ class NewCombatDisplay extends Component {
 		const position = this.props.sectorPosition || [];
 		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 
-		console.log('/// this.state', this.state);
+		console.log('^^^ state npcs', this.state.npcs);
 
 		return (
 			<div>

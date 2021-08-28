@@ -32,12 +32,12 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 
 
 			// shield regen 
-			if(s.shields.shieldsHp < s.shields.shieldsMax) {
-				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
-				if(s.shields.shieldsHp > s.shields.shieldsMax) {
-					s.shields.shieldsHp = s.shields.shieldsMax;
-				}
-			}
+			// if(s.shields.shieldsHp < s.shields.shieldsMax) {
+			// 	s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
+			// 	if(s.shields.shieldsHp > s.shields.shieldsMax) {
+			// 		s.shields.shieldsHp = s.shields.shieldsMax;
+			// 	}
+			// }
 
 			if(!s.inCombat && !s.isDestroyed) {
 				

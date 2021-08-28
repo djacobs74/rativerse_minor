@@ -149,11 +149,8 @@ export const checkRange = (npcs, playerShip, direction) => {
 
 }
 
-export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, currentTarget) => {
+export const firePlayerWeapons = (plasmaProjectors, torpedoes, playerShip, npc) => {
 	
-
-	// get damage from PP, T
-	// add that damage together
 	// Math.floor(Math.random() * (max - min) + min);
 	let pDmg = 0;
 	let tDmg = 0;
@@ -161,17 +158,17 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, curr
 	let toastData = {type: null, msg: null};
 
 	if(plasmaProjectors) {
-		pDmg = Math.floor(Math.random() * (currentShip.plasmaProjectors.maxDamage - currentShip.plasmaProjectors.minDamage) + currentShip.plasmaProjectors.minDamage);
+		pDmg = Math.floor(Math.random() * (playerShip.plasmaProjectors.maxDamage - playerShip.plasmaProjectors.minDamage) + playerShip.plasmaProjectors.minDamage);
 	}
 
 	if(torpedoes) {
-		tDmg = Math.floor(Math.random() * (currentShip.torpedoes.maxDamage - currentShip.torpedoes.minDamage) + currentShip.torpedoes.minDamage);
+		tDmg = Math.floor(Math.random() * (playerShip.torpedoes.maxDamage - playerShip.torpedoes.minDamage) + playerShip.torpedoes.minDamage);
 	}
 
 	totalDmg = pDmg + tDmg;
 
-	let npcShields = currentTarget.shields.shieldsHp;
-	let npcHull = currentTarget.hullHp;
+	let npcShields = npc.shields.shieldsHp;
+	let npcHull = npc.hullHp;
 
 	if((npcShields - totalDmg) < 0) {
 		const leftOverDmg = (npcShields - totalDmg) * -1;
@@ -188,24 +185,19 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, curr
 
 	const npcDestroyed = npcHull < 1 ? true : false;
 	
-	currentTarget.shields.shieldsHp = npcShields;
-	currentTarget.hullHp = npcHull;
-	currentTarget.isDestroyed = npcDestroyed;
+	npc.shields.shieldsHp = npcShields;
+	npc.hullHp = npcHull;
+	npc.isDestroyed = npcDestroyed;
 
 	if(npcDestroyed) {
-		toastData = {type: 'success', msg: `${currentTarget.faction} ${currentTarget.type} ${currentTarget.id} DESTOYED!`};
+		toastData = {type: 'success', msg: `${npc.faction} ${npc.type} ${npc.id} DESTOYED!`};
 	} else {
-		toastData = {type: 'success', msg: `${totalDmg} damage to ${currentTarget.faction} ${currentTarget.type} ${currentTarget.id}!`};
+		toastData = {type: 'success', msg: `${totalDmg} damage to ${npc.faction} ${npc.type} ${npc.id}!`};
 	}
+	// console.log('^^^ playerFire consts', npc);
+	const updatedNpc = npc;
+	return {npcDestroyed, updatedNpc, toastData}
 
-	
-	// debugger
-
-	return {npcDestroyed, currentTarget, toastData}
-
-	;
-
-	// 	this need to be set to a timer
 }
 
 export const adjustStandings = (faction, playerData) => {
@@ -457,3 +449,28 @@ export const moveNpcShips = (npcs, playerPosition) => {
 	return updatedNpcs
 }
 
+export const playerFire = (npc, playerShip) => {
+	let plasmaProjectors = false;
+	let torpedoes = false;
+
+	if(playerShip.plasmaProjectors) {
+		playerShip.plasmaCounter >= 0 ? playerShip.plasmaCounter++ : playerShip.plasmaCounter = 0;
+		if(playerShip.plasmaCounter >= 3) {
+			plasmaProjectors = true;
+			playerShip.plasmaCounter = 0;
+		}
+	}
+	if(playerShip.torpedoes) {
+		playerShip.torpedoCounter >= 0 ? playerShip.torpedoCounter++ : playerShip.torpedoCounter = 0;
+		if(playerShip.torpedoCounter >= 8) {
+			// TODO: add ammo tracker: can only fire if player ship has ammo
+			torpedoes = true;
+			playerShip.torpedoCounter = 0;
+		}
+	}
+	
+	const {npcDestroyed, updatedNpc, toastData} = firePlayerWeapons(plasmaProjectors, torpedoes, playerShip, npc);
+	// console.log('^^^ playerFire consts', npcDestroyed);
+	return {npcDestroyed, updatedNpc, toastData}
+	// console.log('^^^ playership', playerShip.plasmaCounter);
+}
