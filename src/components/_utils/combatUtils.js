@@ -267,7 +267,8 @@ export const setNpcStartingLocation = (ship) => {
 
 	ship.combatPositionX = x;
 	ship.combatPositionY = y;
-
+	ship.moveCounter = ship.sublightSpeed.value / 1000;
+	
 	return ship
 }
 
@@ -279,186 +280,178 @@ const getNpcOptimalRange = (npc) => {
 }
 
 export const moveNpcShips = (npcs, playerPosition) => {
-	//  user getPath.js logic //
-	/////// LOGIC ////////
-	// get optimal range for npc - 
-	// set dest to player ship - check path length (range)
-	// at optimal - dont move
-	// outside optimal - move toward
-	// closer than optimal - move away
-
-	// call getPath to get a path, check path length for range
-
 	let updatedNpcs = [];
-
-
 	npcs.map(npc => {
-		let posX = npc.combatPositionX;
-		let posY = npc.combatPositionY;
-		let moveOptions = [];
-		let newCoords = [];
-		let rangeOneResults = rangeOne(posX, posY);
+		if(npc.moveCounter === npc.sublightSpeed.value / 1000) {
+			let posX = npc.combatPositionX;
+			let posY = npc.combatPositionY;
+			let moveOptions = [];
+			let newCoords = [];
+			let rangeOneResults = rangeOne(posX, posY);
 
-		const destX = playerPosition[0];
-		const destY = playerPosition[1];
-		const optimalRange = getNpcOptimalRange(npc);
-		const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
-		const rangeToTarget = path.length;
-		let direction = '';
-		if(rangeToTarget > optimalRange) {
-			direction = 'toward';
-		} else if(rangeToTarget < optimalRange) {
-			direction = 'away';
-		} else {
-			direction = 'stayPut'
-		}
-
-		/////////   NPC MOVE AWAY FROM PLAYER /////////
-		if(direction === 'away') {
-			if (posX > destX) {
-				if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
-					// console.log('moving down-right');
-					if(pathCheck(rangeOneResults.bottomRight)) {
-						moveOptions.push(rangeOneResults.bottomRight);
-					}
-					
-				}
-			} 
-			if (posX > destX) {
-				if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
-					// console.log('moving down-left');
-					if(pathCheck(rangeOneResults.bottomLeft)) {
-						moveOptions.push(rangeOneResults.bottomLeft);
-					}
-				}
-			}
-			if (destX > posX) {
-				if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
-					// console.log('moving top-left');
-					if(pathCheck(rangeOneResults.topLeft)) {
-						moveOptions.push(rangeOneResults.topLeft);
-					}
-				}	
-			}
-			if (destX > posX) {
-				if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
-					// console.log('moving top-right');
-					if(pathCheck(rangeOneResults.topRight)) {
-						moveOptions.push(rangeOneResults.topRight);
-					}
-				}
-			}
-			if (destY > posY) {
-				if ((posX === destX) || ((destY - posY) <= 3)) {
-					// console.log('moving left');
-					if(pathCheck(rangeOneResults.left)) {
-						moveOptions.push(rangeOneResults.left);
-					}
-				}
-			}
-			if (destY < posY) {
-				if ((posX === destX) || ((destY - posY) >= 3)) {
-					// console.log('moving right');
-					if(pathCheck(rangeOneResults.right)) {
-						moveOptions.push(rangeOneResults.right);
-					}
-				}
-			}
-			if (destX === posX && destY === posY) {
-				if(pathCheck(rangeOneResults.bottomRight)) {
-					moveOptions.push(rangeOneResults.bottomRight);
-				}
-				if(pathCheck(rangeOneResults.bottomLeft)) {
-					moveOptions.push(rangeOneResults.bottomLeft);
-				}
-				if(pathCheck(rangeOneResults.topLeft)) {
-					moveOptions.push(rangeOneResults.topLeft);
-				}
-				if(pathCheck(rangeOneResults.topRight)) {
-					moveOptions.push(rangeOneResults.topRight);
-				}
-				if(pathCheck(rangeOneResults.left)) {
-					moveOptions.push(rangeOneResults.left);
-				}
-				if(pathCheck(rangeOneResults.right)) {
-					moveOptions.push(rangeOneResults.right);
-				}
-			}
-		}
-		/////////   NPC MOVE TOWARD PLAYER /////////
-		if(direction === 'toward') {
-			if (posX < destX) {
-				if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
-					// console.log('moving down-right');
-					if(pathCheck(rangeOneResults.bottomRight)) {
-						moveOptions.push(rangeOneResults.bottomRight);
-					}
-					
-				}
-			} 
-			if (posX < destX) {
-				if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
-					// console.log('moving down-left');
-					if(pathCheck(rangeOneResults.bottomLeft)) {
-						moveOptions.push(rangeOneResults.bottomLeft);
-					}
-				}
-			}
-			if (destX < posX) {
-				if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
-					// console.log('moving top-left');
-					if(pathCheck(rangeOneResults.topLeft)) {
-						moveOptions.push(rangeOneResults.topLeft);
-					}
-				}	
-			}
-			if (destX < posX) {
-				if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
-					// console.log('moving top-right');
-					if(pathCheck(rangeOneResults.topRight)) {
-						moveOptions.push(rangeOneResults.topRight);
-					}
-				}
-			}
-			if (destY < posY) {
-				if ((posX === destX) || ((destY - posY) <= 3)) {
-					// console.log('moving left');
-					if(pathCheck(rangeOneResults.left)) {
-						moveOptions.push(rangeOneResults.left);
-					}
-				}
-			}
-			if (destY > posY) {
-				if ((posX === destX) || ((destY - posY) >= 3)) {
-					// console.log('moving right');
-					if(pathCheck(rangeOneResults.right)) {
-						moveOptions.push(rangeOneResults.right);
-					}
-				}
-			}
-		}
-
-		/////////   NPC STAY PUT ///////
-		if(direction !== 'stayPut') {
-			let option = 0;
-		
-			let length = moveOptions.length;
-		
-			if (moveOptions.length) {
-				option = Math.floor(Math.random() * Math.floor(length));
-			}
-		
-			newCoords = moveOptions[option];
-	
-			if(newCoords) {
-				npc.combatPositionX = newCoords[0];
-				npc.combatPositionY = newCoords[1];
+			const destX = playerPosition[0];
+			const destY = playerPosition[1];
+			const optimalRange = getNpcOptimalRange(npc);
+			const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+			const rangeToTarget = path.length;
+			let direction = '';
+			if(rangeToTarget > optimalRange) {
+				direction = 'toward';
+			} else if(rangeToTarget < optimalRange) {
+				direction = 'away';
 			} else {
-				npc.combatPositionX = posX;
-				npc.combatPositionY = posY;
+				direction = 'stayPut'
 			}
+
+			/////////   NPC MOVE AWAY FROM PLAYER /////////
+			if(direction === 'away') {
+				if (posX > destX) {
+					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
+						// console.log('moving down-right');
+						if(pathCheck(rangeOneResults.bottomRight)) {
+							moveOptions.push(rangeOneResults.bottomRight);
+						}
+						
+					}
+				} 
+				if (posX > destX) {
+					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
+						// console.log('moving down-left');
+						if(pathCheck(rangeOneResults.bottomLeft)) {
+							moveOptions.push(rangeOneResults.bottomLeft);
+						}
+					}
+				}
+				if (destX > posX) {
+					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
+						// console.log('moving top-left');
+						if(pathCheck(rangeOneResults.topLeft)) {
+							moveOptions.push(rangeOneResults.topLeft);
+						}
+					}	
+				}
+				if (destX > posX) {
+					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
+						// console.log('moving top-right');
+						if(pathCheck(rangeOneResults.topRight)) {
+							moveOptions.push(rangeOneResults.topRight);
+						}
+					}
+				}
+				if (destY > posY) {
+					if ((posX === destX) || ((destY - posY) <= 3)) {
+						// console.log('moving left');
+						if(pathCheck(rangeOneResults.left)) {
+							moveOptions.push(rangeOneResults.left);
+						}
+					}
+				}
+				if (destY < posY) {
+					if ((posX === destX) || ((destY - posY) >= 3)) {
+						// console.log('moving right');
+						if(pathCheck(rangeOneResults.right)) {
+							moveOptions.push(rangeOneResults.right);
+						}
+					}
+				}
+				if (destX === posX && destY === posY) {
+					if(pathCheck(rangeOneResults.bottomRight)) {
+						moveOptions.push(rangeOneResults.bottomRight);
+					}
+					if(pathCheck(rangeOneResults.bottomLeft)) {
+						moveOptions.push(rangeOneResults.bottomLeft);
+					}
+					if(pathCheck(rangeOneResults.topLeft)) {
+						moveOptions.push(rangeOneResults.topLeft);
+					}
+					if(pathCheck(rangeOneResults.topRight)) {
+						moveOptions.push(rangeOneResults.topRight);
+					}
+					if(pathCheck(rangeOneResults.left)) {
+						moveOptions.push(rangeOneResults.left);
+					}
+					if(pathCheck(rangeOneResults.right)) {
+						moveOptions.push(rangeOneResults.right);
+					}
+				}
+			}
+			/////////   NPC MOVE TOWARD PLAYER /////////
+			if(direction === 'toward') {
+				if (posX < destX) {
+					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
+						// console.log('moving down-right');
+						if(pathCheck(rangeOneResults.bottomRight)) {
+							moveOptions.push(rangeOneResults.bottomRight);
+						}
+						
+					}
+				} 
+				if (posX < destX) {
+					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
+						// console.log('moving down-left');
+						if(pathCheck(rangeOneResults.bottomLeft)) {
+							moveOptions.push(rangeOneResults.bottomLeft);
+						}
+					}
+				}
+				if (destX < posX) {
+					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
+						// console.log('moving top-left');
+						if(pathCheck(rangeOneResults.topLeft)) {
+							moveOptions.push(rangeOneResults.topLeft);
+						}
+					}	
+				}
+				if (destX < posX) {
+					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
+						// console.log('moving top-right');
+						if(pathCheck(rangeOneResults.topRight)) {
+							moveOptions.push(rangeOneResults.topRight);
+						}
+					}
+				}
+				if (destY < posY) {
+					if ((posX === destX) || ((destY - posY) <= 3)) {
+						// console.log('moving left');
+						if(pathCheck(rangeOneResults.left)) {
+							moveOptions.push(rangeOneResults.left);
+						}
+					}
+				}
+				if (destY > posY) {
+					if ((posX === destX) || ((destY - posY) >= 3)) {
+						// console.log('moving right');
+						if(pathCheck(rangeOneResults.right)) {
+							moveOptions.push(rangeOneResults.right);
+						}
+					}
+				}
+			}
+
+			/////////   NPC STAY PUT ///////
+			if(direction !== 'stayPut') {
+				let option = 0;
+			
+				let length = moveOptions.length;
+			
+				if (moveOptions.length) {
+					option = Math.floor(Math.random() * Math.floor(length));
+				}
+			
+				newCoords = moveOptions[option];
+		
+				if(newCoords) {
+					npc.combatPositionX = newCoords[0];
+					npc.combatPositionY = newCoords[1];
+				} else {
+					npc.combatPositionX = posX;
+					npc.combatPositionY = posY;
+				}
+			}
+			npc.moveCounter = 0;
+		} else {
+			npc.moveCounter++;
 		}
-	
 		updatedNpcs.push(npc);
 	})
 	return updatedNpcs

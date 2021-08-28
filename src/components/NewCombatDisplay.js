@@ -48,7 +48,7 @@ class NewCombatDisplay extends Component {
 		toast.error('ENTERING COMBAT !!');
 
 		console.log('!!!!! MOUNTED startNpcMovement');
-		this.intervalId  = setInterval(this.startNpcMovement, 4000);
+		this.intervalId  = setInterval(this.startNpcMovement, 1000);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
