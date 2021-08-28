@@ -61,7 +61,9 @@ button {
 	padding-left: 50px;
     display: inline-block;
     position: relative;
-    width: 1250px;
+		width: 1250px;
+		margin-right: 350px;
+		margin-left: 475px;
 }
 
 .hud {
@@ -90,8 +92,9 @@ button {
 
 .hud.docked {
 	position: relative;
-    height: auto;
-    margin-top: 20px;
+	height: auto;
+	margin-top: 20px;
+	margin-bottom: 25px;
 }
 
 .sectorWrapper {
@@ -328,6 +331,10 @@ button {
 
 .huds-wrapper {
 	width: 500px;
+	z-index: 99;
+	position: fixed;
+	overflow-y: auto;
+	height: 100%;
 }
 
 .cpSection {
@@ -349,4 +356,80 @@ button {
     width: 12px;
     /* border-radius: 50%; */
     left: 47px;
+}
+
+.combatControlPanelWrapper {
+	width: 400px;
+}
+
+.combatControlPanel {
+	width: 350px;
+	display: inline-block;
+}
+
+.combatControlPanel .cpSection {
+	background: #252d4d;
+}
+
+.npcCombatPanel {
+	width: 350px;
+    display: inline-block;
+}
+
+.npcCombatPanel .cpSection {
+	background: #8a0606;
+	cursor: pointer;
+}
+
+.cpSection.currentTarget {
+	background: #095e12;
+}
+
+.playerControlWrapper {
+	position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 100px;
+}
+
+.playerControlWrapper button {
+	margin: 5px;
+	min-width: 275px;
+	color: #FFF;
+	background: #252d4d;
+	padding: 5px;
+	border-radius: 5px;
+	letter-spacing: .5px;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.playerControlWrapper h3 {
+	text-align: center;
+}
+
+.playerControlWrapper .active {
+	background: #095e12;
+}
+
+.playerControlWrapper button.plasmaProjectorsReady {
+	background: #047375;
+}
+
+.playerControlWrapper button.plasmaProjectorsReady.active {
+	background: #095e12;
+}
+
+.playerControlWrapper button.torpedoesReady {
+	background: #047375;
+}
+
+.playerControlWrapper button.torpedoesReady.active {
+	background: #095e12;
+}
+
+.combatControlPanelWrapper {
+	display: inline-block;
+	position: absolute;
 }

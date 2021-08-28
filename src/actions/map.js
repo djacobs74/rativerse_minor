@@ -2,10 +2,10 @@ import _ from 'lodash';
 import { createDockingAreas } from '../components/_utils/dockingAreas';
 
 
-export const createMap = (size) => async dispatch => {
+export const createMap = (mapSize, type) => async dispatch => {
 	// THIS WILL CREATE AN ARRAY OF COORDINATE OBJECTS AND RETURN THEM
 
-	let mapSize = [0, 1, 2, 3, 4, 5];
+	// let mapSize = [0, 1, 2, 3, 4, 5];
 	let newMap = [];
 	let starMap = [];
 	
@@ -107,15 +107,22 @@ export const createMap = (size) => async dispatch => {
 	
 	});
 
-	starMap.map(s => s.npcShips = []);
+	// starMap.map(s => s.npcShips = []); // what the hell was this even doing lol 
 
 	starMap = _.sortBy(starMap, o => o.y);
 	starMap = _.sortBy(starMap, o => o.x);
 
-	starMap = createDockingAreas(starMap);
-	console.log('starMap', starMap);
+	if(type === 'game') {
+		starMap = createDockingAreas(starMap);
+		dispatch({type: 'GAME_MAP_CREATED', payload: starMap});
+	}
 
-	dispatch({type: 'MAP_CREATED', payload: starMap});
+	if(type === 'combat') {
+		dispatch({type: 'COMBAT_MAP_CREATED', payload: starMap});
+	}
+	console.log(`${type} map created!` , starMap);
+
+	// dispatch({type: 'MAP_CREATED', payload: starMap});
 	
 
 };

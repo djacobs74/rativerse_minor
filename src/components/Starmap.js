@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createMap } from '../actions/map';
 import { getSector } from '../actions/selectedSector';
-import { npcShipGenerator } from '../actions/npcShipGenerator';
-import { npcShipMover } from './_utils/npcShipMovement';
+// import { npcShipGenerator } from '../actions/npcShipGenerator';
 import { getDockingAreas } from '../actions/dockingAreas';
 
 class StarMap extends Component {
@@ -13,14 +11,12 @@ class StarMap extends Component {
 	}
 
 	componentDidMount() {
-		this.props.createMap();
 		// START NPC SHIP SPAWN FUNCTION
-		this.createNpcShips(this.props)
+		// this.createNpcShips(this.props)
 		// console.log('NPC SHIPS', this.props.npcShips);
 
-		this.moveNpcShips();
+		// this.moveNpcShips();
 
-		
 	}
 
 	componentDidUpdate = (prevProps, props) => {
@@ -48,7 +44,7 @@ class StarMap extends Component {
 		// debugger;
 		this.clickedSector = [];
 		this.clickedSector.push(m.x, m.y);
-		this.getCoords(m);
+		this.getCoords(m, 'game');
 	}
 
 	pathSec(m) {
@@ -58,8 +54,8 @@ class StarMap extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
-		let position = this.props.currentPosition.position || [];
-	
+		let position = this.props.sectorPosition || [];
+
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
 			
@@ -73,56 +69,20 @@ class StarMap extends Component {
 			if(position[0] === mapSec[0] && position[1] === mapSec[1]) {
 				pathingSec = 'currentSector';
 			}
-		} else {
-			if(this.props.startingPosition[0] === mapSec[0] && this.props.startingPosition[1] === mapSec[1]) {
-				pathingSec = 'currentSector';
-			}
-		}
-		
+		} 
+			
 		return pathingSec
 	}
 
-	createNpcShips(props) {
-		const npcShips = this.props.npcShips;
-		// const playerFaction = this.props.selectedFaction.value;
-
-		function spawnDelay () {
-			setInterval(function () {
-				
-				npcShipGenerator(npcShips)
-				
-			}, 10000)
-		}
-		spawnDelay();
-	}
-
-
-	moveNpcShips() {
-		const npcShips = this.props.npcShips;
-		// const playerFaction = this.props.selectedFaction.value;
-		let npcShipsActive = [];
-		const here = this;
-
-		function spawnDelay () {
-			setInterval(function () {
-				
-				npcShipsActive = npcShipMover(npcShips);
-				here.setState({npcShipsActive: npcShipsActive});
-				
-			}, 5000)
-		}
-		spawnDelay();
-	}
-
 	updateMap(map) {
-		const npcs = this.state.npcShipsActive;
+		const npcs = this.props.npcActiveShips;
 		const newMap = [...map];
 
 		newMap.map(m => { m.npcShips = [] });
 
 		npcs.map(n => {
 			let sector = newMap.find( m => (m.x === n.x) && (m.y === n.y) ) 
-			sector.npcShips.push(n);
+			sector && sector.npcShips.push(n);
 		})
 
 		// console.log('UPDATED MAP', newMap[120]);
@@ -149,9 +109,9 @@ class StarMap extends Component {
 	render () {
 		const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
-		// console.log('SHIP LOCATIONS', this.state.npcShipsActive);
+		// console.log('SHIP LOCATIONS', this.props.npcActiveShips);
 
-		console.log('DOCKING AREAS', this.props.dockingAreas);
+		// console.log('DOCKING AREAS', this.props.dockingAreas);
 
 		return (
 			<div>
@@ -180,15 +140,15 @@ class StarMap extends Component {
 }
 
 const mapStateToProps = state => ({
-	map: state.map,
+	map: state.map.gameMap,
 	sector: state.selectedSector,
-	path: state.path,
-  	startingPosition: state.startingPosition,
-  	currentPosition: state.currentPosition,
-  	npcShips: state.npcShips,
-  	dockingAreas: state.dockingAreas
+	path: state.path.gamePath,
+	sectorPosition: state.sectorPosition.position,
+	npcShips: state.npcShips,
+	dockingAreas: state.dockingAreas,
+	npcActiveShips: state.npcActiveShips
 });
 
-export default connect(mapStateToProps, { createMap, getSector, npcShipGenerator, getDockingAreas })(StarMap);
+export default connect(mapStateToProps, { getSector, getDockingAreas })(StarMap);
 
 

@@ -12,12 +12,24 @@
 // 	map: createMapReducer
 // });
 
-export default (state = [], action) => {
+let initialState = {gameMap: [], combatMap: []};
+
+export default (state = initialState, action) => {
 	switch (action.type) {
-		case 'MAP_CREATED':
-			return action.payload;
+		case 'GAME_MAP_CREATED':
+			return {
+				...state,
+				gameMap: action.payload
+			}
+		case 'COMBAT_MAP_CREATED':
+			return {
+				...state,
+				combatMap: action.payload
+			}
 		default:
 			return state;
 	}
 
 };
+
+

@@ -22,9 +22,9 @@ class DockedControlPanel extends Component {
 
 	componentDidMount = () => {
 		let cargoOptions = [];
-		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
-		tradeGoods.map(t => {
+		const dockingArea = this.getDockingArea(this.props.sectorPosition);
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
+		tradeGoods && tradeGoods.map(t => {
 			cargoOptions.push({value: t.value, label: t.label, amount: 0})
 		})
 		this.setState({cargoOptions: cargoOptions});
@@ -154,7 +154,7 @@ class DockedControlPanel extends Component {
 			// debugger;
 		}
 
-		const dockingAreaInfo = this.getDockingArea(this.props.currentPosition);
+		const dockingAreaInfo = this.getDockingArea(this.props.sectorPosition);
 		const dockingAreaId = dockingAreaInfo.id;
 		let dockingAreas = this.props.dockingAreas;
 		// let cargoCopy = playerShip.cargoHold;
@@ -187,7 +187,6 @@ class DockedControlPanel extends Component {
 
 	getTotal(tradeGood, cargoOptions) {
 		let cargoTotal = cargoOptions.find((c) => c.value === tradeGood.value);
-		console.log('CARGO TOTAL', cargoTotal);
 		cargoTotal = cargoTotal ? cargoTotal.amount : null;
 		return cargoTotal
 	}
@@ -226,11 +225,11 @@ class DockedControlPanel extends Component {
 		
 		const currentShip = this.props.currentShip;
 		const cargoOptions = this.state.cargoOptions;
-		const dockingArea = this.getDockingArea(this.props.currentPosition);
-		const tradeGoods = dockingArea ? dockingArea.tradeGoods : null;
+		const dockingArea = this.getDockingArea(this.props.sectorPosition);
+		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
 		
-		// console.log('DOCKED SECTOR', this.props.currentPosition);
+		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
 		console.log('dockingArea', dockingArea);
 
@@ -242,7 +241,7 @@ class DockedControlPanel extends Component {
 				<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
 				<div>Credits: {playerData.credits}</div>	
 
-				{tradeGoods.length
+				{tradeGoods && (tradeGoods.length > 0)
     				? tradeGoods.map(t =>
 
     					<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
@@ -290,10 +289,9 @@ class DockedControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	path: state.path,
   	currentShip: state.selectedShip,
-  	map: state.map,
-  	currentPosition: state.currentPosition,
+  	map: state.map.gameMap,
+  	sectorPosition: state.sectorPosition,
   	player: state.playerData,
   	dockingAreas: state.dockingAreas
 });

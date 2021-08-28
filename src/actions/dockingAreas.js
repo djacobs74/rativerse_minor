@@ -50,9 +50,9 @@ export const getDockingAreas = (type, dockingAreas) => dispatch => {
 
 						// const amount = Math.floor(Math.random() * (t.maxAmount - 0 + 1)) + 0;
 						t.amount = amount;
-						console.log('**********************************');
-						console.log('getDockingAreas', d.dockingArea.id, t.value, t.amount);
-						console.log('**********************************');
+						// console.log('**********************************');
+						// console.log('getDockingAreas', d.dockingArea.id, t.value, t.amount);
+						// console.log('**********************************');
 					}
 
 				})

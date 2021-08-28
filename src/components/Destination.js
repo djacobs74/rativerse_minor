@@ -4,8 +4,9 @@ import { getPath } from '../actions/getPath';
 import { getStartingPosition } from '../actions/getStartingPosition';
 import { moveShip } from '../actions/moveShip';
 import { prettyCoords } from './_utils/displayUtils';
-import { getPosition, getDockOption } from './_utils/movement';
+import { getDockOption } from './_utils/movement';
 import { toast } from 'react-toastify';
+import { playerData } from '../actions/playerData';
 import 'react-toastify/dist/ReactToastify.css';
 
 class Destination extends React.Component {
@@ -20,7 +21,7 @@ class Destination extends React.Component {
 
 	componentDidUpdate(prevProps, props) {
 		// debugger;
-		if (prevProps.currentPosition !== this.props.currentPosition) {
+		if (prevProps.sectorPosition !== this.props.sectorPosition) {
 			this.moving(true);
 		}
 	}
@@ -34,24 +35,27 @@ class Destination extends React.Component {
 
 	setDestination() {
 		if(this.props.sector.length) {
-			const position = getPosition(this.props);
+			// const position = getPosition(this.props);
 			// debugger;
+			const position = this.props.sectorPosition;
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
-			this.props.getPath(position, destinationCoords);
+			this.props.getPath(position, destinationCoords, null, 'game');
 			toast.success(`Destination set to ${destinationCoords}`, 'success');
 		}
 	}
 
   	martelDrive() {
-	  	const position = getPosition(this.props);
+			// const position = getPosition(this.props);
+			const position = this.props.sectorPosition;
 	  	const moving = this.state.moving;
-	  	const destination = this.state.destination;
+			const destination = this.state.destination;
+			const martelDriveRating = this.props.currentShip.martelDrive;
 	  	
 	  	if( (destination[0] !== position[0]) || (destination[1] !== position[1]) ) {
 	  		if( (moving === false || moving == null) && destination.length ) {
 	  			this.moving(true);
-	  			this.props.moveShip(position, this.props.path);
+	  			this.props.moveShip(position, this.props.path, martelDriveRating, 'game');
 	  			toast.success('Martel Drive Engaged');
 	  		}
 	  		
@@ -60,7 +64,8 @@ class Destination extends React.Component {
 
 	moving(moving) {
 		// debugger;
-		const position = getPosition(this.props);
+		// const position = getPosition(this.props);
+		const position = this.props.sectorPosition;
 		const destination = this.state.destination;
 		let shipMoving = false;
 
@@ -73,13 +78,19 @@ class Destination extends React.Component {
 		this.setState({moving: shipMoving})
 	}
 
+	updateDocked() {
+		let player = this.props.player;
+		player.docked = !player.docked;
+		this.props.playerData(false, player);
+	}
+
 
   	render() {
-  		const position = this.props.currentPosition.position || [];   		
+  		const position = this.props.sectorPosition || [];   		
   		const moving = this.state.moving;
   		const destination = this.state.destination;
-  		let dockOption = getDockOption(this.props.currentPosition, this.props.map);
-  		console.log('Moving', moving);
+  		let dockOption = getDockOption(position, this.props.map);
+  		// console.log('***** DOCKED', this.props.player.docked);
   		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 		
 		return (
@@ -93,21 +104,22 @@ class Destination extends React.Component {
 				{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 				<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
-	  			<button ref="martelDriveBtn" disabled={moving || this.props.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
-	  			<button ref="dockBtn" disabled={moving || !dockOption} onClick = {this.props.dockHandler}>{this.props.docked ? 'un-dock' : 'dock'}</button>
-	  		</div>
+	  			<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
+	  			<button ref="dockBtn" disabled={moving || !dockOption || this.props.player.inCombat} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
+	  	</div>
 		);
   	}
 }
 
 const mapStateToProps = state => ({
-  	sector: state.selectedSector,
-  	path: state.path,
-  	startingPosition: state.startingPosition,
-  	currentPosition: state.currentPosition,
-  	map: state.map
+  	sector: state.selectedSector.gameMapSector,
+  	path: state.path.gamePath,
+  	sectorPosition: state.sectorPosition.position,
+  	map: state.map.gameMap,
+		player: state.playerData,
+		currentShip: state.selectedShip
 });
 
 
 
-export default connect(mapStateToProps, { getPath, getStartingPosition, moveShip })(Destination);
+export default connect(mapStateToProps, { getPath, getStartingPosition, moveShip, playerData })(Destination);

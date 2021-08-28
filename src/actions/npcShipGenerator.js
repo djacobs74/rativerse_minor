@@ -1,12 +1,14 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 import { pathCheck } from '.././components/_utils/movement';
+import { NPC_SHIPS } from '.././components/_utils/constants';
+import _ from 'lodash';
 
 
 export const npcShipGenerator = (npcShips, playerFaction) => {
 
 	// assign ships to random hexes
 	// add 'hostile' key depending on faction
-
+	console.log('npcShipGenerator RUNNING', npcShips);
 	let factionNpcShipCounts = { uwc: 0, bfr: 0, cnp: 0, ob: 0, tscc: 0 };
 	// debugger;
 	const maxShips = 4;
@@ -21,37 +23,75 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	// console.log('factionNpcShipCounts', factionNpcShipCounts);
 
 	let maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
-	// console.log('MAXID', maxId);
+	console.log('** MAXID', maxId);
+	
+	const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
 
 	if (factionNpcShipCounts['uwc'] < maxShips) {
 		maxId++;
-		npcShips.push({value: 'uwcNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'uwc', factionName: 'United Worlds Commonwealth', plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 0, y: 0 })
+		let ship = npcShipsCopy[0];
+		ship.id = maxId;
+		ship.inRangePP = false
+		ship.inRangeT = false
+		ship.isDestroyed = false
+		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['bfr'] < maxShips) {
+		// console.log('** BFR Below Count', factionNpcShipCounts['bfr']);
 		maxId++;
-		npcShips.push({value: 'bfrNpcDD', id: maxId,  label: 'NPC Ship', type: 'Destroyer', faction: 'bfr', factionName: 'Blood Fleet Raiders',  plasmaProjectors: 'PP-MK2C',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: -5})
+		let ship = npcShipsCopy[1];
+		ship.id = maxId;
+		ship.inRangePP = false
+		ship.inRangeT = false
+		ship.isDestroyed = false
+		npcShips.push(ship);
+		// debugger;
 	}
 
 	if (factionNpcShipCounts['cnp'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'cnpNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'cnp', factionName: 'Coral Nebula Pirates',  plasmaProjectors: 'PP-MK2L',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: -5, y: 5})
+		let ship = npcShipsCopy[2];
+		ship.id = maxId;
+		ship.inRangePP = false
+		ship.inRangeT = false
+		ship.isDestroyed = false
+		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['ob'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'obNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'ob', factionName: 'Orion BrotherHood',  plasmaProjectors: 'PP-MK2',  torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: -5})
+		let ship = npcShipsCopy[3];
+		ship.id = maxId;
+		ship.inRangePP = false
+		ship.inRangeT = false
+		ship.isDestroyed = false
+		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['tscc'] < maxShips) {
 		maxId++;
-		npcShips.push({ value: 'tsccNpcDD', id: maxId, label: 'NPC Ship', type: 'Destroyer', faction: 'tscc', factionName: 'Third Star Cluster Clans',  plasmaProjectors: 'PP-MK2', torpedoes: 2, shieldsHp: 3, shieldsRegen: 2, signature: 3, x: 5, y: 5})
+		let ship = npcShipsCopy[4];
+		ship.id = maxId;
+		ship.inRangePP = false
+		ship.inRangeT = false
+		ship.isDestroyed = false
+		npcShips.push(ship);
 	}
 
+	// let updatedNpcShips = _.cloneDeep(npcShips);
 
-	// console.log('NPC_SHIPS', npcShips);
+	let updatedNpcShips = [];
+	npcShips.map(n => {
+		if(!n.isDestroyed) {
+			updatedNpcShips.push(n);
+		}
+	})
+
+	// console.log('@@@@@  npcShipGenerator npcShips', npcShips);
+	// console.log('@@@@@  npcShipGenerator updatedNpcShips', updatedNpcShips);
 	// console.log('MAXID', maxId);
   	return (dispatch) => {
-  		dispatch({type: 'NPC_SHIPS', payload: npcShips});
+  		dispatch({type: 'NPC_SHIPS', payload: updatedNpcShips});
   	}
 };
