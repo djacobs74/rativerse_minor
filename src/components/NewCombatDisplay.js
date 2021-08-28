@@ -240,6 +240,7 @@ class NewCombatDisplay extends Component {
 			// debugger;
 			this.props.player.inCombat = false;
 			this.props.playerData(false, this.props.player);
+			clearInterval(this.intervalNpcMpvementId);
 		}
 		// console.log('^^^ state npcs', this.state.npcs);
 	}
