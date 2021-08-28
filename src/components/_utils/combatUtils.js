@@ -189,10 +189,21 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, playerShip, npc) 
 	npc.hullHp = npcHull;
 	npc.isDestroyed = npcDestroyed;
 
+	let msg;
+	if(plasmaProjectors && torpedoes) {
+		msg = 'plasma && torpedo';
+	} 
+	if(plasmaProjectors && !torpedoes) {
+		msg = 'plasma';
+	} 
+	if(!plasmaProjectors && torpedoes) {
+		msg = 'torpedo';
+	}
+
 	if(npcDestroyed) {
 		toastData = {type: 'success', msg: `${npc.faction} ${npc.type} ${npc.id} DESTOYED!`};
 	} else {
-		toastData = {type: 'success', msg: `${totalDmg} damage to ${npc.faction} ${npc.type} ${npc.id}!`};
+		toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${npc.faction} ${npc.type} ${npc.id}!`};
 	}
 	// console.log('^^^ playerFire consts', npc);
 	const updatedNpc = npc;
@@ -469,7 +480,10 @@ export const playerFire = (npc, playerShip) => {
 		}
 	}
 	
-	const {npcDestroyed, updatedNpc, toastData} = firePlayerWeapons(plasmaProjectors, torpedoes, playerShip, npc);
+	let {npcDestroyed, updatedNpc, toastData} = firePlayerWeapons(plasmaProjectors, torpedoes, playerShip, npc);
+	if(!plasmaProjectors && !torpedoes) {
+		toastData = null;
+	}
 	// console.log('^^^ playerFire consts', npcDestroyed);
 	return {npcDestroyed, updatedNpc, toastData}
 	// console.log('^^^ playership', playerShip.plasmaCounter);

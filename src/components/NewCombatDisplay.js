@@ -44,7 +44,7 @@ class NewCombatDisplay extends Component {
 		toast.error('ENTERING COMBAT !!');
 
 		this.intervalNpcMpvementId  = setInterval(this.startNpcMovement, 1000);
-		this.intervalPlayerFireId  = setInterval(this.startPlayerFire, 1000);
+		// this.intervalPlayerFireId  = setInterval(this.startPlayerFire, 1000);
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -66,8 +66,13 @@ class NewCombatDisplay extends Component {
 			}
 		})
 
-		if (prevProps.sectorPosition !== this.props.sectorPosition) {
+		if(prevProps.sectorPosition !== this.props.sectorPosition) {
 			this.moving(true);
+		}
+
+		if((!prevState.currentTarget && this.state.currentTarget) || (prevState.currentTarget !== this.state.currentTarget)) {
+			clearInterval(this.intervalPlayerFireId);
+			this.intervalPlayerFireId  = setInterval(this.startPlayerFire, 1000);
 		}
 	}
 
@@ -214,8 +219,12 @@ class NewCombatDisplay extends Component {
 
 			let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
 			npcToUpdate = updatedNpc;
-
+			toastData && this.toastMessage(toastData.type, toastData.msg);
 			this.setState({npcs: npcsArray});
+			if(npcDestroyed) {
+				this.setState({currentTarget: null});
+				clearInterval(this.intervalPlayerFireId);
+			}
 		}
 	}
 
