@@ -49,7 +49,7 @@ class NewCombatDisplay extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 
-		if(!this.state.npcs.length) {
+		if(!this.state.npcs.length) { /// this will not work. look for all npcs destroyed?? move to func and call when a npc is destroyed
 			// debugger;
 			this.props.player.inCombat = false;
 			this.props.playerData(false, this.props.player);
@@ -223,9 +223,25 @@ class NewCombatDisplay extends Component {
 			this.setState({npcs: npcsArray});
 			if(npcDestroyed) {
 				this.setState({currentTarget: null});
+				this.exitCombat();
 				clearInterval(this.intervalPlayerFireId);
 			}
 		}
+	}
+
+	exitCombat = () => {
+		let exit = [];
+		this.state.npcs.forEach(n => {
+			if(!n.isDestroyed) {
+				exit.push(n);
+			}
+		})
+		if(!exit.length) {
+			// debugger;
+			this.props.player.inCombat = false;
+			this.props.playerData(false, this.props.player);
+		}
+		// console.log('^^^ state npcs', this.state.npcs);
 	}
 
 
@@ -239,7 +255,7 @@ class NewCombatDisplay extends Component {
 		const position = this.props.sectorPosition || [];
 		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 
-		console.log('^^^ state npcs', this.state.npcs);
+		// console.log('^^^ state npcs', this.state.npcs);
 
 		return (
 			<div>
