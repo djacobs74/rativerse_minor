@@ -385,8 +385,6 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				}
 			}
 		}
-		/////////   NPC MOVE AWAY FROM PLAYER   /////////
-		///////// ============================= /////////
 		/////////   NPC MOVE TOWARD PLAYER /////////
 		if(direction === 'toward') {
 			if (posX < destX) {
@@ -439,7 +437,6 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				}
 			}
 		}
-		/////////   NPC MOVE TOWARD PLAYER /////////
 
 		/////////   NPC STAY PUT ///////
 		if(direction !== 'stayPut') {
