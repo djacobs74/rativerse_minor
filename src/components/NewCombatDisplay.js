@@ -130,8 +130,14 @@ class NewCombatDisplay extends Component {
 	}
 
 	targetNpc = (ship) => {
+		const currentTarget = this.state.currentTarget;
 		ship.isDestroyed = false;
-		this.setState({currentTarget: ship});
+
+		if(currentTarget && (ship.id === currentTarget.id)) {
+			this.setState({currentTarget: null});
+		} else {
+			this.setState({currentTarget: ship});
+		}
 	}
 
 	oddEven(num) {
@@ -199,6 +205,8 @@ class NewCombatDisplay extends Component {
 		const updatedNpcs = moveNpcShips(npcs, playerPosition);
 		this.setState({npcs: updatedNpcs});
 	}
+
+
 
 
 	render () {
