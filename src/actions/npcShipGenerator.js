@@ -30,6 +30,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	if (factionNpcShipCounts['uwc'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[0];
+		ship.shields.shieldsHp = npcShipsCopy[0].shields.shieldsMax;
+		ship.hullHp = npcShipsCopy[0].hullMax;
 		ship.id = maxId;
 		ship.inRangePP = false
 		ship.inRangeT = false
@@ -41,6 +43,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		// console.log('** BFR Below Count', factionNpcShipCounts['bfr']);
 		maxId++;
 		let ship = npcShipsCopy[1];
+		ship.shields.shieldsHp = npcShipsCopy[1].shields.shieldsMax;
+		ship.hullHp = npcShipsCopy[1].hullMax;
 		ship.id = maxId;
 		ship.inRangePP = false
 		ship.inRangeT = false
@@ -52,6 +56,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	if (factionNpcShipCounts['cnp'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[2];
+		ship.shields.shieldsHp = npcShipsCopy[2].shields.shieldsMax;
+		ship.hullHp = npcShipsCopy[2].hullMax;
 		ship.id = maxId;
 		ship.inRangePP = false
 		ship.inRangeT = false
@@ -62,6 +68,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	if (factionNpcShipCounts['ob'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[3];
+		ship.shields.shieldsHp = npcShipsCopy[3].shields.shieldsMax;
+		ship.hullHp = npcShipsCopy[3].hullMax;
 		ship.id = maxId;
 		ship.inRangePP = false
 		ship.inRangeT = false
@@ -72,6 +80,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	if (factionNpcShipCounts['tscc'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[4];
+		ship.shields.shieldsHp = npcShipsCopy[4].shields.shieldsMax;
+		ship.hullHp = npcShipsCopy[4].hullMax;
 		ship.id = maxId;
 		ship.inRangePP = false
 		ship.inRangeT = false
