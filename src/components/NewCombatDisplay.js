@@ -230,15 +230,39 @@ class NewCombatDisplay extends Component {
 		}
 	}
 
+	adjustReputation = (playerRep, tally) => {
+		// [{uwc: 1}, {bfr: -5}, {cnp: -5}, {ob: -1}, {tscc: -10}]
+		let uwc = playerRep[0].uwc;
+		let bfr = playerRep[1].bfr;
+		let cnp = playerRep[2].cnp;
+		let ob = playerRep[3].ob;
+		let tscc = playerRep[4].tscc;
+
+		tally.map(x => {
+			if(x.faction === 'uwc') {uwc--};
+			if(x.faction === 'bfr') {bfr--};
+			if(x.faction === 'cnp') {cnp--};
+			if(x.faction === 'ob') {ob--};
+			if(x.faction === 'tscc') {tscc--};
+		})
+		// debugger;
+		return [{uwc}, {bfr}, {cnp}, {ob}, {tscc}]
+	}
+
 	exitCombat = () => {
 		let exit = [];
+		let tally = [];
 		this.state.npcs.forEach(n => {
 			if(!n.isDestroyed) {
 				exit.push(n);
+			} else {
+				tally.push(n);
 			}
 		})
 		if(!exit.length) {
-			// debugger;
+			// reputation adjustment here
+			const rep = this.adjustReputation(this.props.player.reputation, tally);
+			this.props.player.reputation = rep;
 			this.props.player.inCombat = false;
 			this.props.playerData(false, this.props.player);
 			clearInterval(this.intervalNpcMpvementId);
