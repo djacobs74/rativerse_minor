@@ -213,9 +213,10 @@ class NewCombatDisplay extends Component {
 		const currentTarget = this.state.currentTarget;
 		const playerShip = this.props.currentShip;
 		const npcs = this.state.npcs;
+		const playerPosition = this.props.sectorPosition;
 		let npcsArray = [...npcs];
 		if(currentTarget) {
-			const {npcDestroyed, updatedNpc, toastData} = playerFire(currentTarget, playerShip);
+			const {npcDestroyed, updatedNpc, toastData} = playerFire(currentTarget, playerShip, playerPosition);
 
 			let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
 			npcToUpdate = updatedNpc;
