@@ -1,7 +1,7 @@
 import { NPC_SHIPS } from '../components/_utils/constants';
 import _ from 'lodash';
 
-let initialState = NPC_SHIPS;
+let initialState = [];
 
 export default (state = initialState, action) => {
 	switch (action.type) {

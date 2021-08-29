@@ -21,71 +21,49 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	})
 
 	// console.log('factionNpcShipCounts', factionNpcShipCounts);
+	let maxId = 0;
 
-	let maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
+	if(npcShips.length) {
+		maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
+	}
+	// if(!maxId || maxId === 0) {maxId = 1};
 	console.log('** MAXID', maxId);
 	
 	const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
+	// debugger;
 
 	if (factionNpcShipCounts['uwc'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[0];
-		ship.shields.shieldsHp = npcShipsCopy[0].shields.shieldsMax;
-		ship.hullHp = npcShipsCopy[0].hullMax;
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['bfr'] < maxShips) {
-		// console.log('** BFR Below Count', factionNpcShipCounts['bfr']);
 		maxId++;
 		let ship = npcShipsCopy[1];
-		ship.shields.shieldsHp = npcShipsCopy[1].shields.shieldsMax;
-		ship.hullHp = npcShipsCopy[1].hullMax;
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
-		// debugger;
 	}
 
 	if (factionNpcShipCounts['cnp'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[2];
-		ship.shields.shieldsHp = npcShipsCopy[2].shields.shieldsMax;
-		ship.hullHp = npcShipsCopy[2].hullMax;
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['ob'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[3];
-		ship.shields.shieldsHp = npcShipsCopy[3].shields.shieldsMax;
-		ship.hullHp = npcShipsCopy[3].hullMax;
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['tscc'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[4];
-		ship.shields.shieldsHp = npcShipsCopy[4].shields.shieldsMax;
-		ship.hullHp = npcShipsCopy[4].hullMax;
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
