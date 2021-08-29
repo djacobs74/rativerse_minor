@@ -231,7 +231,6 @@ class NewCombatDisplay extends Component {
 	}
 
 	adjustReputation = (playerRep, tally) => {
-		// [{uwc: 1}, {bfr: -5}, {cnp: -5}, {ob: -1}, {tscc: -10}]
 		let uwc = playerRep[0].uwc;
 		let bfr = playerRep[1].bfr;
 		let cnp = playerRep[2].cnp;
@@ -239,13 +238,37 @@ class NewCombatDisplay extends Component {
 		let tscc = playerRep[4].tscc;
 
 		tally.map(x => {
-			if(x.faction === 'uwc') {uwc--};
-			if(x.faction === 'bfr') {bfr--};
-			if(x.faction === 'cnp') {cnp--};
-			if(x.faction === 'ob') {ob--};
-			if(x.faction === 'tscc') {tscc--};
+			if(x.faction === 'uwc') {
+				uwc = Math.round((uwc - 0.5) * 1e12 / 1e12);
+				ob = Math.round((ob - 0.2) * 1e12 / 1e12);
+				tscc = Math.round((tscc + 0.1) * 1e12 / 1e12);
+				bfr = Math.round((bfr + 0.2) * 1e12 / 1e12);
+				cnp = Math.round((cnp + 0.1) * 1e12 / 1e12);
+			};
+			if(x.faction === 'bfr') {
+				bfr = Math.round((bfr - 0.5) * 1e12 / 1e12);
+				uwc = Math.round((uwc + 0.2) * 1e12 / 1e12);
+				ob = Math.round((ob + 0.1) * 1e12 / 1e12);
+			};
+			if(x.faction === 'cnp') {
+				cnp = Math.round((cnp - 0.5) * 1e12 / 1e12);
+				uwc = Math.round((uwc + 0.1) * 1e12 / 1e12);
+				ob = Math.round((ob + 0.2) * 1e12 / 1e12);
+			};
+			if(x.faction === 'ob') {
+				ob = Math.round((ob - 0.5) * 1e12 / 1e12);
+				uwc = Math.round((uwc - 0.2) * 1e12 / 1e12);
+				cnp = Math.round((cnp + 0.2) * 1e12 / 1e12);
+				bfr = Math.round((bfr + 0.1) * 1e12 / 1e12);
+			};
+			if(x.faction === 'tscc') {
+				tscc = Math.round((tscc - 0.5) * 1e12 / 1e12);
+				uwc = Math.round((uwc + 0.2) * 1e12 / 1e12);
+				ob = Math.round((ob + 0.1) * 1e12 / 1e12);
+			};
 		})
 		// debugger;
+		// max and min 10?
 		return [{uwc}, {bfr}, {cnp}, {ob}, {tscc}]
 	}
 
