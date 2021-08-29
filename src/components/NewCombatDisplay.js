@@ -239,32 +239,32 @@ class NewCombatDisplay extends Component {
 
 		tally.map(x => {
 			if(x.faction === 'uwc') {
-				uwc = Math.round((uwc - 0.5) * 1e12 / 1e12);
-				ob = Math.round((ob - 0.2) * 1e12 / 1e12);
-				tscc = Math.round((tscc + 0.1) * 1e12 / 1e12);
-				bfr = Math.round((bfr + 0.2) * 1e12 / 1e12);
-				cnp = Math.round((cnp + 0.1) * 1e12 / 1e12);
+				uwc = Number((uwc - 0.5).toFixed(1));
+				ob = Number((ob - 0.2).toFixed(1));
+				tscc = Number((tscc + 0.1).toFixed(1));
+				bfr = Number((bfr + 0.2).toFixed(1));
+				cnp = Number((cnp + 0.1).toFixed(1));
 			};
 			if(x.faction === 'bfr') {
-				bfr = Math.round((bfr - 0.5) * 1e12 / 1e12);
-				uwc = Math.round((uwc + 0.2) * 1e12 / 1e12);
-				ob = Math.round((ob + 0.1) * 1e12 / 1e12);
+				bfr = Number((bfr - 0.5).toFixed(1));
+				uwc = Number((uwc + 0.2).toFixed(1));
+				ob = Number((ob + 0.1).toFixed(1));
 			};
 			if(x.faction === 'cnp') {
-				cnp = Math.round((cnp - 0.5) * 1e12 / 1e12);
-				uwc = Math.round((uwc + 0.1) * 1e12 / 1e12);
-				ob = Math.round((ob + 0.2) * 1e12 / 1e12);
+				cnp = Number((cnp - 0.5).toFixed(1));
+				uwc = Number((uwc + 0.1).toFixed(1));
+				ob = Number((ob + 0.2).toFixed(1));
 			};
 			if(x.faction === 'ob') {
-				ob = Math.round((ob - 0.5) * 1e12 / 1e12);
-				uwc = Math.round((uwc - 0.2) * 1e12 / 1e12);
-				cnp = Math.round((cnp + 0.2) * 1e12 / 1e12);
-				bfr = Math.round((bfr + 0.1) * 1e12 / 1e12);
+				ob = Number((ob - 0.5).toFixed(1));
+				uwc = Number((uwc - 0.2).toFixed(1));
+				cnp = Number((cnp + 0.2).toFixed(1));
+				bfr = Number((bfr + 0.1).toFixed(1));
 			};
 			if(x.faction === 'tscc') {
-				tscc = Math.round((tscc - 0.5) * 1e12 / 1e12);
-				uwc = Math.round((uwc + 0.2) * 1e12 / 1e12);
-				ob = Math.round((ob + 0.1) * 1e12 / 1e12);
+				tscc = Number((tscc - 0.5).toFixed(1));
+				uwc = Number((uwc + 0.2).toFixed(1));
+				ob = Number((ob + 0.1).toFixed(1));
 			};
 		})
 		// debugger;
@@ -353,7 +353,6 @@ class NewCombatDisplay extends Component {
 										{s.toredoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Drive: ${s.sublightSpeed.name}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
-										<div>{s.inRangeMsg && `* ${s.inRangeMsg}`}</div>
 									</div>
 								</div>
 							</div>

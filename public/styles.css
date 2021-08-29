@@ -434,8 +434,6 @@ button {
 	position: absolute;
 }
 
-
-
 .combatCurrentTarget {
 	animation: blinkingBackground 2s infinite;
 }
