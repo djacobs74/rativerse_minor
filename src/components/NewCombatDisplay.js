@@ -364,7 +364,7 @@ class NewCombatDisplay extends Component {
 
 
 
-				<div className="mapBox">
+				<div className="combat mapBox">
 				
 				{mapUpdated && mapUpdated.map((m, index) => (
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={() => this.clickHandler(m)} > 
@@ -372,7 +372,7 @@ class NewCombatDisplay extends Component {
 		    			<div className={`sector sectorMiddle ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
 		    				{m.npcShips.length
 			    				? m.npcShips.map(ship =>
-			    					<div className={`${ship.value}`} key={ship.id}></div>
+			    					<div className={`${ship.value} ${currentTarget && ((currentTarget.id === ship.id) && 'combatCurrentTarget')}`} key={ship.id}></div>
 			    				) : <div></div>
 		    				}
 		    			</div>

@@ -441,9 +441,9 @@ button {
 }
 
 @keyframes blinkingBackground{
-	0%		{ background-color: #10c018;}
-	25%		{ background-color: #1056c0;}
-	50%		{ background-color: #ef0a1a;}
-	75%		{ background-color: #254878;}
-	100%	{ background-color: #04a1d5;}
+	0%		{ background-color: #080808;}
+	25%		{ background-color: #474747;}
+	50%		{ background-color: #7d7c7c;}
+	75%		{ background-color: #a8a8a8;}
+	100%	{ background-color: #f2f2f2;}
 }
