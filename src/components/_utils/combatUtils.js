@@ -149,7 +149,7 @@ export const checkRange = (npcs, playerShip, direction) => {
 
 }
 
-export const firePlayerWeapons = (plasmaProjectors, torpedoes, playerShip, npc) => {
+export const fireWeapons = (plasmaProjectors, torpedoes, firingShip, targetShip) => {
 	
 	// Math.floor(Math.random() * (max - min) + min);
 	let pDmg = 0;
@@ -158,36 +158,36 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, playerShip, npc) 
 	let toastData = {type: null, msg: null};
 
 	if(plasmaProjectors) {
-		pDmg = Math.floor(Math.random() * (playerShip.plasmaProjectors.maxDamage - playerShip.plasmaProjectors.minDamage) + playerShip.plasmaProjectors.minDamage);
+		pDmg = Math.floor(Math.random() * (firingShip.plasmaProjectors.maxDamage - firingShip.plasmaProjectors.minDamage) + firingShip.plasmaProjectors.minDamage);
 	}
 
 	if(torpedoes) {
-		tDmg = Math.floor(Math.random() * (playerShip.torpedoes.maxDamage - playerShip.torpedoes.minDamage) + playerShip.torpedoes.minDamage);
+		tDmg = Math.floor(Math.random() * (firingShip.torpedoes.maxDamage - firingShip.torpedoes.minDamage) + firingShip.torpedoes.minDamage);
 	}
 
 	totalDmg = pDmg + tDmg;
 
-	let npcShields = npc.shields.shieldsHp;
-	let npcHull = npc.hullHp;
+	let targetShields = targetShip.shields.shieldsHp;
+	let targetHull = targetShip.hullHp;
 
-	if((npcShields - totalDmg) < 0) {
-		const leftOverDmg = (npcShields - totalDmg) * -1;
-		if((npcHull - leftOverDmg) <= 0) {
-			npcHull = 0;
+	if((targetShields - totalDmg) < 0) {
+		const leftOverDmg = (targetShields - totalDmg) * -1;
+		if((targetHull - leftOverDmg) <= 0) {
+			targetHull = 0;
 		} else {
-			npcHull = npcHull - leftOverDmg;
+			targetHull = targetHull - leftOverDmg;
 		}
-		npcShields = 0;
+		targetShields = 0;
 		
 	} else {
-		npcShields = (npcShields - totalDmg);
+		targetShields = (targetShields - totalDmg);
 	}
 
-	const npcDestroyed = npcHull < 1 ? true : false;
+	const targetDestroyed = targetHull < 1 ? true : false;
 	
-	npc.shields.shieldsHp = npcShields;
-	npc.hullHp = npcHull;
-	npc.isDestroyed = npcDestroyed;
+	targetShip.shields.shieldsHp = targetShields;
+	targetShip.hullHp = targetHull;
+	targetShip.isDestroyed = targetDestroyed;
 
 	let msg;
 	if(plasmaProjectors && torpedoes) {
@@ -200,14 +200,14 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, playerShip, npc) 
 		msg = 'torpedo';
 	}
 
-	if(npcDestroyed) {
-		toastData = {type: 'success', msg: `${npc.faction} ${npc.type} ${npc.id} DESTOYED!`};
+	if(targetDestroyed) {
+		toastData = {type: 'success', msg: `${targetShip.faction} ${targetShip.type} ${targetShip.id} DESTOYED!`};
 	} else {
-		toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${npc.faction} ${npc.type} ${npc.id}!`};
+		toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${targetShip.faction} ${targetShip.type} ${targetShip.id}!`};
 	}
-	// console.log('^^^ playerFire consts', npc);
-	const updatedNpc = npc;
-	return {npcDestroyed, updatedNpc, toastData}
+	// console.log('^^^ playerFire consts', targetShip);
+	const updatedTarget = targetShip;
+	return {targetDestroyed, updatedTarget, toastData}
 
 }
 
@@ -490,12 +490,21 @@ export const playerFire = (npc, playerShip, playerPosition) => {
 			}
 		}
 	}
-	
-	let {npcDestroyed, updatedNpc, toastData} = firePlayerWeapons(plasmaProjectors, torpedoes, playerShip, npc);
+
+	let {targetDestroyed, updatedTarget, toastData} = fireWeapons(plasmaProjectors, torpedoes, playerShip, npc);
 	if(!plasmaProjectors && !torpedoes) {
 		toastData = null;
 	}
 	// console.log('^^^ playerFire consts', npcDestroyed);
-	return {npcDestroyed, updatedNpc, toastData}
+	return {targetDestroyed, updatedTarget, toastData}
 	// console.log('^^^ playership', playerShip.plasmaCounter);
 }
+
+// export const npcsFire = (playerShip, playerPosition, npcsArray) => {
+// 	let destX = npc.combatPositionX;
+// 	let destY = npc.combatPositionY;
+// 	const posX = playerPosition[0];
+// 	const posY = playerPosition[1];
+// 	const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+// 	const rangeToTarget = path.length;
+// }

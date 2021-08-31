@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire } from './_utils/combatUtils';
+import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -43,8 +43,9 @@ class NewCombatDisplay extends Component {
 		this.props.createMap(mapSize, 'combat');
 		toast.error('ENTERING COMBAT !!');
 
-		this.intervalNpcMpvementId  = setInterval(this.startNpcMovement, 1000);
-		// this.intervalPlayerFireId  = setInterval(this.startPlayerFire, 1000);
+		this.intervalNpcMpvementId = setInterval(this.startNpcMovement, 1000);
+		// this.intervalNPCFiringId = setInterval(this.startNpcFiring, 1000);
+
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -216,19 +217,39 @@ class NewCombatDisplay extends Component {
 		const playerPosition = this.props.sectorPosition;
 		let npcsArray = [...npcs];
 		if(currentTarget) {
-			const {npcDestroyed, updatedNpc, toastData} = playerFire(currentTarget, playerShip, playerPosition);
+			const {targetDestroyed, updatedTarget, toastData} = playerFire(currentTarget, playerShip, playerPosition);
 
-			let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
-			npcToUpdate = updatedNpc;
+			let npcToUpdate = npcsArray.find(n => n.id === updatedTarget.id);
+			npcToUpdate = updatedTarget;
 			toastData && this.toastMessage(toastData.type, toastData.msg);
 			this.setState({npcs: npcsArray});
-			if(npcDestroyed) {
+			if(targetDestroyed) {
 				this.setState({currentTarget: null});
 				this.exitCombat();
 				clearInterval(this.intervalPlayerFireId);
 			}
 		}
 	}
+
+	// startNpcFiring = () => {
+	// 	const playerShip = this.props.currentShip;
+	// 	const npcs = this.state.npcs;
+	// 	const playerPosition = this.props.sectorPosition;
+	// 	let npcsArray = [...npcs];
+
+	// 	// const {npcDestroyed, updatedNpc, toastData} = npcsFire(playerShip, playerPosition, npcsArray);
+
+	// 	// let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
+	// 	// npcToUpdate = updatedNpc;
+	// 	// toastData && this.toastMessage(toastData.type, toastData.msg);
+	// 	// this.setState({npcs: npcsArray});
+	// 	// if(npcDestroyed) {
+	// 	// 	this.setState({currentTarget: null});
+	// 	// 	this.exitCombat();
+	// 	// 	clearInterval(this.intervalPlayerFireId);
+	// 	// }
+		
+	// }
 
 	adjustReputation = (playerRep, tally) => {
 		let uwc = playerRep[0].uwc;
