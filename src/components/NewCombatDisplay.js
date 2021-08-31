@@ -44,17 +44,17 @@ class NewCombatDisplay extends Component {
 		toast.error('ENTERING COMBAT !!');
 
 		this.intervalNpcMpvementId = setInterval(this.startNpcMovement, 1000);
-		// this.intervalNPCFiringId = setInterval(this.startNpcFiring, 1000);
+		this.intervalNpcFiringId = setInterval(this.startNpcFiring, 1000);
 
 	}
 
 	componentDidUpdate = (prevProps, prevState) => {
 
-		if(!this.state.npcs.length) { /// this will not work. look for all npcs destroyed?? move to func and call when a npc is destroyed
-			// debugger;
-			this.props.player.inCombat = false;
-			this.props.playerData(false, this.props.player);
-		}
+		// if(!this.state.npcs.length) { /// this will not work. look for all npcs destroyed?? move to func and call when a npc is destroyed
+		// 	// debugger;
+		// 	this.props.player.inCombat = false;
+		// 	this.props.playerData(false, this.props.player);
+		// }
 
 		this.props.npcActiveShips.map(s => {
 			if(s.inCombat && !s.isDestroyed) {
@@ -231,25 +231,26 @@ class NewCombatDisplay extends Component {
 		}
 	}
 
-	// startNpcFiring = () => {
-	// 	const playerShip = this.props.currentShip;
-	// 	const npcs = this.state.npcs;
-	// 	const playerPosition = this.props.sectorPosition;
-	// 	let npcsArray = [...npcs];
+	startNpcFiring = () => {
+		const playerShip = this.props.currentShip;
+		const npcs = this.state.npcs;
+		const playerPosition = this.props.sectorPosition;
+		let npcsArray = [...npcs];
 
-	// 	// const {npcDestroyed, updatedNpc, toastData} = npcsFire(playerShip, playerPosition, npcsArray);
+		if(npcsArray.length) {
+			npcsArray.map(npc => {
+				const {targetDestroyed, updatedTarget, toastData} = npcsFire(playerShip, playerPosition, npc);
+				toastData && this.toastMessage(toastData.type, toastData.msg);
 
-	// 	// let npcToUpdate = npcsArray.find(n => n.id === updatedNpc.id);
-	// 	// npcToUpdate = updatedNpc;
-	// 	// toastData && this.toastMessage(toastData.type, toastData.msg);
-	// 	// this.setState({npcs: npcsArray});
-	// 	// if(npcDestroyed) {
-	// 	// 	this.setState({currentTarget: null});
-	// 	// 	this.exitCombat();
-	// 	// 	clearInterval(this.intervalPlayerFireId);
-	// 	// }
+				if(targetDestroyed) {
+					this.exitCombat();
+					clearInterval(this.intervalNpcFireId);
+				}
+			})
+		}
 		
-	// }
+		
+	}
 
 	adjustReputation = (playerRep, tally) => {
 		let uwc = playerRep[0].uwc;
@@ -310,6 +311,8 @@ class NewCombatDisplay extends Component {
 			this.props.player.inCombat = false;
 			this.props.playerData(false, this.props.player);
 			clearInterval(this.intervalNpcMpvementId);
+			clearInterval(this.intervalPlayerFireId);
+			clearInterval(this.intervalNpcFireId);
 		}
 		// console.log('^^^ state npcs', this.state.npcs);
 	}

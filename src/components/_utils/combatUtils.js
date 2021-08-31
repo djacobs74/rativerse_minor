@@ -200,11 +200,21 @@ export const fireWeapons = (plasmaProjectors, torpedoes, firingShip, targetShip)
 		msg = 'torpedo';
 	}
 
-	if(targetDestroyed) {
-		toastData = {type: 'success', msg: `${targetShip.faction} ${targetShip.type} ${targetShip.id} DESTOYED!`};
-	} else {
-		toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${targetShip.faction} ${targetShip.type} ${targetShip.id}!`};
+	if(!targetShip.playerShip) { // Player firing
+		if(targetDestroyed) {
+			toastData = {type: 'success', msg: `${targetShip.faction} ${targetShip.type} ${targetShip.id} DESTOYED!`};
+		} else {
+			toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${targetShip.faction} ${targetShip.type} ${targetShip.id}!`};
+		}
+	} else { // NPC firing
+		// debugger;
+		if(targetDestroyed) {
+			toastData = {type: 'error', msg: `YOUR SHIP HAS BEEN DESTOYED!`};
+		} else {
+			toastData = {type: 'warning', msg: `${totalDmg} ${msg} damage from ${firingShip.faction} ${firingShip.type} ${firingShip.id}!`};
+		}
 	}
+
 	// console.log('^^^ playerFire consts', targetShip);
 	const updatedTarget = targetShip;
 	return {targetDestroyed, updatedTarget, toastData}
@@ -500,11 +510,47 @@ export const playerFire = (npc, playerShip, playerPosition) => {
 	// console.log('^^^ playership', playerShip.plasmaCounter);
 }
 
-// export const npcsFire = (playerShip, playerPosition, npcsArray) => {
-// 	let destX = npc.combatPositionX;
-// 	let destY = npc.combatPositionY;
-// 	const posX = playerPosition[0];
-// 	const posY = playerPosition[1];
-// 	const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
-// 	const rangeToTarget = path.length;
-// }
+export const npcsFire = (playerShip, playerPosition, npc) => {
+
+		let plasmaProjectors = false;
+		let torpedoes = false;
+		let posX = npc.combatPositionX;
+		let posY = npc.combatPositionY;
+		const destX = playerPosition[0];
+		const destY = playerPosition[1];
+		const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+		const rangeToTarget = path.length;
+
+		if(npc.plasmaProjectors) {
+			npc.plasmaCounter >= 0 ? npc.plasmaCounter++ : npc.plasmaCounter = 0; // adjust this?
+			// console.log('^^^ playerShip.plasmaCounter', playerShip.plasmaCounter);
+			if(npc.plasmaCounter >= 4) {
+				if(rangeToTarget <= npc.plasmaProjectors.range) {
+					plasmaProjectors = true;
+					npc.plasmaCounter = 0;
+				}
+			}
+		}
+		if(npc.torpedoes) {
+			npc.torpedoCounter >= 0 ? npc.torpedoCounter++ : npc.torpedoCounter = 0;
+			if(npc.torpedoCounter >= 10) {
+				// TODO: add ammo tracker: can only fire if player ship has ammo
+				if(rangeToTarget <= npc.torpedoes.range) {
+					torpedoes = true;
+					npc.torpedoCounter = 0;
+				}
+			}
+		}
+
+		let {targetDestroyed, updatedTarget, toastData} = fireWeapons(plasmaProjectors, torpedoes, npc, playerShip);
+
+		if(!plasmaProjectors && !torpedoes) {
+			toastData = null;
+		}
+
+		// console.log('!!! target destroyed', targetDestroyed);
+
+		return {targetDestroyed, updatedTarget, toastData}
+
+
+}
