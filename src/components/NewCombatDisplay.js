@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire } from './_utils/combatUtils';
+import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire, playerShipDestroyed } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
-import { moveShip } from '../actions/moveShip';
+import { moveShip, newPlayerPostion } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
 import 'react-toastify/dist/ReactToastify.css';
@@ -67,7 +67,7 @@ class NewCombatDisplay extends Component {
 			}
 		})
 
-		if(prevProps.sectorPosition !== this.props.sectorPosition) {
+		if(prevProps.playerCombatPosition !== this.props.playerCombatPosition) {
 			this.moving(true);
 		}
 
@@ -79,7 +79,7 @@ class NewCombatDisplay extends Component {
 
 	setDestination() {
 		if(this.props.sector.length) {
-			const position = this.props.sectorPosition;
+			const position = this.props.playerCombatPosition;
 			// debugger;
 			const destinationCoords = [this.props.sector[0].x, this.props.sector[0].y];
 			this.setState({destination: destinationCoords});
@@ -89,7 +89,7 @@ class NewCombatDisplay extends Component {
 	}
 
 	sublightDrive() {
-		const position = this.props.sectorPosition;
+		const position = this.props.playerCombatPosition;
 		const moving = this.state.moving;
 		const destination = this.state.destination;
 		const sublightDriveRating = this.props.currentShip.sublightSpeed;
@@ -106,7 +106,7 @@ class NewCombatDisplay extends Component {
 
 	moving(moving) {
 		// debugger;
-		const position = this.props.sectorPosition;
+		const position = this.props.playerCombatPosition;
 		const destination = this.state.destination;
 		let shipMoving = false;
 
@@ -181,7 +181,7 @@ class NewCombatDisplay extends Component {
 		const setPath = this.props.path;
 		const pathLength = setPath.length;
 		let i = 0;
-		let position = this.props.sectorPosition || [];
+		let position = this.props.playerCombatPosition || [];
 	
 		if(pathLength > 1){
 			for (i = 0; i < pathLength; i++) {
@@ -203,7 +203,7 @@ class NewCombatDisplay extends Component {
 
 	startNpcMovement = () => {
 		const npcs = this.state.npcs;
-		const playerPosition = this.props.sectorPosition;
+		const playerPosition = this.props.playerCombatPosition;
 		console.log('!!!!!  startNpcMovement');
 
 		const updatedNpcs = moveNpcShips(npcs, playerPosition);
@@ -214,7 +214,7 @@ class NewCombatDisplay extends Component {
 		const currentTarget = this.state.currentTarget;
 		const playerShip = this.props.currentShip;
 		const npcs = this.state.npcs;
-		const playerPosition = this.props.sectorPosition;
+		const playerPosition = this.props.playerCombatPosition;
 		let npcsArray = [...npcs];
 		if(currentTarget) {
 			const {targetDestroyed, updatedTarget, toastData} = playerFire(currentTarget, playerShip, playerPosition);
@@ -225,7 +225,15 @@ class NewCombatDisplay extends Component {
 			this.setState({npcs: npcsArray});
 			if(targetDestroyed) {
 				this.setState({currentTarget: null});
-				this.exitCombat();
+				let npcsLeft = [];
+				npcsArray.map(n => {
+					if(!n.isDestroyed) {
+						npcsLeft.push(n);
+					}
+				})
+				if(!npcsLeft.length) {
+					this.exitCombat();
+				}
 				clearInterval(this.intervalPlayerFireId);
 			}
 		}
@@ -234,7 +242,7 @@ class NewCombatDisplay extends Component {
 	startNpcFiring = () => {
 		const playerShip = this.props.currentShip;
 		const npcs = this.state.npcs;
-		const playerPosition = this.props.sectorPosition;
+		const playerPosition = this.props.playerCombatPosition;
 		let npcsArray = [...npcs];
 
 		if(npcsArray.length) {
@@ -244,8 +252,9 @@ class NewCombatDisplay extends Component {
 
 				if(targetDestroyed) {
 					this.exitCombat();
-					clearInterval(this.intervalNpcFireId);
+					clearInterval(this.intervalNpcFiringId);
 				}
+
 			})
 		}
 		
@@ -295,25 +304,25 @@ class NewCombatDisplay extends Component {
 	}
 
 	exitCombat = () => {
-		let exit = [];
 		let tally = [];
 		this.state.npcs.forEach(n => {
-			if(!n.isDestroyed) {
-				exit.push(n);
-			} else {
+			if(n.isDestroyed) {
 				tally.push(n);
 			}
 		})
-		if(!exit.length) {
-			// reputation adjustment here
-			const rep = this.adjustReputation(this.props.player.reputation, tally);
-			this.props.player.reputation = rep;
-			this.props.player.inCombat = false;
-			this.props.playerData(false, this.props.player);
-			clearInterval(this.intervalNpcMpvementId);
-			clearInterval(this.intervalPlayerFireId);
-			clearInterval(this.intervalNpcFireId);
-		}
+		// reputation adjustment here
+		const rep = this.adjustReputation(this.props.player.reputation, tally);
+		this.props.player.reputation = rep;
+		clearInterval(this.intervalNpcMpvementId);
+		clearInterval(this.intervalPlayerFireId);
+		clearInterval(this.intervalNpcFiringId);
+
+		const newPlayerPosition = playerShipDestroyed(this.state.npcs, this.props.sectorPosition, this.props.dockingAreas);
+		this.props.newPlayerPostion(newPlayerPosition);
+		this.props.player.docked = true;
+		this.props.player.inCombat = false;
+		this.props.playerData(false, this.props.player);
+		
 		// console.log('^^^ state npcs', this.state.npcs);
 	}
 
@@ -325,7 +334,7 @@ class NewCombatDisplay extends Component {
 		const mapUpdated = this.updateMap(this.props.map);
 		const moving = this.state.moving;
 		const destination = this.state.destination;
-		const position = this.props.sectorPosition || [];
+		const position = this.props.playerCombatPosition || [];
 		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
 
 		// console.log('^^^ state npcs', this.state.npcs);
@@ -339,6 +348,7 @@ class NewCombatDisplay extends Component {
 						
 							<div className="shipDetail">Ship Systems:
 								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
+								<div>{`* Hull: ${ship.hullHp}`}</div>
 								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} (Range: ${ship.plasmaProjectors.range})`}</div>
 								<div>{ship.torpedoes && `* ${ship.torpedoes.name} (Range: ${ship.torpedoes.range})`}</div>
 								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
@@ -374,7 +384,7 @@ class NewCombatDisplay extends Component {
 										<div>{`* Shields: ${s.shields.name} (${s.shields.shieldsHp})`}</div>
 										<div>{`* Hull: ${s.hullHp}`}</div>
 										<div>{`* Plasma Projectors: ${s.plasmaProjectors.value} (Range: ${s.plasmaProjectors.range})`}</div>
-										{s.toredoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
+										{s.torpedoes && <div>{`* Torpedoes: ${s.torpedoes.value} (Range: ${s.torpedoes.range})`}</div>}
 										<div>{`* Sublight Drive: ${s.sublightSpeed.name}`}</div>
 										<div>{`* Signature: ${s.signature}`}</div>
 									</div>
@@ -419,11 +429,13 @@ const mapStateToProps = state => ({
 	sector: state.selectedSector.combatMapSector,
 	path: state.path.combatPath,
 	currentShip: state.selectedShip,
-	sectorPosition: state.sectorPosition.combatPosition,
+	playerCombatPosition: state.sectorPosition.combatPosition,
+	sectorPosition: state.sectorPosition.position,
 	npcShips: state.npcShips,
 	npcActiveShips: state.npcActiveShips,
 	player: state.playerData,
+	dockingAreas: state.dockingAreas,
 	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion })(NewCombatDisplay);

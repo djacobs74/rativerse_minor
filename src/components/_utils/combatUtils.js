@@ -551,6 +551,30 @@ export const npcsFire = (playerShip, playerPosition, npc) => {
 		// console.log('!!! target destroyed', targetDestroyed);
 
 		return {targetDestroyed, updatedTarget, toastData}
-
-
 }
+
+export const playerShipDestroyed = (npcs, playerPosition, dockingAreas) => {
+	const posX = playerPosition[0];
+	const posY = playerPosition[1];
+	let rangeOneResults = rangeOne(posX, posY);
+	let dockedAt = [];
+	const dockingAreasTotal = dockingAreas.length;
+
+	const randomDockingArea = Math.floor(Math.random() * (0 - dockingAreasTotal) + dockingAreasTotal);
+	const dockedAtData = dockingAreas[randomDockingArea];
+	const newPlayerCoords = [dockedAtData.x, dockedAtData.y];
+
+	return newPlayerCoords
+
+	// Object.values(rangeOneResults).map(r => {
+	// 	const dockingAreaFound = dockingAreas.find(x => x.x === r[0] && x.y === r[1]);
+	// 	if(dockingAreaFound) {
+	// 		dockedAt.push(dockingAreaFound);
+	// 	}
+	// })
+
+	
+	// rangeOneResults left: [3, 3]
+	// dockingAreas.find(x => x.x === rangeOneResults.left[0] && x.y === rangeOneResults.left[1])
+	// Object.values(rangeOneResults)
+} 
