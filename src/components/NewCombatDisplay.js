@@ -232,7 +232,7 @@ class NewCombatDisplay extends Component {
 					}
 				})
 				if(!npcsLeft.length) {
-					this.exitCombat();
+					this.exitCombat(false);
 				}
 				clearInterval(this.intervalPlayerFireId);
 			}
@@ -251,7 +251,7 @@ class NewCombatDisplay extends Component {
 				toastData && this.toastMessage(toastData.type, toastData.msg);
 
 				if(targetDestroyed) {
-					this.exitCombat();
+					this.exitCombat(true);
 					clearInterval(this.intervalNpcFiringId);
 				}
 
@@ -303,7 +303,7 @@ class NewCombatDisplay extends Component {
 		return [{uwc}, {bfr}, {cnp}, {ob}, {tscc}]
 	}
 
-	exitCombat = () => {
+	exitCombat = (playerDestroyed) => {
 		let tally = [];
 		this.state.npcs.forEach(n => {
 			if(n.isDestroyed) {
@@ -316,10 +316,11 @@ class NewCombatDisplay extends Component {
 		clearInterval(this.intervalNpcMpvementId);
 		clearInterval(this.intervalPlayerFireId);
 		clearInterval(this.intervalNpcFiringId);
-
-		const newPlayerPosition = playerShipDestroyed(this.state.npcs, this.props.sectorPosition, this.props.dockingAreas);
-		this.props.newPlayerPostion(newPlayerPosition);
-		this.props.player.docked = true;
+		if(playerDestroyed) {
+			const newPlayerPosition = playerShipDestroyed(this.state.npcs, this.props.sectorPosition, this.props.dockingAreas);
+			this.props.newPlayerPostion(newPlayerPosition);
+			this.props.player.docked = true;
+		}
 		this.props.player.inCombat = false;
 		this.props.playerData(false, this.props.player);
 		
@@ -349,8 +350,8 @@ class NewCombatDisplay extends Component {
 							<div className="shipDetail">Ship Systems:
 								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 								<div>{`* Hull: ${ship.hullHp}`}</div>
-								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} (Range: ${ship.plasmaProjectors.range})`}</div>
-								<div>{ship.torpedoes && `* ${ship.torpedoes.name} (Range: ${ship.torpedoes.range})`}</div>
+								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.value} (Range: ${ship.plasmaProjectors.range})`}</div>
+								<div>{ship.torpedoes && `* ${ship.torpedoes.value} (Range: ${ship.torpedoes.range})`}</div>
 								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
 								<div>* Signature: {ship.signature}</div>
 								<div>* Scanner: {ship.scanner}</div>
