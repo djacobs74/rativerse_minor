@@ -8,6 +8,12 @@ export default (state = initialState, action) => {
 				...state,
 				...action.payload
 			};
+		case 'SHIP_SHIELD_REGEN':
+			// debugger;
+			return {
+				...state,
+				...action.payload
+			};
 		default:
 			return state;
 	}

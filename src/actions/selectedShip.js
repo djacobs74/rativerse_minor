@@ -17,3 +17,16 @@ export const selectedShip = (ship, newShip) => {
   	
   	// return {type: 'SHIP_SELECTED', payload: ship};
 };
+
+export const shieldRecharger = (ship) => {
+	if(ship.shields.shieldsHp < ship.shields.shieldsMax) {
+		ship.shields.shieldsHp = (ship.shields.shieldsHp + ship.shields.shieldsRegen);
+		if(ship.shields.shieldsHp > ship.shields.shieldsMax) {
+			ship.shields.shieldsHp = ship.shields.shieldsMax;
+		}
+	}
+	return (dispatch) => {
+		dispatch({type: 'SHIP_SHIELD_REGEN', payload: ship});
+	}
+
+}
