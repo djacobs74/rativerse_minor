@@ -52,9 +52,9 @@ class Game extends Component {
 
 		function rechargeDelay () {
 			setInterval(function () {
-				// console.log('^^^^^^^^^^ npcShips', here.props.npcShips);
-				here.props.shieldRecharger(here.props.currentShip)
-				
+				if(here.props.currentShip) {
+					here.props.shieldRecharger(here.props.currentShip);
+				}	
 			}, 10000)
 		}
 		rechargeDelay();
