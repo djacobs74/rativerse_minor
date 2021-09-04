@@ -445,3 +445,11 @@ button {
 	75%		{ background-color: #a8a8a8;}
 	100%	{ background-color: #f2f2f2;}
 }
+
+.stationNav {
+	padding: 5px;
+}
+
+.dealerShipLabel {
+	font-size: 20px;;
+}

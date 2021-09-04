@@ -3,7 +3,7 @@ import Destination from './Destination';
 import { selectedShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
-import { SHIP_DATA } from './_utils/constants';
+import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
@@ -17,7 +17,8 @@ import { connect } from 'react-redux';
 class DockedControlPanel extends Component {
 
 	state = {
-		cargoOptions: []
+		cargoOptions: [],
+		stationNav: 'tradeGoods'
 	}
 
 	componentDidMount = () => {
@@ -217,6 +218,10 @@ class DockedControlPanel extends Component {
 		return className
 	}
 
+	setStationNav(nav) {
+		this.setState({stationNav: nav});
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -228,6 +233,7 @@ class DockedControlPanel extends Component {
 		const dockingArea = this.getDockingArea(this.props.sectorPosition);
 		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
+		const showTradeGoodNav = currentShip && this.state.stationNav === 'tradeGoods';
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
@@ -240,7 +246,12 @@ class DockedControlPanel extends Component {
 
 				<div>Credits: {playerData.credits}</div>
 
-					{currentShip &&
+				<div className='stationNav'>
+					<button onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
+					<button onClick={() => this.setStationNav('shipDealer')}>Ship Dealer</button>
+				</div>
+
+					{showTradeGoodNav &&
 						<div>
 							<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
 							{tradeGoods && (tradeGoods.length > 0)
@@ -277,6 +288,25 @@ class DockedControlPanel extends Component {
 										</div>
 									) : <div></div>
 							}
+						</div>
+					}
+
+					{this.state.stationNav === 'shipDealer' &&
+						<div>
+							{PLAYER_SHIPS.map(ship => 
+								<div key={ship.value} className='tradeGoodWrapper'>
+									<div className='dealerShipLabel'>{ship.label}</div>
+									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
+									<div>* Hull: {ship.hullHp}</div>
+									<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+									<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+									<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+									<div>* Martel Drive: {ship.martelDrive.name}</div>
+									<div>* Signature: {ship.signature}</div>
+									<div>* Scanner: {ship.scanner}</div>
+									<div>* Cargo Space: {ship.cargoMax}</div>
+								</div>
+							)}
 						</div>
 					}
 		
