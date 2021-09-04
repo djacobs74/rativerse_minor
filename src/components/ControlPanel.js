@@ -16,7 +16,7 @@ class ControlPanel extends Component {
 	}
 
 	componentDidMount = () => {
-		this.getShipType();
+		// this.getShipType();
 	}
 
 	componentDidUpdate(prevProps, props) {
@@ -26,7 +26,7 @@ class ControlPanel extends Component {
 	}
 
 	getShipType() {
-		const selectedShip = this.props.currentShip.value;
+		const selectedShip = this.props.currentShip.value || null;
 		const ship = STARTER_SHIPS.find(s => s.value === selectedShip)
 		this.setState({ship: ship});
 	}
@@ -54,14 +54,14 @@ class ControlPanel extends Component {
 
 	render () {
 		const ship = this.props.currentShip;
-		const selectedShip = this.props.currentShip.label;
+		// const selectedShip = this.props.currentShip.label;
 		const moving = this.props.sectorPosition.moving || false;
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
 		const playerData = this.props.player;
 
 		let cargoData = [];
-		ship.cargoHold.map(c => {
+		ship && ship.cargoHold.map(c => {
 			if(c.amount > 0) {
 				cargoData.push(c);
 			}
@@ -71,24 +71,28 @@ class ControlPanel extends Component {
 			<div className="ControlPanel">
 				<div className="cpSection">
 					<div className="header">Ship Data</div>
-					<div>Current Ship: {ship.label} ({ship.type})</div>
-				
-					<div className="shipDetail">Ship Systems:
-						<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
-						<div>* Hull: {ship.hullHp}</div>
-						<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
-						<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
-						<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
-						<div>* Martel Drive: {ship.martelDrive.name}</div>
-						<div>* Signature: {ship.signature}</div>
-						<div>* Scanner: {ship.scanner}</div>
-						<div>* Cargo Hold Space Used: {`${ship.cargo} of ${ship.cargoMax}`}</div>
-						{cargoData.length
-							? cargoData.map(c =>
-							<div key={c.value}>=== {c.label}: {c.amount}</div>
-							) : <div></div>
-						}
-					</div>
+					{ ship ?
+						<div>
+							<div>Current Ship: {ship.label} ({ship.type})</div>
+						
+							<div className="shipDetail">Ship Systems:
+								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
+								<div>* Hull: {ship.hullHp}</div>
+								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+								<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+								<div>* Martel Drive: {ship.martelDrive.name}</div>
+								<div>* Signature: {ship.signature}</div>
+								<div>* Scanner: {ship.scanner}</div>
+								<div>* Cargo Hold Space Used: {`${ship.cargo} of ${ship.cargoMax}`}</div>
+								{cargoData.length
+									? cargoData.map(c =>
+									<div key={c.value}>=== {c.label}: {c.amount}</div>
+									) : <div></div>
+								}
+							</div>
+						</div>
+					: <div>No ship currently selected</div>}
 				</div>
 
 				<div className="cpSection">

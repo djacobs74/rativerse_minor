@@ -6,6 +6,7 @@ import { getPath } from '../actions/getPath';
 import { moveShip, newPlayerPostion } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
+import { selectedShip } from '../actions/selectedShip';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -320,6 +321,7 @@ class NewCombatDisplay extends Component {
 			const newPlayerPosition = playerShipDestroyed(this.state.npcs, this.props.sectorPosition, this.props.dockingAreas);
 			this.props.newPlayerPostion(newPlayerPosition);
 			this.props.player.docked = true;
+			this.props.selectedShip(false, null);
 		}
 		this.props.player.inCombat = false;
 		this.props.playerData(false, this.props.player);
@@ -345,18 +347,22 @@ class NewCombatDisplay extends Component {
 				<div className="combatControlPanelWrapper">
 					<div className="combatControlPanel">
 						<div className="cpSection">
-							<div>Current Ship: {ship.label} ({ship.type})</div>
-						
-							<div className="shipDetail">Ship Systems:
-								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
-								<div>{`* Hull: ${ship.hullHp}`}</div>
-								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.value} (Range: ${ship.plasmaProjectors.range})`}</div>
-								<div>{ship.torpedoes && `* ${ship.torpedoes.value} (Range: ${ship.torpedoes.range})`}</div>
-								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
-								<div>* Signature: {ship.signature}</div>
-								<div>* Scanner: {ship.scanner}</div>
-						
-							</div>
+							{ ship ?
+								<div>
+									<div>Current Ship: {ship.label} ({ship.type})</div>
+								
+									<div className="shipDetail">Ship Systems:
+										<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
+										<div>{`* Hull: ${ship.hullHp}`}</div>
+										<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.value} (Range: ${ship.plasmaProjectors.range})`}</div>
+										<div>{ship.torpedoes && `* ${ship.torpedoes.value} (Range: ${ship.torpedoes.range})`}</div>
+										<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+										<div>* Signature: {ship.signature}</div>
+										<div>* Scanner: {ship.scanner}</div>
+									</div>
+								</div>
+							: <div>No ship currently selected</div>
+							}
 						</div>
 					</div>
 
@@ -439,4 +445,4 @@ const mapStateToProps = state => ({
 	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip })(NewCombatDisplay);

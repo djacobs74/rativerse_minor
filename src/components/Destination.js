@@ -105,7 +105,7 @@ class Destination extends React.Component {
 				<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 		  		<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 	  			<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.martelDrive()}>Engage Martel Drive</button>
-	  			<button ref="dockBtn" disabled={moving || !dockOption || this.props.player.inCombat} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
+	  			<button ref="dockBtn" disabled={moving || !dockOption || this.props.player.inCombat || !this.props.currentShip} onClick = {() => this.updateDocked()}>{this.props.player.docked ? 'un-dock' : 'dock'}</button>
 	  	</div>
 		);
   	}
