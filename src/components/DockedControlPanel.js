@@ -18,7 +18,8 @@ class DockedControlPanel extends Component {
 
 	state = {
 		cargoOptions: [],
-		stationNav: 'tradeGoods'
+		stationNav: 'tradeGoods',
+		buyShipOption: null
 	}
 
 	componentDidMount = () => {
@@ -222,6 +223,27 @@ class DockedControlPanel extends Component {
 		this.setState({stationNav: nav});
 	}
 
+	setShipOption = (ship) => {
+		const currentShipOption = this.state.buyShipOption;
+		const { currentShip, player } = this.props;
+		
+		if(player.credits < ship.price) {
+			toast.error(`You do not have enough credits to buy a ${ship.label}.`);
+			return false
+		} 
+		if(currentShip.cargo > ship.cargoMax) {
+			toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
+			return false
+		} 
+
+		if(currentShipOption && (ship.value === currentShipOption.value)) {
+			this.setState({buyShipOption: null});
+		} else {
+			this.setState({buyShipOption: ship});
+		}
+
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -294,7 +316,7 @@ class DockedControlPanel extends Component {
 					{this.state.stationNav === 'shipDealer' &&
 						<div>
 							{PLAYER_SHIPS.map(ship => 
-								<div key={ship.value} className='tradeGoodWrapper'>
+								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
 									<div className='dealerShipLabel'>{ship.label}</div>
 									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 									<div>* Hull: {ship.hullHp}</div>
@@ -305,6 +327,13 @@ class DockedControlPanel extends Component {
 									<div>* Signature: {ship.signature}</div>
 									<div>* Scanner: {ship.scanner}</div>
 									<div>* Cargo Space: {ship.cargoMax}</div>
+									<div></div>
+									<div className='top-pad'>"{ship.description}"</div>
+									{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
+										<div className='top-pad'>
+											<button>Buy this ship</button>
+										</div>
+									}
 								</div>
 							)}
 						</div>

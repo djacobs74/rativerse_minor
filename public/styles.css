@@ -381,7 +381,7 @@ button {
 	cursor: pointer;
 }
 
-.cpSection.currentTarget {
+.cpSection.currentTarget, .shipOption.active {
 	background: #095e12;
 }
 
@@ -452,4 +452,8 @@ button {
 
 .dealerShipLabel {
 	font-size: 20px;;
+}
+
+.top-pad {
+	padding-top: 10px;;
 }
