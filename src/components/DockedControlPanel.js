@@ -226,16 +226,18 @@ class DockedControlPanel extends Component {
 	setShipOption = (ship) => {
 		const currentShipOption = this.state.buyShipOption;
 		const { currentShip, player } = this.props;
-		const tradeInPrice = currentShip ? currentShip.sellPrice+player.credits : 0;
+		const tradeInPrice = currentShip ? currentShip.sellPrice+player.credits : player.credits;
 		
 		if(tradeInPrice < ship.price) {
 			toast.error(`You do not have enough credits to buy a ${ship.label}.`);
 			return false
-		} 
-		if(currentShip.cargo > ship.cargoMax) {
-			toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
-			return false
-		} 
+		}
+		if(currentShip) {
+			if(currentShip.cargo > ship.cargoMax) {
+				toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
+				return false
+			} 
+		}
 
 		if(currentShipOption && (ship.value === currentShipOption.value)) {
 			this.setState({buyShipOption: null});
