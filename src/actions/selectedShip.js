@@ -1,12 +1,16 @@
 import { TRADE_GOODS } from '../components/_utils/constants';
 
-export const selectedShip = (newShip, ship) => {
+export const selectedShip = (newShip, ship, cargo) => {
 	if(newShip) {
-		let cargoOptions = [];
-		TRADE_GOODS.map(t => {
-			cargoOptions.push({value: t.value, label: t.label, amount: 0})
-		})
-		ship.cargoHold = cargoOptions;
+		if(!cargo){
+			let cargoOptions = [];
+			TRADE_GOODS.map(t => {
+				cargoOptions.push({value: t.value, label: t.label, amount: 0})
+			})
+			ship.cargoHold = cargoOptions;
+		} else {
+			ship.cargoHold = cargo;
+		}
 	} else {
 		ship = null;
 	}

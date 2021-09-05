@@ -179,7 +179,7 @@ class DockedControlPanel extends Component {
 
 
 
-		this.props.selectedShip(playerShip);
+		this.props.selectedShip(true, playerShip, playerShip.cargoHold);
 		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
@@ -226,8 +226,9 @@ class DockedControlPanel extends Component {
 	setShipOption = (ship) => {
 		const currentShipOption = this.state.buyShipOption;
 		const { currentShip, player } = this.props;
+		const tradeInPrice = currentShip ? currentShip.sellPrice+player.credits : 0;
 		
-		if(player.credits < ship.price) {
+		if(tradeInPrice < ship.price) {
 			toast.error(`You do not have enough credits to buy a ${ship.label}.`);
 			return false
 		} 
@@ -241,7 +242,20 @@ class DockedControlPanel extends Component {
 		} else {
 			this.setState({buyShipOption: ship});
 		}
+	}
 
+	buyNewShip = (ship) => {
+		const { currentShip, player } = this.props;
+		let shipCost = ship.price;
+		let cargo = null;
+		if(currentShip) {
+			shipCost = shipCost-currentShip.sellPrice;
+			cargo = currentShip.cargoHold;
+		}
+		player.credits = player.credits-shipCost;
+
+		this.props.selectedShip(true, ship, cargo);
+		this.props.playerData(false, player);
 	}
 
 
@@ -317,7 +331,7 @@ class DockedControlPanel extends Component {
 						<div>
 							{PLAYER_SHIPS.map(ship => 
 								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
-									<div className='dealerShipLabel'>{ship.label}</div>
+									<div className='dealerShipLabel'>{`${ship.label} $${ship.price}`}</div>
 									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 									<div>* Hull: {ship.hullHp}</div>
 									<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
@@ -331,7 +345,7 @@ class DockedControlPanel extends Component {
 									<div className='top-pad'>"{ship.description}"</div>
 									{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
 										<div className='top-pad'>
-											<button>Buy this ship</button>
+											<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
 										</div>
 									}
 								</div>
