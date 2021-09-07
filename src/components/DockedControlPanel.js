@@ -288,8 +288,8 @@ class DockedControlPanel extends Component {
 				<div>Credits: {playerData.credits}</div>
 
 				<div className='stationNav'>
-					<button onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
-					<button onClick={() => this.setStationNav('shipDealer')}>Ship Dealer</button>
+					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
+					<button className={`${this.state.stationNav === 'shipDealer' && 'active'}`} onClick={() => this.setStationNav('shipDealer')}>Ship Dealer</button>
 				</div>
 
 					{showTradeGoodNav &&
