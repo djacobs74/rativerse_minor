@@ -227,26 +227,25 @@ class DockedControlPanel extends Component {
 		const currentShipOption = this.state.buyShipOption;
 		const { currentShip, player } = this.props;
 		const tradeInPrice = currentShip ? currentShip.sellPrice+player.credits : player.credits;
-		
-		if(currentShip.value !== ship.value) {
-			if(tradeInPrice < ship.price) {
-				toast.error(`You do not have enough credits to buy a ${ship.label}.`);
-				return false
-			}
-			if(currentShip) {
-				if(currentShip.cargo > ship.cargoMax) {
-					toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
-					return false
-				} 
-			}
 
-			if(currentShipOption && (ship.value === currentShipOption.value)) {
-				this.setState({buyShipOption: null});
-			} else {
-				this.setState({buyShipOption: ship});
-			}
+		if(currentShipOption && (ship.value === currentShipOption.value)) {
+			this.setState({buyShipOption: null});
+			return false
+		}
+		
+		if(tradeInPrice < ship.price) {
+			toast.error(`You do not have enough credits to buy a ${ship.label}.`);
+			return false
+		}
+		if(currentShip) {
+			if(currentShip.cargo > ship.cargoMax) {
+				toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
+				return false
+			} 
 		}
 
+		this.setState({buyShipOption: ship});
+		
 	}
 
 	buyNewShip = (ship) => {
@@ -286,6 +285,9 @@ class DockedControlPanel extends Component {
 				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
 				<div>Credits: {playerData.credits}</div>
+				{(this.state.stationNav === 'shipDealer' && currentShip) &&
+				<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
+				}
 
 				<div className='stationNav'>
 					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
@@ -337,7 +339,8 @@ class DockedControlPanel extends Component {
 							{ currentShip ? PLAYER_SHIPS.map(ship => 
 							ship.value !== currentShip.value &&
 								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
-									<div className='dealerShipLabel'>{`${ship.label} $${ship.price}`}</div>
+									<div className='dealerShipLabel'>{ship.label}</div>
+									<div>Price: {ship.price}</div>
 									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 									<div>* Hull: {ship.hullHp}</div>
 									<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
@@ -358,7 +361,8 @@ class DockedControlPanel extends Component {
 							) : 
 								PLAYER_SHIPS.map(ship => 
 									<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
-										<div className='dealerShipLabel'>{`${ship.label} $${ship.price}`}</div>
+										<div className='dealerShipLabel'>{ship.label}</div>
+										<div>Price: {ship.price}</div>
 										<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 										<div>* Hull: {ship.hullHp}</div>
 										<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
