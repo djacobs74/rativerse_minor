@@ -378,6 +378,7 @@ class NewCombatDisplay extends Component {
 						<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 							<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
 							<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.sublightDrive()}>Engage Sublight Drive</button>
+							{/* retreat here */}
 					</div>
 
 				

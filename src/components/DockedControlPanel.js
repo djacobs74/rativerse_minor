@@ -334,7 +334,7 @@ class DockedControlPanel extends Component {
 
 					{this.state.stationNav === 'shipDealer' &&
 						<div>
-							{PLAYER_SHIPS.map(ship => 
+							{ currentShip ? PLAYER_SHIPS.map(ship => 
 							ship.value !== currentShip.value &&
 								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
 									<div className='dealerShipLabel'>{`${ship.label} $${ship.price}`}</div>
@@ -355,7 +355,30 @@ class DockedControlPanel extends Component {
 										</div>
 									}
 								</div>
-							)}
+							) : 
+								PLAYER_SHIPS.map(ship => 
+									<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
+										<div className='dealerShipLabel'>{`${ship.label} $${ship.price}`}</div>
+										<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
+										<div>* Hull: {ship.hullHp}</div>
+										<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+										<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+										<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+										<div>* Martel Drive: {ship.martelDrive.name}</div>
+										<div>* Signature: {ship.signature}</div>
+										<div>* Scanner: {ship.scanner}</div>
+										<div>* Cargo Space: {ship.cargoMax}</div>
+										<div></div>
+										<div className='top-pad'>"{ship.description}"</div>
+										{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
+											<div className='top-pad'>
+												<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
+											</div>
+										}
+									</div>
+								)
+							
+							}
 						</div>
 					}
 		
