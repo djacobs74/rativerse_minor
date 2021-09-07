@@ -29,7 +29,8 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	// if(!maxId || maxId === 0) {maxId = 1};
 	console.log('** MAXID', maxId);
 	
-	const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
+	// const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
+	let npcShipsCopy = JSON.parse(JSON.stringify(NPC_SHIPS));
 	// debugger;
 
 	if (factionNpcShipCounts['uwc'] < maxShips) {

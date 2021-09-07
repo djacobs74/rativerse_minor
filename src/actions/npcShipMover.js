@@ -104,7 +104,7 @@ export const npcShieldRecharger = (npcs) => {
 	// console.log('!!!! npcShieldRecharger');
 	npcs.forEach(s => {
 		
-			console.log('!!!! npcShieldRecharger', s.id);
+			// console.log('!!!! npcShieldRecharger', s.id);
 			if(s.shields.shieldsHp < s.shields.shieldsMax) {
 				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
 				if(s.shields.shieldsHp > s.shields.shieldsMax) {
