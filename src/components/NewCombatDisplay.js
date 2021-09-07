@@ -3,7 +3,7 @@ import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcs
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
-import { moveShip, newPlayerPostion } from '../actions/moveShip';
+import { moveShip, newPlayerPostion, newPlayerCombatPostion } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
 import { selectedShip } from '../actions/selectedShip';
@@ -325,6 +325,7 @@ class NewCombatDisplay extends Component {
 		}
 		this.props.player.inCombat = false;
 		this.props.playerData(false, this.props.player);
+		this.props.newPlayerCombatPostion();
 		
 		// console.log('^^^ state npcs', this.state.npcs);
 	}
@@ -446,4 +447,4 @@ const mapStateToProps = state => ({
 	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip, newPlayerCombatPostion })(NewCombatDisplay);

@@ -95,6 +95,12 @@ export const newPlayerPostion = (newPlayerPosition) => {
 	}
 }
 
+export const newPlayerCombatPostion = () => {
+	return (dispatch) => {
+		dispatch({type: 'NEW_PLAYER_COMBAT_POSITION', payload: [0, 0]});
+	}
+}
+
 
 
 
