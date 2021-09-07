@@ -101,15 +101,23 @@ export const npcShipsUpdated = (npcShipsUpdated) => {
 }
 
 export const npcShieldRecharger = (npcs) => {
-	npcs.map(s => {
-		if(s.shields.shieldsHp < s.shields.shieldsMax) {
-			s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
-			if(s.shields.shieldsHp > s.shields.shieldsMax) {
-				s.shields.shieldsHp = s.shields.shieldsMax;
+	// console.log('!!!! npcShieldRecharger');
+	npcs.forEach(s => {
+		
+			console.log('!!!! npcShieldRecharger', s.id);
+			if(s.shields.shieldsHp < s.shields.shieldsMax) {
+				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
+				if(s.shields.shieldsHp > s.shields.shieldsMax) {
+					s.shields.shieldsHp = s.shields.shieldsMax;
+				}
 			}
-		}
+		
+
 	})
-	return (dispatch) => { dispatch({type: 'NPC_SHIPS_RECHARGED', payload: npcs})} ;
+	return (dispatch) => { 
+		dispatch({type: 'NPC_SHIPS_RECHARGED'});
+		dispatch(npcShipsUpdated(npcs))
+	}
 }
 
 

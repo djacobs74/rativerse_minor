@@ -1,23 +1,24 @@
-import { TRADE_GOODS } from '../components/_utils/constants';
+import { TRADE_GOODS, PLAYER_SHIPS } from '../components/_utils/constants';
 
 export const selectedShip = (newShip, ship, cargo) => {
+	let copiedShip = JSON.parse(JSON.stringify(ship));
 	if(newShip) {
 		if(!cargo){
 			let cargoOptions = [];
 			TRADE_GOODS.map(t => {
 				cargoOptions.push({value: t.value, label: t.label, amount: 0})
 			})
-			ship.cargoHold = cargoOptions;
+			copiedShip.cargoHold = cargoOptions;
 		} else {
-			ship.cargoHold = cargo;
+			copiedShip.cargoHold = cargo;
 		}
 	} else {
-		ship = null;
+		copiedShip = null;
 	}
 
 
 	return (dispatch) => {
-		dispatch({type: 'SHIP_SELECTED', payload: ship});
+		dispatch({type: 'SHIP_SELECTED', payload: copiedShip});
 	}
   	
   	// return {type: 'SHIP_SELECTED', payload: ship};

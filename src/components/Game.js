@@ -63,14 +63,14 @@ class Game extends Component {
 	rechargeNpcShields(props) {
 		const here = this;
 
-		function rechargeDelay () {
+		function npcRechargeDelay () {
 			setInterval(function () {
 				if(here.props.npcActiveShips.length) {
 					here.props.npcShieldRecharger(here.props.npcActiveShips);
 				}			
 			}, 10000)
 		}
-		rechargeDelay();
+		npcRechargeDelay();
 	}
 
 	createNpcShips(props) {
