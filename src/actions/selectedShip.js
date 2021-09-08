@@ -11,6 +11,13 @@ export const selectedShip = (newShip, ship, cargo) => {
 			copiedShip.cargoHold = cargoOptions;
 		} else {
 			copiedShip.cargoHold = cargo;
+			let cargoTotal = 0;
+			cargo.map(c => {
+				if(c.amount !== 0) {
+					cargoTotal = cargoTotal+c.amount;
+				}
+			})
+			copiedShip.cargo = cargoTotal;
 		}
 	} else {
 		copiedShip = null;

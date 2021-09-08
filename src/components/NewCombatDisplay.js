@@ -33,6 +33,7 @@ class NewCombatDisplay extends Component {
 	}	
 
 	componentDidMount = () => {
+		this.setState({destination: []});
 		this.props.npcActiveShips.map(s => {
 			if(s.inCombat) {
 				let npcsArray = this.state.npcs;
