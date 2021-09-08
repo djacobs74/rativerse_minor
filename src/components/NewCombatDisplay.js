@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire, playerShipDestroyed } from './_utils/combatUtils';
+import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire, playerShipDestroyed, retreatToSector } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
 import { getPath } from '../actions/getPath';
@@ -22,7 +22,8 @@ class NewCombatDisplay extends Component {
 		torpedoes: false,
 		fire: false,
 		destination: [],
-		moving: false
+		moving: false,
+		retreating: false
 	}
 
 	constructor(props){
@@ -305,6 +306,7 @@ class NewCombatDisplay extends Component {
 	}
 
 	exitCombat = (playerDestroyed) => {
+		clearInterval(this.intervalRetreatId);
 		let tally = [];
 		this.state.npcs.forEach(n => {
 			if(n.isDestroyed) {
@@ -328,6 +330,20 @@ class NewCombatDisplay extends Component {
 		this.props.newPlayerCombatPostion();
 		
 		// console.log('^^^ state npcs', this.state.npcs);
+	}
+
+	retreat = () => {
+		// stop sublight engines
+		// start countdown for martel drive
+		this.intervalRetreatId = setTimeout(this.attemptRetreat, 8000);
+		this.setState({retreating: true})
+	}
+
+	attemptRetreat = () => {
+		const newPosition = retreatToSector(this.props.sectorPosition);
+		this.props.newPlayerPostion(newPosition);
+		toast.success(`Retreating to Sector ${newPosition[0]}, ${newPosition[1]}`);
+		this.exitCombat(false);
 	}
 
 
@@ -378,8 +394,9 @@ class NewCombatDisplay extends Component {
 						{/*<input className="moveLabelInput" type="submit" value="Set Destination" onChange={this.handleChange}/>*/}
 						<div>Destination: {destination.length ? `${destination[0]}, ${destination[1]}` : ''}</div>
 							<div>Current Sector: {position.length ? position[0] +', ' + position[1] : ''}</div>
-							<button ref="martelDriveBtn" disabled={moving || this.props.player.docked || !newDestination} onClick={() => this.sublightDrive()}>Engage Sublight Drive</button>
+							<button ref="martelDriveBtn" disabled={moving || this.state.retreating || !newDestination} onClick={() => this.sublightDrive()}>Engage Sublight Drive</button>
 							{/* retreat here */}
+							<button disabled={moving || this.state.retreating} onClick={() => this.retreat()}>Retreat</button>
 					</div>
 
 				

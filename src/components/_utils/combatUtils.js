@@ -565,16 +565,42 @@ export const playerShipDestroyed = (npcs, playerPosition, dockingAreas) => {
 	const newPlayerCoords = [dockedAtData.x, dockedAtData.y];
 
 	return newPlayerCoords
-
-	// Object.values(rangeOneResults).map(r => {
-	// 	const dockingAreaFound = dockingAreas.find(x => x.x === r[0] && x.y === r[1]);
-	// 	if(dockingAreaFound) {
-	// 		dockedAt.push(dockingAreaFound);
-	// 	}
-	// })
-
-	
-	// rangeOneResults left: [3, 3]
-	// dockingAreas.find(x => x.x === rangeOneResults.left[0] && x.y === rangeOneResults.left[1])
-	// Object.values(rangeOneResults)
 } 
+
+export const retreatToSector = (playerPosition) => {
+	const posX = playerPosition[0];
+	const posY = playerPosition[1];
+	let rangeOneResults = rangeOne(posX, posY);
+	let moveOptions = [];
+
+	if(pathCheck(rangeOneResults.bottomRight)) {
+		moveOptions.push(rangeOneResults.bottomRight);
+	}
+	if(pathCheck(rangeOneResults.bottomLeft)) {
+		moveOptions.push(rangeOneResults.bottomLeft);
+	}
+	if(pathCheck(rangeOneResults.topLeft)) {
+		moveOptions.push(rangeOneResults.topLeft);
+	}
+	if(pathCheck(rangeOneResults.topRight)) {
+		moveOptions.push(rangeOneResults.topRight);
+	}
+	if(pathCheck(rangeOneResults.left)) {
+		moveOptions.push(rangeOneResults.left);
+	}
+	if(pathCheck(rangeOneResults.right)) {
+		moveOptions.push(rangeOneResults.right);
+	}
+
+	let length = moveOptions.length;
+	let option = 0;
+			
+	if (moveOptions.length) {
+		option = Math.floor(Math.random() * Math.floor(length));
+	}
+
+	let newCoords = moveOptions[option];
+
+	return newCoords
+
+}
