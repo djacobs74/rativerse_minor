@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { adjustStandings, setNpcStartingLocation, moveNpcShips, playerFire, npcsFire, playerShipDestroyed, retreatToSector } from './_utils/combatUtils';
 import { getSector } from '../actions/selectedSector';
 import { toast } from 'react-toastify';
-import { getPath } from '../actions/getPath';
+import { getPath, resetPath } from '../actions/getPath';
 import { moveShip, newPlayerPostion, newPlayerCombatPostion } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
@@ -41,6 +41,8 @@ class NewCombatDisplay extends Component {
 				npcsArray.push(s);
 			}
 		})
+
+		this.props.resetPath('combat')
 
 		const mapSize = [0, 1, 2, 3, 4, 5];
 		this.props.createMap(mapSize, 'combat');
@@ -465,4 +467,4 @@ const mapStateToProps = state => ({
 	map: state.map.combatMap
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip, newPlayerCombatPostion })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip, newPlayerCombatPostion, resetPath })(NewCombatDisplay);

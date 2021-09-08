@@ -140,14 +140,11 @@ export const getPath = (position, destination, newPath, mapType, shipType) => {
 			dispatch({type: pathType, payload: path});
 		}
 	}
-
-	// const pathType = mapType === 'game' ? 'PATH_SET' : 'COMBAT_PATH_SET';
-	// // return {type: 'PATH_SET', payload: path};
-	// return (dispatch) => {
-	// 	dispatch({type: pathType, payload: path});
-	// }
 };
 
-// TODO : func for path. show path in control panel? flagged sectors appear as red
-// calculate / show ETA?
-// might need re-usable functions
+export const resetPath = (mapType) => {
+	const pathType = mapType === 'game' ? 'RESET_GAME_PATH' : 'RESET_COMBAT_PATH';
+	return (dispatch) => {
+		dispatch({type: pathType, payload: []});
+	}
+}
