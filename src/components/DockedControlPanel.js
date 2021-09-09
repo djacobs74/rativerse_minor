@@ -340,7 +340,7 @@ class DockedControlPanel extends Component {
 							ship.value !== currentShip.value &&
 								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
 									<div className='dealerShipLabel'>{ship.label}</div>
-									<div>Price: {ship.price}</div>
+									<div>Price: {`${ship.price} (${ship.price - currentShip.sellPrice} after trade in)`}</div>
 									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsMax})`}</div>
 									<div>* Hull: {ship.hullHp}</div>
 									<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
