@@ -2,158 +2,9 @@ import { rangeOne } from './rangeOne';
 import { pathCheck } from './movement';
 import { getPath } from '../../actions/getPath';
 
-export const getStartingRange = () => {
-  	return Math.floor(Math.random() * (11 - 5) + 5);
-}
 
-export const setRangeToTarget = (targetShip, playerShip, direction) => {
-	// console.log('^^^^ targetShip', targetShip);
-	// console.log('^^^^ playerShip', playerShip);
-	const currentRange = targetShip.range;
-	const playerShipSpeed = playerShip.sublightSpeed;
-	const targetShipSpeed = targetShip.sublightSpeed;
-	const speedDiff = Math.abs(targetShipSpeed - playerShipSpeed);
-	let newRange = currentRange;
-	let toastData = {type: null, msg: null};
-
-	// debugger;
-
-	if(direction === 'away') {
-
-		if(playerShipSpeed > targetShipSpeed) {
-			newRange = currentRange + speedDiff;
-			toastData.type = 'success';
-			toastData.msg = 'Moving Outside Weapons Range';
-		} else if(playerShipSpeed < targetShipSpeed) {
-			newRange = currentRange - speedDiff;
-			toastData.type = 'error';
-			toastData.msg = 'Unable to Move Outside Weapons Range';
-		} 
-	}
-
-	if(direction === 'close') {
-		newRange = currentRange - (playerShipSpeed + targetShipSpeed);
-		toastData.type = 'success';
-		toastData.msg = 'Closing Range to Target';
-	}
-
-	if(newRange < 0) {
-		newRange = 0;
-	}
-
-	const rangeData = {newRange, toastData}
-
-	return rangeData
-
-
-	// sublightSpeed
-	// targetShip.range
-}
-
-
-// export const rangeDelay = (npcs, playerShip, direction) => {
-// 	// debugger;
-// 	let npcSpeedArray = [{npcsSlower: 0}, {npcsEven: 0}, {npcsFaster: 0}];
-
-// 	setInterval(function () {
-// 		npcs.map(n => {
-// 			const playerShipSpeed = playerShip.sublightSpeed;
-// 			const targetShipSpeed = n.sublightSpeed;
-// 			if(playerShipSpeed > targetShipSpeed) {
-
-// 			}
-// 		})
-
-// 		console.log('&&&& range data');
-		
-// 	}, 5000)
-// }
-
-export const checkRange = (npcs, playerShip, direction) => {
-	let npcSpeedTracker = {npcsSlower: 0, npcsFaster: 0};
-	let toastData = {type: null, msg: null};
-
-	npcs.map(n => {
-		const playerShipSpeed = playerShip.sublightSpeed;
-		const targetShipSpeed = n.sublightSpeed;
-
-		if(direction === 'away') {
-			if(playerShipSpeed > targetShipSpeed) {
-				n.inRangeMsg = 'Out of Weapons Range';
-				n.inRangePP = false;
-				n.inRangeT = false;
-				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
-			} else {
-				n.inRangeMsg = 'In Range of All Weapons';
-				n.inRangePP = true;
-				n.inRangeT = true;
-				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
-			}
-		}
-		if(direction === 'closeRange') {
-			n.inRangeMsg = 'In Range of All Weapons';
-			n.inRangePP = true;
-			n.inRangeT = true;
-			npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
-		}
-		if(direction === 'maxRange') {
-			if(playerShipSpeed > targetShipSpeed) {
-				n.inRangeMsg = 'In Plasma Projector Weapons Range';
-				n.inRangePP = true;
-				n.inRangeT = false;
-				npcSpeedTracker.npcsSlower = npcSpeedTracker.npcsSlower + 1;
-			} else {
-				n.inRangeMsg = 'In Range of All Weapons';
-				n.inRangePP = true;
-				n.inRangeT = true;
-				npcSpeedTracker.npcsFaster = npcSpeedTracker.npcsFaster + 1;
-			}
-		}
-
-	})
-
-	if(direction === 'away') {
-		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster === 0) {
-			toastData = {type: 'success', msg: 'Moving Outside Weapons Range of All Hostile Ships'};
-		}
-		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster > 0) {
-			toastData = {type: 'warning', msg: 'Moving Outside Weapons Range of Slower Hostile Ships'};
-		}
-		if(npcSpeedTracker.npcsSlower === 0 && npcSpeedTracker.npcsFaster > 0) {
-			toastData = {type: 'error', msg: 'Unable to Move Outside Weapons Range of Any Hostile Ships'};
-		}
-	}
-
-	if(direction === 'closeRange') {
-		toastData = {type: 'success', msg: 'Moving Inside Weapons Range of All Hostile Ships'};
-	}
-
-	if(direction === 'maxRange') {
-		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster === 0) {
-			toastData = {type: 'success', msg: 'Moving to Max Plasma Projector Weapons Range'};
-		}
-		if(npcSpeedTracker.npcsSlower > 0 && npcSpeedTracker.npcsFaster > 0) {
-			toastData = {type: 'warning', msg: 'Moving to Max Plasma Projector Weapons Range of Slower Hostile Ships'};
-		}
-		if(npcSpeedTracker.npcsSlower === 0 && npcSpeedTracker.npcsFaster > 0) {
-			toastData = {type: 'error', msg: 'Unable to Move to Max Plasma Projector Weapons Range of Any Hostile Ships'};
-		}
-	}
-
-	// debugger;
-	const rangeData = {npcs, toastData};
-
-	return rangeData
-
-	// toast.success('Martel Drive Engaged');
-
-}
-
-export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, currentTarget) => {
+export const fireWeapons = (plasmaProjectors, torpedoes, firingShip, targetShip) => {
 	
-
-	// get damage from PP, T
-	// add that damage together
 	// Math.floor(Math.random() * (max - min) + min);
 	let pDmg = 0;
 	let tDmg = 0;
@@ -161,51 +12,67 @@ export const firePlayerWeapons = (plasmaProjectors, torpedoes, currentShip, curr
 	let toastData = {type: null, msg: null};
 
 	if(plasmaProjectors) {
-		pDmg = Math.floor(Math.random() * (currentShip.plasmaProjectors.maxDamage - currentShip.plasmaProjectors.minDamage) + currentShip.plasmaProjectors.minDamage);
+		pDmg = Math.floor(Math.random() * (firingShip.plasmaProjectors.maxDamage - firingShip.plasmaProjectors.minDamage) + firingShip.plasmaProjectors.minDamage);
 	}
 
 	if(torpedoes) {
-		tDmg = Math.floor(Math.random() * (currentShip.torpedoes.maxDamage - currentShip.torpedoes.minDamage) + currentShip.torpedoes.minDamage);
+		tDmg = Math.floor(Math.random() * (firingShip.torpedoes.maxDamage - firingShip.torpedoes.minDamage) + firingShip.torpedoes.minDamage);
 	}
 
 	totalDmg = pDmg + tDmg;
 
-	let npcShields = currentTarget.shields.shieldsHp;
-	let npcHull = currentTarget.hullHp;
+	let targetShields = targetShip.shields.shieldsHp;
+	let targetHull = targetShip.hullHp;
 
-	if((npcShields - totalDmg) < 0) {
-		const leftOverDmg = (npcShields - totalDmg) * -1;
-		if((npcHull - leftOverDmg) <= 0) {
-			npcHull = 0;
+	if((targetShields - totalDmg) < 0) {
+		const leftOverDmg = (targetShields - totalDmg) * -1;
+		if((targetHull - leftOverDmg) <= 0) {
+			targetHull = 0;
 		} else {
-			npcHull = npcHull - leftOverDmg;
+			targetHull = targetHull - leftOverDmg;
 		}
-		npcShields = 0;
+		targetShields = 0;
 		
 	} else {
-		npcShields = (npcShields - totalDmg);
+		targetShields = (targetShields - totalDmg);
 	}
 
-	const npcDestroyed = npcHull < 1 ? true : false;
+	const targetDestroyed = targetHull < 1 ? true : false;
 	
-	currentTarget.shields.shieldsHp = npcShields;
-	currentTarget.hullHp = npcHull;
-	currentTarget.isDestroyed = npcDestroyed;
+	targetShip.shields.shieldsHp = targetShields;
+	targetShip.hullHp = targetHull;
+	targetShip.isDestroyed = targetDestroyed;
 
-	if(npcDestroyed) {
-		toastData = {type: 'success', msg: `${currentTarget.faction} ${currentTarget.type} ${currentTarget.id} DESTOYED!`};
-	} else {
-		toastData = {type: 'success', msg: `${totalDmg} damage to ${currentTarget.faction} ${currentTarget.type} ${currentTarget.id}!`};
+	let msg;
+	if(plasmaProjectors && torpedoes) {
+		msg = 'plasma && torpedo';
+	} 
+	if(plasmaProjectors && !torpedoes) {
+		msg = 'plasma';
+	} 
+	if(!plasmaProjectors && torpedoes) {
+		msg = 'torpedo';
 	}
 
-	
-	// debugger
+	if(!targetShip.playerShip) { // Player firing
+		if(targetDestroyed) {
+			toastData = {type: 'success', msg: `${targetShip.faction} ${targetShip.type} ${targetShip.id} DESTOYED!`};
+		} else {
+			toastData = {type: 'success', msg: `${totalDmg} ${msg} damage to ${targetShip.faction} ${targetShip.type} ${targetShip.id}!`};
+		}
+	} else { // NPC firing
+		// debugger;
+		if(targetDestroyed) {
+			toastData = {type: 'error', msg: `YOUR SHIP HAS BEEN DESTOYED!`};
+		} else {
+			toastData = {type: 'warning', msg: `${totalDmg} ${msg} damage from ${firingShip.faction} ${firingShip.type} ${firingShip.id}!`};
+		}
+	}
 
-	return {npcDestroyed, currentTarget, toastData}
+	// console.log('^^^ playerFire consts', targetShip);
+	const updatedTarget = targetShip;
+	return {targetDestroyed, updatedTarget, toastData}
 
-	;
-
-	// 	this need to be set to a timer
 }
 
 export const adjustStandings = (faction, playerData) => {
@@ -457,3 +324,137 @@ export const moveNpcShips = (npcs, playerPosition) => {
 	return updatedNpcs
 }
 
+export const playerFire = (npc, playerShip, playerPosition) => {
+	let plasmaProjectors = false;
+	let torpedoes = false;
+	let destX = npc.combatPositionX;
+	let destY = npc.combatPositionY;
+	const posX = playerPosition[0];
+	const posY = playerPosition[1];
+	const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+	const rangeToTarget = path.length;
+
+	if(playerShip.plasmaProjectors) {
+		playerShip.plasmaCounter >= 0 ? playerShip.plasmaCounter++ : playerShip.plasmaCounter = 0; // adjust this?
+		// console.log('^^^ playerShip.plasmaCounter', playerShip.plasmaCounter);
+		if(playerShip.plasmaCounter >= 4) {
+			if(rangeToTarget <= playerShip.plasmaProjectors.range) {
+				plasmaProjectors = true;
+				playerShip.plasmaCounter = 0;
+			}
+		}
+	}
+	if(playerShip.torpedoes) {
+		playerShip.torpedoCounter >= 0 ? playerShip.torpedoCounter++ : playerShip.torpedoCounter = 0;
+		if(playerShip.torpedoCounter >= 10) {
+			// TODO: add ammo tracker: can only fire if player ship has ammo
+			if(rangeToTarget <= playerShip.torpedoes.range) {
+				torpedoes = true;
+				playerShip.torpedoCounter = 0;
+			}
+		}
+	}
+
+	let {targetDestroyed, updatedTarget, toastData} = fireWeapons(plasmaProjectors, torpedoes, playerShip, npc);
+	if(!plasmaProjectors && !torpedoes) {
+		toastData = null;
+	}
+	// console.log('^^^ playerFire consts', npcDestroyed);
+	return {targetDestroyed, updatedTarget, toastData}
+	// console.log('^^^ playership', playerShip.plasmaCounter);
+}
+
+export const npcsFire = (playerShip, playerPosition, npc) => {
+
+		let plasmaProjectors = false;
+		let torpedoes = false;
+		let posX = npc.combatPositionX;
+		let posY = npc.combatPositionY;
+		const destX = playerPosition[0];
+		const destY = playerPosition[1];
+		const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+		const rangeToTarget = path.length;
+
+		if(npc.plasmaProjectors) {
+			npc.plasmaCounter >= 0 ? npc.plasmaCounter++ : npc.plasmaCounter = 0; // adjust this?
+			// console.log('^^^ playerShip.plasmaCounter', playerShip.plasmaCounter);
+			if(npc.plasmaCounter >= 4) {
+				if(rangeToTarget <= npc.plasmaProjectors.range) {
+					plasmaProjectors = true;
+					npc.plasmaCounter = 0;
+				}
+			}
+		}
+		if(npc.torpedoes) {
+			npc.torpedoCounter >= 0 ? npc.torpedoCounter++ : npc.torpedoCounter = 0;
+			if(npc.torpedoCounter >= 10) {
+				// TODO: add ammo tracker: can only fire if player ship has ammo
+				if(rangeToTarget <= npc.torpedoes.range) {
+					torpedoes = true;
+					npc.torpedoCounter = 0;
+				}
+			}
+		}
+
+		let {targetDestroyed, updatedTarget, toastData} = fireWeapons(plasmaProjectors, torpedoes, npc, playerShip);
+
+		if(!plasmaProjectors && !torpedoes) {
+			toastData = null;
+		}
+
+		// console.log('!!! target destroyed', targetDestroyed);
+
+		return {targetDestroyed, updatedTarget, toastData}
+}
+
+export const playerShipDestroyed = (npcs, playerPosition, dockingAreas) => {
+	const posX = playerPosition[0];
+	const posY = playerPosition[1];
+	let rangeOneResults = rangeOne(posX, posY);
+	let dockedAt = [];
+	const dockingAreasTotal = dockingAreas.length;
+
+	const randomDockingArea = Math.floor(Math.random() * (0 - dockingAreasTotal) + dockingAreasTotal);
+	const dockedAtData = dockingAreas[randomDockingArea];
+	const newPlayerCoords = [dockedAtData.x, dockedAtData.y];
+
+	return newPlayerCoords
+} 
+
+export const retreatToSector = (playerPosition) => {
+	const posX = playerPosition[0];
+	const posY = playerPosition[1];
+	let rangeOneResults = rangeOne(posX, posY);
+	let moveOptions = [];
+
+	if(pathCheck(rangeOneResults.bottomRight)) {
+		moveOptions.push(rangeOneResults.bottomRight);
+	}
+	if(pathCheck(rangeOneResults.bottomLeft)) {
+		moveOptions.push(rangeOneResults.bottomLeft);
+	}
+	if(pathCheck(rangeOneResults.topLeft)) {
+		moveOptions.push(rangeOneResults.topLeft);
+	}
+	if(pathCheck(rangeOneResults.topRight)) {
+		moveOptions.push(rangeOneResults.topRight);
+	}
+	if(pathCheck(rangeOneResults.left)) {
+		moveOptions.push(rangeOneResults.left);
+	}
+	if(pathCheck(rangeOneResults.right)) {
+		moveOptions.push(rangeOneResults.right);
+	}
+
+	let length = moveOptions.length;
+	let option = 0;
+			
+	if (moveOptions.length) {
+		option = Math.floor(Math.random() * Math.floor(length));
+	}
+
+	let newCoords = moveOptions[option];
+
+	return newCoords
+
+}

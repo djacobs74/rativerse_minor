@@ -21,41 +21,36 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 	})
 
 	// console.log('factionNpcShipCounts', factionNpcShipCounts);
+	let maxId = 0;
 
-	let maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
+	if(npcShips.length) {
+		maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
+	}
+	// if(!maxId || maxId === 0) {maxId = 1};
 	console.log('** MAXID', maxId);
 	
-	const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
+	// const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
+	let npcShipsCopy = JSON.parse(JSON.stringify(NPC_SHIPS));
+	// debugger;
 
 	if (factionNpcShipCounts['uwc'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[0];
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
 	if (factionNpcShipCounts['bfr'] < maxShips) {
-		// console.log('** BFR Below Count', factionNpcShipCounts['bfr']);
 		maxId++;
 		let ship = npcShipsCopy[1];
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
-		// debugger;
 	}
 
 	if (factionNpcShipCounts['cnp'] < maxShips) {
 		maxId++;
 		let ship = npcShipsCopy[2];
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
@@ -63,9 +58,6 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		maxId++;
 		let ship = npcShipsCopy[3];
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 
@@ -73,9 +65,6 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		maxId++;
 		let ship = npcShipsCopy[4];
 		ship.id = maxId;
-		ship.inRangePP = false
-		ship.inRangeT = false
-		ship.isDestroyed = false
 		npcShips.push(ship);
 	}
 

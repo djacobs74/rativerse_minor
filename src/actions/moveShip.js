@@ -89,6 +89,18 @@ export const moveShip = (position, path, speedRating, mapType) => {
 
 };
 
+export const newPlayerPostion = (newPlayerPosition) => {
+	return (dispatch) => {
+		dispatch({type: 'NEW_PLAYER_POSITION', payload: newPlayerPosition});
+	}
+}
+
+export const newPlayerCombatPostion = () => {
+	return (dispatch) => {
+		dispatch({type: 'NEW_PLAYER_COMBAT_POSITION', payload: [0, 0]});
+	}
+}
+
 
 
 

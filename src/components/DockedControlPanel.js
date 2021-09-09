@@ -3,7 +3,7 @@ import Destination from './Destination';
 import { selectedShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
-import { SHIP_DATA } from './_utils/constants';
+import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
@@ -17,7 +17,9 @@ import { connect } from 'react-redux';
 class DockedControlPanel extends Component {
 
 	state = {
-		cargoOptions: []
+		cargoOptions: [],
+		stationNav: 'tradeGoods',
+		buyShipOption: null
 	}
 
 	componentDidMount = () => {
@@ -177,7 +179,7 @@ class DockedControlPanel extends Component {
 
 
 
-		this.props.selectedShip(playerShip);
+		this.props.selectedShip(true, playerShip, playerShip.cargoHold);
 		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
@@ -217,6 +219,49 @@ class DockedControlPanel extends Component {
 		return className
 	}
 
+	setStationNav(nav) {
+		this.setState({stationNav: nav});
+	}
+
+	setShipOption = (ship) => {
+		const currentShipOption = this.state.buyShipOption;
+		const { currentShip, player } = this.props;
+		const tradeInPrice = currentShip ? currentShip.sellPrice+player.credits : player.credits;
+
+		if(currentShipOption && (ship.value === currentShipOption.value)) {
+			this.setState({buyShipOption: null});
+			return false
+		}
+		
+		if(tradeInPrice < ship.price) {
+			toast.error(`You do not have enough credits to buy a ${ship.label}.`);
+			return false
+		}
+		if(currentShip) {
+			if(currentShip.cargo > ship.cargoMax) {
+				toast.error(`A ${ship.label} does not have enough cargo space to accomodate your current cargo. Sell some cargo first!`);
+				return false
+			} 
+		}
+
+		this.setState({buyShipOption: ship});
+		
+	}
+
+	buyNewShip = (ship) => {
+		const { currentShip, player } = this.props;
+		let shipCost = ship.price;
+		let cargo = null;
+		if(currentShip) {
+			shipCost = shipCost-currentShip.sellPrice;
+			cargo = currentShip.cargoHold;
+		}
+		player.credits = player.credits-shipCost;
+
+		this.props.selectedShip(true, ship, cargo);
+		this.props.playerData(false, player);
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -228,6 +273,7 @@ class DockedControlPanel extends Component {
 		const dockingArea = this.getDockingArea(this.props.sectorPosition);
 		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
+		const showTradeGoodNav = currentShip && this.state.stationNav === 'tradeGoods';
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
@@ -238,43 +284,107 @@ class DockedControlPanel extends Component {
 				<div className="header">Docking Control Panel</div>
 				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
-				<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
-				<div>Credits: {playerData.credits}</div>	
-
-				{tradeGoods && (tradeGoods.length > 0)
-    				? tradeGoods.map(t =>
-
-    					<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
-	    					<div>{t.label}</div>
-	    					<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
-	    					<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
-	    					<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
-	    					<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>
-	    					{t.buyPrice &&
-	    						(this.getCargoHoldData(t, currentShip) > 0) &&
-	    						<div>Add to Cart
-	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
-	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
-	    							<button onClick={() => this.updateCargo(t, 10)}>10</button>
-	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
-	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
-	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
-	    							<button onClick={() => {this.transAction(t)}}>Sell</button>{this.getTotal(t, cargoOptions)}
-	    						</div> }
-	    					{t.sellPrice && 
-	    						<div>Add to Cart
-	    							<button onClick={() => this.updateCargo(t, 1)}>1</button>
-	    							<button onClick={() => this.updateCargo(t, 5)}>5</button>
-	    							<button onClick={() => this.updateCargo(t, 10)}>10</button>
-	    							<button onClick={() => this.updateCargo(t, 25)}>25</button>
-	    							<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
-	    							<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
-	    							<button onClick={() => {this.transAction(t)}}>Buy</button>{this.getTotal(t, cargoOptions)}
-	    						</div>
-	    					} 
-	    				</div>
-    				) : <div></div>
+				<div>Credits: {playerData.credits}</div>
+				{(this.state.stationNav === 'shipDealer' && currentShip) &&
+				<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
 				}
+
+				<div className='stationNav'>
+					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
+					<button className={`${this.state.stationNav === 'shipDealer' && 'active'}`} onClick={() => this.setStationNav('shipDealer')}>Ship Dealer</button>
+				</div>
+
+					{showTradeGoodNav &&
+						<div>
+							<div>Available Cargo Space: {currentShip.cargoMax - currentShip.cargo}</div>
+							{tradeGoods && (tradeGoods.length > 0)
+									? tradeGoods.map(t =>
+
+										<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
+											<div>{t.label}</div>
+											<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
+											<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
+											<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
+											<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>
+											{t.buyPrice &&
+												(this.getCargoHoldData(t, currentShip) > 0) &&
+												<div>Add to Cart
+													<button onClick={() => this.updateCargo(t, 1)}>1</button>
+													<button onClick={() => this.updateCargo(t, 5)}>5</button>
+													<button onClick={() => this.updateCargo(t, 10)}>10</button>
+													<button onClick={() => this.updateCargo(t, 25)}>25</button>
+													<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
+													<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
+													<button onClick={() => {this.transAction(t)}}>Sell</button>{this.getTotal(t, cargoOptions)}
+												</div> }
+											{t.sellPrice && 
+												<div>Add to Cart
+													<button onClick={() => this.updateCargo(t, 1)}>1</button>
+													<button onClick={() => this.updateCargo(t, 5)}>5</button>
+													<button onClick={() => this.updateCargo(t, 10)}>10</button>
+													<button onClick={() => this.updateCargo(t, 25)}>25</button>
+													<button onClick={() => this.updateCargo(t, t.amount)}>All</button>
+													<button onClick={() => this.updateCargo(t, 0)}>Clear</button>
+													<button onClick={() => {this.transAction(t)}}>Buy</button>{this.getTotal(t, cargoOptions)}
+												</div>
+											} 
+										</div>
+									) : <div></div>
+							}
+						</div>
+					}
+
+					{this.state.stationNav === 'shipDealer' &&
+						<div>
+							{ currentShip ? PLAYER_SHIPS.map(ship => 
+							ship.value !== currentShip.value &&
+								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
+									<div className='dealerShipLabel'>{ship.label}</div>
+									<div>Price: {`${ship.price} (${ship.price - currentShip.sellPrice} after trade in)`}</div>
+									<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsMax})`}</div>
+									<div>* Hull: {ship.hullHp}</div>
+									<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+									<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+									<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+									<div>* Martel Drive: {ship.martelDrive.name}</div>
+									<div>* Signature: {ship.signature}</div>
+									<div>* Scanner: {ship.scanner}</div>
+									<div>* Cargo Space: {ship.cargoMax}</div>
+									<div></div>
+									<div className='top-pad'>"{ship.description}"</div>
+									{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
+										<div className='top-pad'>
+											<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
+										</div>
+									}
+								</div>
+							) : 
+								PLAYER_SHIPS.map(ship => 
+									<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
+										<div className='dealerShipLabel'>{ship.label}</div>
+										<div>Price: {ship.price}</div>
+										<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsMax})`}</div>
+										<div>* Hull: {ship.hullHp}</div>
+										<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
+										<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+										<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
+										<div>* Martel Drive: {ship.martelDrive.name}</div>
+										<div>* Signature: {ship.signature}</div>
+										<div>* Scanner: {ship.scanner}</div>
+										<div>* Cargo Space: {ship.cargoMax}</div>
+										<div></div>
+										<div className='top-pad'>"{ship.description}"</div>
+										{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
+											<div className='top-pad'>
+												<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
+											</div>
+										}
+									</div>
+								)
+							
+							}
+						</div>
+					}
 		
 			</div>
 

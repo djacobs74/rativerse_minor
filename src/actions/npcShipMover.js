@@ -30,15 +30,6 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 				s.inCombat = inCombat;
 			}
 
-
-			// shield regen 
-			if(s.shields.shieldsHp < s.shields.shieldsMax) {
-				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
-				if(s.shields.shieldsHp > s.shields.shieldsMax) {
-					s.shields.shieldsHp = s.shields.shieldsMax;
-				}
-			}
-
 			if(!s.inCombat && !s.isDestroyed) {
 				
 				const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
@@ -106,7 +97,27 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 
 
 export const npcShipsUpdated = (npcShipsUpdated) => {
-	return (dispatch) => { dispatch({type: 'NPC_SHIPS_UPDATED', payload: npcShipsUpdated})} ;
+	return (dispatch) => { dispatch({type: 'NPC_SHIPS_UPDATED', payload: npcShipsUpdated})};
+}
+
+export const npcShieldRecharger = (npcs) => {
+	// console.log('!!!! npcShieldRecharger');
+	npcs.forEach(s => {
+		
+			// console.log('!!!! npcShieldRecharger', s.id);
+			if(s.shields.shieldsHp < s.shields.shieldsMax) {
+				s.shields.shieldsHp = (s.shields.shieldsHp + s.shields.shieldsRegen);
+				if(s.shields.shieldsHp > s.shields.shieldsMax) {
+					s.shields.shieldsHp = s.shields.shieldsMax;
+				}
+			}
+		
+
+	})
+	return (dispatch) => { 
+		dispatch({type: 'NPC_SHIPS_RECHARGED'});
+		dispatch(npcShipsUpdated(npcs))
+	}
 }
 
 

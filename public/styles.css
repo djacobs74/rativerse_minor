@@ -381,7 +381,7 @@ button {
 	cursor: pointer;
 }
 
-.cpSection.currentTarget {
+.cpSection.currentTarget, .shipOption.active {
 	background: #095e12;
 }
 
@@ -432,4 +432,40 @@ button {
 .combatControlPanelWrapper {
 	display: inline-block;
 	position: absolute;
+}
+
+.combatCurrentTarget {
+	animation: blinkingBackground 2s infinite;
+}
+
+@keyframes blinkingBackground{
+	0%		{ background-color: #080808;}
+	25%		{ background-color: #474747;}
+	50%		{ background-color: #7d7c7c;}
+	75%		{ background-color: #a8a8a8;}
+	100%	{ background-color: #f2f2f2;}
+}
+
+.stationNav {
+	margin: 5px 0px;
+}
+
+.stationNav button {
+	padding: 5px;
+	border: 3px solid #1b1b24;
+	border-radius: 5px;
+}
+
+.dealerShipLabel {
+	font-size: 20px;;
+}
+
+.top-pad {
+	padding-top: 10px;;
+}
+
+.stationNav .active {
+	background-color: #06279c;
+	color: #fff;
+	font-weight: bold;
 }

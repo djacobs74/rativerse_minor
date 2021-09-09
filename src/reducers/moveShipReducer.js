@@ -14,6 +14,16 @@ export default (state = initialState, action) => {
 				combatMoving: action.payload.moving,
 				combatPosition: action.payload.position
 			}
+		case 'NEW_PLAYER_POSITION':
+			return {...state,
+				moving: false,
+				position: action.payload
+			}
+		case 'NEW_PLAYER_COMBAT_POSITION':
+			return {...state,
+				moving: false,
+				combatPosition: action.payload
+		}
 		default:
 			return state;
 	}

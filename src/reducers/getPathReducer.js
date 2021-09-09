@@ -10,6 +10,14 @@ export default (state = initialState, action) => {
 				return {...state,
 					combatPath: action.payload
 				}
+			case 'RESET_GAME_PATH':
+				return {...state,
+					gamePath: action.payload
+				}
+			case 'RESET_COMBAT_PATH':
+				return {...state,
+					combatPath: action.payload
+				}
 		default:
 			return state;
 	}

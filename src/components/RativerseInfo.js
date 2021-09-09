@@ -14,7 +14,7 @@ class RativerseInfo extends Component {
 
  	setSelectedShip = (s) =>  {
  		const newShip = true;
-		this.props.selectedShip(s, newShip);
+		this.props.selectedShip(newShip, s);
 	}
 
 

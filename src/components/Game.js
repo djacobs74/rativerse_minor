@@ -11,9 +11,10 @@ import { STARTER_SHIPS } from './_utils/constants';
 import { playerData } from '../actions/playerData';
 import Dropdown from 'react-dropdown';
 import { ToastContainer, toast } from 'react-toastify';
-import { npcShipMover } from '../actions/npcShipMover';
+import { npcShipMover, npcShieldRecharger } from '../actions/npcShipMover';
 import { createMap } from '../actions/map';
 import { npcShipGenerator } from '../actions/npcShipGenerator';
+import { shieldRecharger } from '../actions/selectedShip';
 import 'react-dropdown/style.css';
 
 import { connect } from 'react-redux';
@@ -34,6 +35,8 @@ class Game extends Component {
 		this.moveNpcShips();
 		this.props.createMap(mapSize, 'game');
 		this.createNpcShips(this.props);
+		this.rechargePlayerShields(this.props);
+		this.rechargeNpcShields(this.props);
 	}
 
 
@@ -43,6 +46,32 @@ class Game extends Component {
 	//       docked: !this.state.docked
 	//     })
 	// }
+
+	rechargePlayerShields(props) {
+		const here = this;
+
+		function rechargeDelay () {
+			setInterval(function () {
+				if(here.props.currentShip) {
+					here.props.shieldRecharger(here.props.currentShip);
+				}	
+			}, 10000)
+		}
+		rechargeDelay();
+	}
+
+	rechargeNpcShields(props) {
+		const here = this;
+
+		function npcRechargeDelay () {
+			setInterval(function () {
+				if(here.props.npcActiveShips.length) {
+					here.props.npcShieldRecharger(here.props.npcActiveShips);
+				}			
+			}, 10000)
+		}
+		npcRechargeDelay();
+	}
 
 	createNpcShips(props) {
 		// const npcShips = this.props.npcShips;
@@ -152,4 +181,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {playerData, npcShipMover, createMap, npcShipGenerator})(Game);
+export default connect(mapStateToProps, {playerData, npcShipMover, createMap, npcShipGenerator, shieldRecharger, npcShieldRecharger})(Game);

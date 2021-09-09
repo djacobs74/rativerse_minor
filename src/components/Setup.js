@@ -16,25 +16,7 @@ import { connect } from 'react-redux';
 class Setup extends Component {
 	state = {
 		startGame: false,
-		// selectedShip: this.props.currentShip,
-		// selectedFaction: 'Select a Faction',
-		// selectedShip: 'Select a Ship',
-		// gameReady: false
 	}
-
-	// componentDidUpdate(prevProps, props) {
-	// 	if(prevProps.currentShip !== props.currentShip) {
-	// 		this.setState({gameReady: true})
-	// 	}
-	// }
-
-	// selectedFaction = (option) =>  {
-	// 	this.setState({selectedFaction: option, gameReady: true})
-	// }
-
-	// selectedShip = (option) =>  {
-	// 	this.setState({selectedShip: option, gameReady: true})
-	// }
 
 	startGame() {
 		this.setState({startGame: true})
@@ -44,9 +26,14 @@ class Setup extends Component {
 	render () {
 		const options = STARTER_SHIPS;
 		let startGame = this.state.startGame;
-		// const selectedFaction = this.state.selectedFaction.value ? this.state.selectedFaction.value : 'notSelected';
-		// const selectedShip = this.state.selectedShip.value ? this.state.selectedShip.value : '';
-		const gameReady = Object.keys(this.props.currentShip).length ? true : false;
+
+		// const gameReady = Object.keys(this.props.currentShip).length ? true : false;
+		let gameReady = false;
+		if(this.props.currentShip && (Object.keys(this.props.currentShip).length && !this.state.startGame)) {
+			gameReady = true;
+		} else if(this.state.startGame) {
+			gameReady = true;
+		};
 	
 		console.log('gameReady', gameReady);
 		// debugger;
@@ -54,11 +41,8 @@ class Setup extends Component {
 		return (
 			<div>
 				{ !startGame ? 
-					// <div>Welcome to the Rativerse!</div>
-
 					<div className="homePage">
 						<div className="welcome">Welcome to the Rativerse!</div>
-						
 						
 						<button disabled={!gameReady} className="startBtn" onClick={() => this.startGame()}>Start Game</button>
 						<RativerseInfo />
