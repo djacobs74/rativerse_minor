@@ -140,6 +140,10 @@ class NewCombatDisplay extends Component {
 		const currentTarget = this.state.currentTarget;
 		ship.isDestroyed = false;
 
+		if(this.state.retreating) {
+			return false
+		}
+
 		if(currentTarget && (ship.id === currentTarget.id)) {
 			this.setState({currentTarget: null});
 		} else {
@@ -336,8 +340,8 @@ class NewCombatDisplay extends Component {
 	}
 
 	retreat = () => {
-		// stop sublight engines
-		// start countdown for martel drive
+		clearInterval(this.intervalPlayerFireId);
+		this.setState({currentTarget: null})
 		this.intervalRetreatId = setTimeout(this.attemptRetreat, 8000);
 		this.setState({retreating: true})
 	}
