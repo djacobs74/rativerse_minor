@@ -31,7 +31,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
 						// console.log('moving down-right');
-						if(pathCheck(rangeOneResults.bottomRight)) {
+						if(pathCheck(rangeOneResults.bottomRight, mapType)) {
 							moveOptions.push(rangeOneResults.bottomRight);
 						}
 						
@@ -40,7 +40,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
 						// console.log('moving down-left');
-						if(pathCheck(rangeOneResults.bottomLeft)) {
+						if(pathCheck(rangeOneResults.bottomLeft, mapType)) {
 							moveOptions.push(rangeOneResults.bottomLeft);
 						}
 					}
@@ -48,7 +48,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (destX < posX) {
 					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
 						// console.log('moving top-left');
-						if(pathCheck(rangeOneResults.topLeft)) {
+						if(pathCheck(rangeOneResults.topLeft, mapType)) {
 							moveOptions.push(rangeOneResults.topLeft);
 						}
 					}	
@@ -56,7 +56,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (destX < posX) {
 					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
 						// console.log('moving top-right');
-						if(pathCheck(rangeOneResults.topRight)) {
+						if(pathCheck(rangeOneResults.topRight, mapType)) {
 							moveOptions.push(rangeOneResults.topRight);
 						}
 					}
@@ -64,7 +64,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (destY < posY) {
 					if ((posX === destX) || ((destY - posY) <= 3)) {
 						// console.log('moving left');
-						if(pathCheck(rangeOneResults.left)) {
+						if(pathCheck(rangeOneResults.left, mapType)) {
 							moveOptions.push(rangeOneResults.left);
 						}
 					}
@@ -72,7 +72,7 @@ export const getPath = (position, destination, newPath, mapType, getRange=false)
 				if (destY > posY) {
 					if ((posX === destX) || ((destY - posY) >= 3)) {
 						// console.log('moving right');
-						if(pathCheck(rangeOneResults.right)) {
+						if(pathCheck(rangeOneResults.right, mapType)) {
 							moveOptions.push(rangeOneResults.right);
 						}
 					}

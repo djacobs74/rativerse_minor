@@ -1,5 +1,4 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
-import { pathCheck } from '.././components/_utils/movement';
 import { NPC_SHIPS } from '.././components/_utils/constants';
 import _ from 'lodash';
 

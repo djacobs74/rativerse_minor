@@ -175,7 +175,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (posX > destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
 						// console.log('moving down-right');
-						if(pathCheck(rangeOneResults.bottomRight)) {
+						if(pathCheck(rangeOneResults.bottomRight, 'combat')) {
 							moveOptions.push(rangeOneResults.bottomRight);
 						}
 						
@@ -184,7 +184,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (posX > destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
 						// console.log('moving down-left');
-						if(pathCheck(rangeOneResults.bottomLeft)) {
+						if(pathCheck(rangeOneResults.bottomLeft, 'combat')) {
 							moveOptions.push(rangeOneResults.bottomLeft);
 						}
 					}
@@ -192,7 +192,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destX > posX) {
 					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
 						// console.log('moving top-left');
-						if(pathCheck(rangeOneResults.topLeft)) {
+						if(pathCheck(rangeOneResults.topLeft, 'combat')) {
 							moveOptions.push(rangeOneResults.topLeft);
 						}
 					}	
@@ -200,7 +200,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destX > posX) {
 					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
 						// console.log('moving top-right');
-						if(pathCheck(rangeOneResults.topRight)) {
+						if(pathCheck(rangeOneResults.topRight, 'combat')) {
 							moveOptions.push(rangeOneResults.topRight);
 						}
 					}
@@ -208,7 +208,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destY > posY) {
 					if ((posX === destX) || ((destY - posY) <= 3)) {
 						// console.log('moving left');
-						if(pathCheck(rangeOneResults.left)) {
+						if(pathCheck(rangeOneResults.left, 'combat')) {
 							moveOptions.push(rangeOneResults.left);
 						}
 					}
@@ -216,28 +216,28 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destY < posY) {
 					if ((posX === destX) || ((destY - posY) >= 3)) {
 						// console.log('moving right');
-						if(pathCheck(rangeOneResults.right)) {
+						if(pathCheck(rangeOneResults.right, 'combat')) {
 							moveOptions.push(rangeOneResults.right);
 						}
 					}
 				}
 				if (destX === posX && destY === posY) {
-					if(pathCheck(rangeOneResults.bottomRight)) {
+					if(pathCheck(rangeOneResults.bottomRight, 'combat')) {
 						moveOptions.push(rangeOneResults.bottomRight);
 					}
-					if(pathCheck(rangeOneResults.bottomLeft)) {
+					if(pathCheck(rangeOneResults.bottomLeft, 'combat')) {
 						moveOptions.push(rangeOneResults.bottomLeft);
 					}
-					if(pathCheck(rangeOneResults.topLeft)) {
+					if(pathCheck(rangeOneResults.topLeft, 'combat')) {
 						moveOptions.push(rangeOneResults.topLeft);
 					}
-					if(pathCheck(rangeOneResults.topRight)) {
+					if(pathCheck(rangeOneResults.topRight, 'combat')) {
 						moveOptions.push(rangeOneResults.topRight);
 					}
-					if(pathCheck(rangeOneResults.left)) {
+					if(pathCheck(rangeOneResults.left, 'combat')) {
 						moveOptions.push(rangeOneResults.left);
 					}
-					if(pathCheck(rangeOneResults.right)) {
+					if(pathCheck(rangeOneResults.right, 'combat')) {
 						moveOptions.push(rangeOneResults.right);
 					}
 				}
@@ -247,7 +247,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
 						// console.log('moving down-right');
-						if(pathCheck(rangeOneResults.bottomRight)) {
+						if(pathCheck(rangeOneResults.bottomRight, 'combat')) {
 							moveOptions.push(rangeOneResults.bottomRight);
 						}
 						
@@ -256,7 +256,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (posX < destX) {
 					if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
 						// console.log('moving down-left');
-						if(pathCheck(rangeOneResults.bottomLeft)) {
+						if(pathCheck(rangeOneResults.bottomLeft, 'combat')) {
 							moveOptions.push(rangeOneResults.bottomLeft);
 						}
 					}
@@ -264,7 +264,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destX < posX) {
 					if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
 						// console.log('moving top-left');
-						if(pathCheck(rangeOneResults.topLeft)) {
+						if(pathCheck(rangeOneResults.topLeft, 'combat')) {
 							moveOptions.push(rangeOneResults.topLeft);
 						}
 					}	
@@ -272,7 +272,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destX < posX) {
 					if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
 						// console.log('moving top-right');
-						if(pathCheck(rangeOneResults.topRight)) {
+						if(pathCheck(rangeOneResults.topRight, 'combat')) {
 							moveOptions.push(rangeOneResults.topRight);
 						}
 					}
@@ -280,7 +280,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destY < posY) {
 					if ((posX === destX) || ((destY - posY) <= 3)) {
 						// console.log('moving left');
-						if(pathCheck(rangeOneResults.left)) {
+						if(pathCheck(rangeOneResults.left, 'combat')) {
 							moveOptions.push(rangeOneResults.left);
 						}
 					}
@@ -288,7 +288,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 				if (destY > posY) {
 					if ((posX === destX) || ((destY - posY) >= 3)) {
 						// console.log('moving right');
-						if(pathCheck(rangeOneResults.right)) {
+						if(pathCheck(rangeOneResults.right, 'combat')) {
 							moveOptions.push(rangeOneResults.right);
 						}
 					}
