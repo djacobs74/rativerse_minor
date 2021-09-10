@@ -159,7 +159,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 			const destX = playerPosition[0];
 			const destY = playerPosition[1];
 			const optimalRange = getNpcOptimalRange(npc);
-			const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+			const path = getPath([posX, posY], [destX, destY], null, 'combat', true);
 			const rangeToTarget = path.length;
 			let direction = '';
 			if(rangeToTarget > optimalRange) {
@@ -331,7 +331,7 @@ export const playerFire = (npc, playerShip, playerPosition) => {
 	let destY = npc.combatPositionY;
 	const posX = playerPosition[0];
 	const posY = playerPosition[1];
-	const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+	const path = getPath([posX, posY], [destX, destY], null, 'combat', true);
 	const rangeToTarget = path.length;
 
 	if(playerShip.plasmaProjectors) {
@@ -372,7 +372,7 @@ export const npcsFire = (playerShip, playerPosition, npc) => {
 		let posY = npc.combatPositionY;
 		const destX = playerPosition[0];
 		const destY = playerPosition[1];
-		const path = getPath([posX, posY], [destX, destY], null, 'combat', 'npc');
+		const path = getPath([posX, posY], [destX, destY], null, 'combat', true);
 		const rangeToTarget = path.length;
 
 		if(npc.plasmaProjectors) {

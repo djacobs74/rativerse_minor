@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getSector } from '../actions/selectedSector';
 // import { npcShipGenerator } from '../actions/npcShipGenerator';
 import { getDockingAreas } from '../actions/dockingAreas';
+import { getPath } from '../actions/getPath';
 
 class StarMap extends Component {
 
@@ -105,6 +106,24 @@ class StarMap extends Component {
 		goodsAdjust();
 	}
 
+	showNpcsOnMap(sector) {
+		const posX = this.props.sectorPosition[0];
+		const posY = this.props.sectorPosition[1];
+		const sectorX = sector['x'];
+		const sectorY = sector['y'];
+		const scannerRange = this.props.currentShip ? this.props.currentShip.scanner : 0;
+		const path = getPath([posX, posY], [sectorX, sectorY], null, 'game', true);
+		const rangeToTarget = path.length;
+
+		if((rangeToTarget <= scannerRange) && sector.npcShips.length) {
+			return sector.npcShips.map(area =>
+				<div className={`${area.value}`} key={area.id}></div>
+			)
+		} else {
+			return <div></div>
+		}
+	}
+
 
 	render () {
 		const mapData = this.props.map;
@@ -120,11 +139,7 @@ class StarMap extends Component {
 					<div className={`sectorWrapper ${this.oddEven(m['x'])}`} sector={`x: ${m['x']} y: ${m['y']}`} key={index} onClick={() => this.clickHandler(m)} > 
 						<div className={`sector sectorTop ${m.sectorType[0].value} ${this.pathSec(m)}  ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 		    			<div className={`sector sectorMiddle ${m.sectorType[0].value} ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}>{`${m['x']}, ${m['y']}`}
-		    				{m.npcShips.length
-			    				? m.npcShips.map(ship =>
-			    					<div className={`${ship.value}`} key={ship.id}></div>
-			    				) : <div></div>
-		    				}
+		    				{this.showNpcsOnMap(m)}
 		    				{m.dockingArea.length
 			    				? m.dockingArea.map(area =>
 			    					<div className={`${area.value}`} key={area.id}></div>
@@ -146,7 +161,8 @@ const mapStateToProps = state => ({
 	sectorPosition: state.sectorPosition.position,
 	npcShips: state.npcShips,
 	dockingAreas: state.dockingAreas,
-	npcActiveShips: state.npcActiveShips
+	npcActiveShips: state.npcActiveShips,
+	currentShip: state.selectedShip
 });
 
 export default connect(mapStateToProps, { getSector, getDockingAreas })(StarMap);

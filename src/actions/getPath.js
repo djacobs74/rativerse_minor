@@ -1,7 +1,7 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 import { pathCheck } from '.././components/_utils/movement';
 
-export const getPath = (position, destination, newPath, mapType, shipType) => {
+export const getPath = (position, destination, newPath, mapType, getRange=false) => {
 	// debugger;
 	// PUT TIMEOUT HERE? WILL BE BASED ON MARTEL DRIVE, FOR NOW DEFAULT TIME
 
@@ -131,7 +131,7 @@ export const getPath = (position, destination, newPath, mapType, shipType) => {
 		}
 	}
 
-	if(mapType === 'combat' && shipType === 'npc') {
+	if(getRange) {
 		return path
 	} else {
 		const pathType = mapType === 'game' ? 'PATH_SET' : 'COMBAT_PATH_SET';
