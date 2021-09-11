@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-import { selectedShip } from '../actions/selectedShip';
+import { selectedShip, shipUpgrade } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
@@ -262,6 +262,16 @@ class DockedControlPanel extends Component {
 		this.props.playerData(false, player);
 	}
 
+	repairHull = (repairTotal) => {
+		const { currentShip, player } = this.props;
+		currentShip.hullHp = currentShip.hullMax;
+		player.credits = player.credits - repairTotal;
+		
+		this.props.shipUpgrade(currentShip);
+		this.props.playerData(false, player);
+		toast.success('Hull repaired');
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -274,6 +284,8 @@ class DockedControlPanel extends Component {
 		const tradeGoods = dockingArea ? dockingArea.tradeGoods : [];
 		const playerData = this.props.player;
 		const showTradeGoodNav = currentShip && this.state.stationNav === 'tradeGoods';
+
+		const repairTotal = currentShip ? (currentShip.hullMax-currentShip.hullHp)*50 : 0;
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
@@ -285,13 +297,14 @@ class DockedControlPanel extends Component {
 				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
 				<div>Credits: {playerData.credits}</div>
-				{(this.state.stationNav === 'shipDealer' && currentShip) &&
+				{/* {(this.state.stationNav === 'shipDealer' && currentShip) &&
 				<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
-				}
+				} */}
 
 				<div className='stationNav'>
 					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
 					<button className={`${this.state.stationNav === 'shipDealer' && 'active'}`} onClick={() => this.setStationNav('shipDealer')}>Ship Dealer</button>
+					<button className={`${this.state.stationNav === 'hangar' && 'active'}`} onClick={() => this.setStationNav('hangar')}>Hangar</button>
 				</div>
 
 					{showTradeGoodNav &&
@@ -336,6 +349,9 @@ class DockedControlPanel extends Component {
 
 					{this.state.stationNav === 'shipDealer' &&
 						<div>
+							{currentShip &&
+								<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
+							}
 							{ currentShip ? PLAYER_SHIPS.map(ship => 
 							ship.value !== currentShip.value &&
 								<div key={ship.value} className={`tradeGoodWrapper shipOption ${this.state.buyShipOption && ((ship.value === this.state.buyShipOption.value) && 'active')}`} onClick={() => this.setShipOption(ship)}>
@@ -385,6 +401,26 @@ class DockedControlPanel extends Component {
 							}
 						</div>
 					}
+
+					{currentShip && this.state.stationNav === 'hangar' &&	
+						
+						<div>
+							{currentShip.hullHp < currentShip.hullMax &&
+								<div className='tradeGoodWrapper'>
+									<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
+									<div>Total cost to repair: {repairTotal}</div>
+									{playerData.credits >= repairTotal ?
+										<div className='top-pad'>
+											<button onClick={() => this.repairHull(repairTotal)}>Repair Hull</button>
+										</div>
+									: <div>Not enough credits to repair</div>}
+
+								</div>
+							}
+
+						</div>
+						
+					}
 		
 			</div>
 
@@ -408,4 +444,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {selectedShip, playerData, getDockingAreas})(DockedControlPanel);
+export default connect(mapStateToProps, {selectedShip, shipUpgrade, playerData, getDockingAreas})(DockedControlPanel);
