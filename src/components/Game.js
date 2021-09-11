@@ -90,6 +90,7 @@ class Game extends Component {
 
 	moveNpcShips() {
 		const npcShips = this.props.npcShips;
+		const playerShipSignature = this.props.currentShip ? this.props.currentShip.signature : 0;
 		
 		// const playerFaction = this.props.selectedFaction.value;
 		let npcShipsActive = [];
@@ -100,7 +101,7 @@ class Game extends Component {
 				const player= here.props.player;
 				const playerPosition = here.props.sectorPosition;
 				// debugger;
-				npcShipsActive = here.props.npcShipMover(here.props.npcShips, playerPosition, player, here.props.npcActiveShips);
+				npcShipsActive = here.props.npcShipMover(here.props.npcShips, playerPosition, player, here.props.npcActiveShips, playerShipSignature);
 				// here.setState({npcShipsActive: npcShipsActive});
 			
 				
@@ -176,7 +177,7 @@ const mapStateToProps = state => ({
   	player: state.playerData,
   	npcActiveShips: state.npcActiveShips,
   	npcShips: state.npcShips,
-  	sectorPosition: state.sectorPosition
+  	sectorPosition: state.sectorPosition.position
 });
 
 

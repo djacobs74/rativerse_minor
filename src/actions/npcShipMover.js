@@ -1,7 +1,9 @@
 import { rangeOne } from '.././components/_utils/rangeOne';
 import { pathCheck, combatCheck } from '.././components/_utils/movement';
+import { getPath } from './getPath';
+import _ from 'lodash';
 
-export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) => {
+export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips, playerShipSignature) => {
 
 	let npcShipsActive = [];
 	const moveOptionNum = 5;
@@ -20,7 +22,7 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 			let inCombat = false;
 
 			if(npc) {
-				inCombat = combatCheck(s, playerPosition.position, player);
+				inCombat = combatCheck(s, playerPosition, player);
 			}
 
 			if(npc && npc.isDestroyed) {
@@ -31,57 +33,155 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 			}
 
 			if(!s.inCombat && !s.isDestroyed) {
-				
-				const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
-				if(moveChance == (moveOptionNum-1)) {
-					let posX = s.x;
-					let posY = s.y;
-					let moveOptions = [];
-					let newCoords = [];
-					let rangeOneResults = rangeOne(posX, posY);
+				let npcWillMove = false;
+				let npcIsHostile = false;
+				let npcInRange = false;
+				let posX = s.x;
+				let posY = s.y;
+				const destX = playerPosition[0];
+				const destY = playerPosition[1];
+				let rangeOneResults = rangeOne(posX, posY);
+				let moveOptions = [];
+				let newCoords = [];
 
-					if(pathCheck(rangeOneResults.bottomRight)) {
-						moveOptions.push(rangeOneResults.bottomRight);
-					}
-					
-					if(pathCheck(rangeOneResults.bottomLeft)) {
-						moveOptions.push(rangeOneResults.bottomLeft);
-					}
-
-					if(pathCheck(rangeOneResults.topLeft)) {
-						moveOptions.push(rangeOneResults.topLeft);
-					}
-
-					if(pathCheck(rangeOneResults.topRight)) {
-						moveOptions.push(rangeOneResults.topRight);
-					}
-
-					if(pathCheck(rangeOneResults.left)) {
-						moveOptions.push(rangeOneResults.left);
+				if(!_.isEmpty(player)) {
+					const shipFaction = s.faction;
+					const playerRep = player.reputation;
+					let repValue = null;
+		
+					player.reputation.map(r => {
+						const key = Object.keys(r).join();
+						if(key === shipFaction) {
+							repValue = Object.values(r)[0];
+						}
+					})
+		
+					if(repValue < 0) { // this needs to be the same setting as in combatCheck
+						npcIsHostile = true;
 					}
 
-					if(pathCheck(rangeOneResults.right)) {
-						moveOptions.push(rangeOneResults.right);
+					if(npcIsHostile && !player.docked) {
+						const path = getPath([posX, posY], [destX, destY], null, 'game', true);
+						const rangeToTarget = path.length;
+						if(playerShipSignature !== 0 && (rangeToTarget <= playerShipSignature)) {
+							npcInRange = true;
+						}
 					}
 
-					let option = 0;
-					
-					let length = moveOptions.length;
-					if (moveOptions.length) {
-						option = Math.floor(Math.random() * Math.floor(length));
+					if(npcInRange && npcIsHostile) {
+						npcWillMove = true;
 					}
-					// debugger;
-					newCoords = moveOptions[option];
-
-					s.x = newCoords[0];
-					s.y = newCoords[1];
 				}
-			}
-			if(!s.isDestroyed) {
+
+				if(npcWillMove) {
+					/////////   NPC MOVE TOWARD PLAYER /////////
+					if (posX < destX) {
+						if ( ((destX - posX) >= 3 ) || ((destY - posY) >= 0 ) ) {
+							// console.log('moving down-right');
+							if(pathCheck(rangeOneResults.bottomRight)) {
+								moveOptions.push(rangeOneResults.bottomRight);
+							}
+							
+						}
+					} 
+					if (posX < destX) {
+						if ( ((destX - posX) >= 3 ) || ((destY - posY) <= 0 ) ) {
+							// console.log('moving down-left');
+							if(pathCheck(rangeOneResults.bottomLeft)) {
+								moveOptions.push(rangeOneResults.bottomLeft);
+							}
+						}
+					}
+					if (destX < posX) {
+						if (((destY <= posY)) || (((posX - destX) >= 3) && ((destY - posY ) <= 1))) {
+							// console.log('moving top-left');
+							if(pathCheck(rangeOneResults.topLeft)) {
+								moveOptions.push(rangeOneResults.topLeft);
+							}
+						}	
+					}
+					if (destX < posX) {
+						if (((destY >= posY)) || (((posX - destX) >= 3) && ((destY - posY ) >= 1))) {
+							// console.log('moving top-right');
+							if(pathCheck(rangeOneResults.topRight)) {
+								moveOptions.push(rangeOneResults.topRight);
+							}
+						}
+					}
+					if (destY < posY) {
+						if ((posX === destX) || ((destY - posY) <= 3)) {
+							// console.log('moving left');
+							if(pathCheck(rangeOneResults.left)) {
+								moveOptions.push(rangeOneResults.left);
+							}
+						}
+					}
+					if (destY > posY) {
+						if ((posX === destX) || ((destY - posY) >= 3)) {
+							// console.log('moving right');
+							if(pathCheck(rangeOneResults.right)) {
+								moveOptions.push(rangeOneResults.right);
+							}
+						}
+					}
+				} else {
+						/////////   NPC CHANCE FOR RANDOM MOVE /////////
+						const moveChance = Math.floor(Math.random() * Math.floor(moveOptionNum));
+						if(moveChance == (moveOptionNum-1)) {
+							npcWillMove = true;
+		
+							if(pathCheck(rangeOneResults.bottomRight)) {
+								moveOptions.push(rangeOneResults.bottomRight);
+							}
+							
+							if(pathCheck(rangeOneResults.bottomLeft)) {
+								moveOptions.push(rangeOneResults.bottomLeft);
+							}
+		
+							if(pathCheck(rangeOneResults.topLeft)) {
+								moveOptions.push(rangeOneResults.topLeft);
+							}
+		
+							if(pathCheck(rangeOneResults.topRight)) {
+								moveOptions.push(rangeOneResults.topRight);
+							}
+		
+							if(pathCheck(rangeOneResults.left)) {
+								moveOptions.push(rangeOneResults.left);
+							}
+		
+							if(pathCheck(rangeOneResults.right)) {
+								moveOptions.push(rangeOneResults.right);
+							}
+		
+							// let option = 0;
+							
+							// let length = moveOptions.length;
+							// if (moveOptions.length) {
+							// 	option = Math.floor(Math.random() * Math.floor(length));
+							// }
+							// // debugger;
+							// newCoords = moveOptions[option];
+		
+							// s.x = newCoords[0];
+							// s.y = newCoords[1];
+						}
+					}
+					if(!s.isDestroyed) {
+						let option = 0;
+							
+						let length = moveOptions.length;
+						if (moveOptions.length) {
+							option = Math.floor(Math.random() * Math.floor(length));
+							newCoords = moveOptions[option];
+							s.x = newCoords[0];
+							s.y = newCoords[1];
+						}
+						// debugger;
+						
+					}
+				}
 				npcShipsActive.push(s);
-			}
-			
-			// set hostile here?
 		})
 
 	}
@@ -91,8 +191,6 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips) =
 			dispatch({type: 'NPC_SHIP_MOVER'});
 			dispatch(npcShipsUpdated(npcShipsActive))
   	}
-
-
 };
 
 
