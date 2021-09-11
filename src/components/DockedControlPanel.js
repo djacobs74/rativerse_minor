@@ -369,8 +369,13 @@ class DockedControlPanel extends Component {
 									<div></div>
 									<div className='top-pad'>"{ship.description}"</div>
 									{this.state.buyShipOption && (this.state.buyShipOption.value === ship.value) &&
-										<div className='top-pad'>
-											<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
+										<div>
+											{repairTotal > 0 ?
+												<div className='top-pad'>Repair current ship hull damage before trading in your ship!</div>
+											: <div className='top-pad'>
+													<button onClick={() => this.buyNewShip(ship)}>Buy this ship</button>
+												</div>
+											}
 										</div>
 									}
 								</div>
