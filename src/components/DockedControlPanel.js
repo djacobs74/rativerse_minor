@@ -272,6 +272,16 @@ class DockedControlPanel extends Component {
 		toast.success('Hull repaired');
 	}
 
+	buyTorpedoes = (buyTorpedoesTotal) => {
+		const { currentShip, player } = this.props;
+		currentShip.torpedoAmmo = currentShip.torpedoAmmoMax;
+		player.credits = player.credits - buyTorpedoesTotal;
+
+		this.props.shipUpgrade(currentShip);
+		this.props.playerData(false, player);
+		toast.success('Torpedoes restocked');
+	}
+
 
 	render () {
 		// console.log('CARGO OPTIONS', this.state.cargoOptions);
@@ -286,6 +296,7 @@ class DockedControlPanel extends Component {
 		const showTradeGoodNav = currentShip && this.state.stationNav === 'tradeGoods';
 
 		const repairTotal = currentShip ? (currentShip.hullMax-currentShip.hullHp)*50 : 0;
+		const buyTorpedoesTotal = currentShip ? (currentShip.torpedoAmmoMax-currentShip.torpedoAmmo)*25 : 0;
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
@@ -410,6 +421,8 @@ class DockedControlPanel extends Component {
 					{currentShip && this.state.stationNav === 'hangar' &&	
 						
 						<div>
+							<div>{currentShip.label}</div>
+
 							{currentShip.hullHp < currentShip.hullMax &&
 								<div className='tradeGoodWrapper'>
 									<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
@@ -420,6 +433,11 @@ class DockedControlPanel extends Component {
 										</div>
 									: <div>Not enough credits to repair</div>}
 
+								</div>
+							}
+							{currentShip.torpedoAmmo < currentShip.torpedoAmmoMax && 
+								<div className='top-pad'>
+									<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
 								</div>
 							}
 

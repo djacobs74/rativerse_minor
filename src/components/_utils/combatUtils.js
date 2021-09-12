@@ -324,7 +324,7 @@ export const moveNpcShips = (npcs, playerPosition) => {
 	return updatedNpcs
 }
 
-export const playerFire = (npc, playerShip, playerPosition) => {
+export const playerFire = (npc, playerShip, playerPosition, torpedoesEnabled) => {
 	let plasmaProjectors = false;
 	let torpedoes = false;
 	let destX = npc.combatPositionX;
@@ -344,13 +344,14 @@ export const playerFire = (npc, playerShip, playerPosition) => {
 			}
 		}
 	}
-	if(playerShip.torpedoes) {
+	if(torpedoesEnabled && (playerShip.torpedoAmmo > 0)) {
 		playerShip.torpedoCounter >= 0 ? playerShip.torpedoCounter++ : playerShip.torpedoCounter = 0;
 		if(playerShip.torpedoCounter >= 10) {
 			// TODO: add ammo tracker: can only fire if player ship has ammo
 			if(rangeToTarget <= playerShip.torpedoes.range) {
 				torpedoes = true;
 				playerShip.torpedoCounter = 0;
+				playerShip.torpedoAmmo--;
 			}
 		}
 	}

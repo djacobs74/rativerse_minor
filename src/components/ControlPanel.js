@@ -79,7 +79,7 @@ class ControlPanel extends Component {
 								<div>{ship.shields && `* ${ship.shields.name} (${ship.shields.shieldsHp})`}</div>
 								<div>* Hull: {ship.hullHp}</div>
 								<div>{ship.plasmaProjectors && `* ${ship.plasmaProjectors.name} `}</div>
-								<div>{ship.torpedoes && `* ${ship.torpedoes.name} `}</div>
+								<div>{ship.torpedoes && `* ${ship.torpedoes.name} (${ship.torpedoAmmo}) `}</div>
 								<div>* Sublight Speed: {ship.sublightSpeed.name}</div>
 								<div>* Martel Drive: {ship.martelDrive.name}</div>
 								<div>* Signature: {ship.signature}</div>
