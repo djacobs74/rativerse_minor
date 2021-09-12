@@ -450,10 +450,18 @@ class DockedControlPanel extends Component {
 											<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
 										</div>
 									}
+									<div className='top-pad'>
+										<button onClick={() => this.props.updateShip(null, this.props.playerShipMaxId)}>{`Leave ${currentShip.label} ID: ${currentShip.id} and store it in this hangar`}</button>
+									</div>
 								</div>
 								
-								: <div>No Ship Selected</div>
-							}
+								: <div>
+										<div>No Ship Selected</div>
+										<div className='tradeGoodWrapper'>
+											hangar ships here
+										</div>
+									</div>
+								}
 
 						</div>
 						

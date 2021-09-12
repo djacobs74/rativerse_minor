@@ -123,7 +123,13 @@ export const createMap = (mapSize, type) => async dispatch => {
 	console.log(`${type} map created!` , starMap);
 
 	// dispatch({type: 'MAP_CREATED', payload: starMap});
-	
 
 };
+
+export const updateMap = (map, sector, action) => {
+
+	return (dispatch) => {
+		dispatch({type: 'MAP_UPDATED', payload: map});
+	}
+}
 
