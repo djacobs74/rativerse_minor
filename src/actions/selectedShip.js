@@ -1,30 +1,26 @@
 import { TRADE_GOODS, PLAYER_SHIPS } from '../components/_utils/constants';
 
-export const selectNewShip = (newShip, ship, cargo, id) => {
+export const selectNewShip = (ship, cargo, id) => {
 	let copiedShip = JSON.parse(JSON.stringify(ship));
 	let newMaxId = id + 1;
-	if(newShip) {
-		copiedShip.id = newMaxId;
-		if(!cargo){
-			let cargoOptions = [];
-			TRADE_GOODS.map(t => {
-				cargoOptions.push({value: t.value, label: t.label, amount: 0, priceTotal: 0})
-			})
-			copiedShip.cargoHold = cargoOptions;
-		} else {
-			copiedShip.cargoHold = cargo;
-			let cargoTotal = 0;
-			cargo.map(c => {
-				if(c.amount !== 0) {
-					cargoTotal = cargoTotal+c.amount;
-				}
-			})
-			copiedShip.cargo = cargoTotal;
-		}
-	} else {
-		copiedShip = null;
-	} 
 
+	copiedShip.id = newMaxId;
+	if(!cargo){
+		let cargoOptions = [];
+		TRADE_GOODS.map(t => {
+			cargoOptions.push({value: t.value, label: t.label, amount: 0, priceTotal: 0})
+		})
+		copiedShip.cargoHold = cargoOptions;
+	} else {
+		copiedShip.cargoHold = cargo;
+		let cargoTotal = 0;
+		cargo.map(c => {
+			if(c.amount !== 0) {
+				cargoTotal = cargoTotal+c.amount;
+			}
+		})
+		copiedShip.cargo = cargoTotal;
+	}
 
 	return (dispatch) => {
 		dispatch({type: 'SHIP_SELECTED', payload: copiedShip});

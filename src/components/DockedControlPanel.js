@@ -273,7 +273,7 @@ class DockedControlPanel extends Component {
 		}
 		player.credits = player.credits-shipCost;
 
-		this.props.selectNewShip(true, ship, cargo, this.props.playerShipMaxId);
+		this.props.selectNewShip(ship, cargo, this.props.playerShipMaxId);
 		this.props.playerData(false, player);
 	}
 
