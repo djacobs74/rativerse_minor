@@ -10,11 +10,8 @@ export default (state = initialState, action) => {
 				...state,
 				...action.payload
 			};
-		case 'SHIP_UPGRADED':
-			return {
-				...state,
-				...action.payload
-			};
+		case 'SHIP_UPDATED':
+			return action.payload;
 		default:
 			return state;
 	}

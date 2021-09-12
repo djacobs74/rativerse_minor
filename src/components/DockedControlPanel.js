@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-import { selectedShip, shipUpgrade } from '../actions/selectedShip';
+import { selectedShip, updateShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
@@ -282,7 +282,7 @@ class DockedControlPanel extends Component {
 		currentShip.hullHp = currentShip.hullMax;
 		player.credits = player.credits - repairTotal;
 		
-		this.props.shipUpgrade(currentShip);
+		this.props.updateShip(currentShip);
 		this.props.playerData(false, player);
 		toast.success('Hull repaired');
 	}
@@ -292,7 +292,7 @@ class DockedControlPanel extends Component {
 		currentShip.torpedoAmmo = currentShip.torpedoAmmoMax;
 		player.credits = player.credits - buyTorpedoesTotal;
 
-		this.props.shipUpgrade(currentShip);
+		this.props.updateShip(currentShip);
 		this.props.playerData(false, player);
 		toast.success('Torpedoes restocked');
 	}
@@ -314,8 +314,6 @@ class DockedControlPanel extends Component {
 		const buyTorpedoesTotal = currentShip ? (currentShip.torpedoAmmoMax-currentShip.torpedoAmmo)*25 : 0;
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
-
-		console.log('dockingArea', currentShip.cargoHold);
 
 		return (
 			<div className="ControlPanel">
@@ -482,4 +480,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {selectedShip, shipUpgrade, playerData, getDockingAreas})(DockedControlPanel);
+export default connect(mapStateToProps, {selectedShip, updateShip, playerData, getDockingAreas})(DockedControlPanel);

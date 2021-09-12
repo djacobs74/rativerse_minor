@@ -44,8 +44,8 @@ export const shieldRecharger = (ship) => {
 
 }
 
-export const shipUpgrade = (ship) => {
+export const updateShip = (ship) => {
 	return (dispatch) => {
-		dispatch({type: 'SHIP_UPGRADED', payload: ship});
+		dispatch({type: 'SHIP_UPDATED', payload: ship});
 	}
 }
