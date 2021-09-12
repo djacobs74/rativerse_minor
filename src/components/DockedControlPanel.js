@@ -264,7 +264,7 @@ class DockedControlPanel extends Component {
 	}
 
 	buyNewShip = (ship) => {
-		const { currentShip, player } = this.props;
+		const { currentShip, player, playerShipMaxId } = this.props;
 		let shipCost = ship.price;
 		let cargo = null;
 		if(currentShip) {
@@ -272,8 +272,7 @@ class DockedControlPanel extends Component {
 			cargo = currentShip.cargoHold;
 		}
 		player.credits = player.credits-shipCost;
-
-		this.props.selectNewShip(ship, cargo, this.props.playerShipMaxId);
+		this.props.selectNewShip(ship, cargo, playerShipMaxId);
 		this.props.playerData(false, player);
 	}
 
@@ -428,27 +427,32 @@ class DockedControlPanel extends Component {
 						</div>
 					}
 
-					{currentShip && this.state.stationNav === 'hangar' &&	
+					{this.state.stationNav === 'hangar' &&	
 						
-						<div>
-							<div>{`${currentShip.label} id: ${this.props.playerShipMaxId}`}</div>
+						<div> 
+							{currentShip ?
+								<div>
+									<div>{`Current Ship: ${currentShip && currentShip.label} ID: ${currentShip && currentShip.id}`}</div>
+									{currentShip.hullHp < currentShip.hullMax &&
+										<div className='tradeGoodWrapper'>
+											<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
+											<div>Total cost to repair: {repairTotal}</div>
+											{playerData.credits >= repairTotal ?
+												<div className='top-pad'>
+													<button onClick={() => this.repairHull(repairTotal)}>Repair Hull</button>
+												</div>
+											: <div>Not enough credits to repair</div>}
 
-							{currentShip.hullHp < currentShip.hullMax &&
-								<div className='tradeGoodWrapper'>
-									<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
-									<div>Total cost to repair: {repairTotal}</div>
-									{playerData.credits >= repairTotal ?
-										<div className='top-pad'>
-											<button onClick={() => this.repairHull(repairTotal)}>Repair Hull</button>
 										</div>
-									: <div>Not enough credits to repair</div>}
-
+									}
+									{currentShip.torpedoAmmo < currentShip.torpedoAmmoMax && 
+										<div className='top-pad'>
+											<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
+										</div>
+									}
 								</div>
-							}
-							{currentShip.torpedoAmmo < currentShip.torpedoAmmoMax && 
-								<div className='top-pad'>
-									<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
-								</div>
+								
+								: <div>No Ship Selected</div>
 							}
 
 						</div>
@@ -468,12 +472,12 @@ class DockedControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	currentShip: state.selectedShip,
+  	currentShip: state.selectedShip.ship,
   	map: state.map.gameMap,
   	sectorPosition: state.sectorPosition,
   	player: state.playerData,
 		dockingAreas: state.dockingAreas,
-		playerShipMaxId : state.selectedShip.playerShipMaxId
+		playerShipMaxId: state.selectedShip.playerShipMaxId
 });
 
 

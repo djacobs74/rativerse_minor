@@ -21,11 +21,12 @@ class RativerseInfo extends Component {
 	render () {
 		const ship = this.props.currentShip;
 		console.log('SELECTED SHIP IS', ship);
+		console.log('MAX ID', this.props.playerShipMaxId);
 
 		return (
 			<div>
 				<div className="shipDescriptionContainer">
-					{STARTER_SHIPS.map(s => <div className={`starterShipWrapper ${ship.value && (ship.value === s.value) ? 'selectedStarterShip' : ''}`} key={s.value} onClick={() => this.setSelectedShip(s)}>
+					{STARTER_SHIPS.map(s => <div className={`starterShipWrapper ${ship && (ship.value === s.value) ? 'selectedStarterShip' : ''}`} key={s.value} onClick={() => this.setSelectedShip(s)}>
 						<div className="starterShipLabel">
 							<h3>{s.label} ({s.type})</h3>
 						</div>
@@ -66,7 +67,7 @@ class RativerseInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-	currentShip: state.selectedShip,
+	currentShip: state.selectedShip.ship,
 	playerShipMaxId: state.selectedShip.playerShipMaxId
 });
 

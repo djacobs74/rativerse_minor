@@ -65,7 +65,7 @@ class Setup extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	currentShip: state.selectedShip
+  	currentShip: state.selectedShip.ship
 });
 
 

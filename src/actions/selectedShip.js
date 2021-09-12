@@ -23,8 +23,8 @@ export const selectNewShip = (ship, cargo, id) => {
 	}
 
 	return (dispatch) => {
-		dispatch({type: 'SHIP_SELECTED', payload: copiedShip});
-		dispatch({type: 'SHIP_MAX_ID', payload: newMaxId});
+		dispatch({type: 'SHIP_SELECTED', payload: {ship: copiedShip, maxId: newMaxId}});
+		// dispatch({type: 'SHIP_MAX_ID', payload: newMaxId});
 	}
   	
   	// return {type: 'SHIP_SELECTED', payload: ship};
@@ -43,8 +43,16 @@ export const shieldRecharger = (ship) => {
 
 }
 
-export const updateShip = (ship) => {
+export const updateShip = (ship, maxId) => {
 	return (dispatch) => {
-		dispatch({type: 'SHIP_UPDATED', payload: ship});
+		dispatch({type: 'SHIP_UPDATED', payload: {ship: ship, maxId: maxId}});
+	}
+}
+
+export const shipInStorage = (ships, id, action) => {
+	// add or remove ship from storage
+
+	return (dispatch) => {
+		dispatch({type: 'SHIP_STORAGE', payload: ships});
 	}
 }
