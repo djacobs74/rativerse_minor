@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { STARTER_SHIPS } from './_utils/constants';
-import { selectedShip } from '../actions/selectedShip';
+import { selectNewShip } from '../actions/selectedShip';
 import { connect } from 'react-redux';
 
 class RativerseInfo extends Component {
@@ -14,7 +14,7 @@ class RativerseInfo extends Component {
 
  	setSelectedShip = (s) =>  {
  		const newShip = true;
-		this.props.selectedShip(newShip, s, null, this.props.playerShipMaxId);
+		this.props.selectNewShip(newShip, s, null, this.props.playerShipMaxId);
 	}
 
 
@@ -72,4 +72,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, { selectedShip })(RativerseInfo);
+export default connect(mapStateToProps, { selectNewShip })(RativerseInfo);

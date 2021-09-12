@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-import { selectedShip, updateShip } from '../actions/selectedShip';
+import { selectNewShip, updateShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
 import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
@@ -273,7 +273,7 @@ class DockedControlPanel extends Component {
 		}
 		player.credits = player.credits-shipCost;
 
-		this.props.selectedShip(true, ship, cargo, this.props.playerShipMaxId);
+		this.props.selectNewShip(true, ship, cargo, this.props.playerShipMaxId);
 		this.props.playerData(false, player);
 	}
 
@@ -478,4 +478,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, {selectedShip, updateShip, playerData, getDockingAreas})(DockedControlPanel);
+export default connect(mapStateToProps, {selectNewShip, updateShip, playerData, getDockingAreas})(DockedControlPanel);

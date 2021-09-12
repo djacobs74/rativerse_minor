@@ -1,6 +1,6 @@
 import { TRADE_GOODS, PLAYER_SHIPS } from '../components/_utils/constants';
 
-export const selectedShip = (newShip, ship, cargo, id) => {
+export const selectNewShip = (newShip, ship, cargo, id) => {
 	let copiedShip = JSON.parse(JSON.stringify(ship));
 	let newMaxId = id + 1;
 	if(newShip) {
