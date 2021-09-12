@@ -130,6 +130,7 @@ class DockedControlPanel extends Component {
 						if (c.value === cargo.value) {
 							// debugger;
 							c.amount += cargo.amount;
+							c.priceTotal += priceTotal;
 							playerShip.cargo += cargo.amount;
 							playerData.credits -= priceTotal;
 						} 
@@ -148,6 +149,10 @@ class DockedControlPanel extends Component {
 					if (c.amount >= cargo.amount) {
 						c.amount -= cargo.amount;
 						c.cargo -= cargo.amount;
+						c.priceTotal -= priceTotal;
+						if(c.priceTotal < 0 || c.cargo <= 0) {
+							c.priceTotal = 0;
+						}
 						playerShip.cargo -= cargo.amount;
 						playerData.credits += priceTotal;
 					}
@@ -201,6 +206,16 @@ class DockedControlPanel extends Component {
 			}
 		})
 		return cargoAmount
+	}
+
+	getAverageValue(t, currentShip) {
+		let averageprice = 0;
+		currentShip.cargoHold.map(c => {
+			if ((c.value === t.value) && c.amount > 0) {
+				averageprice = c.priceTotal / c.amount;
+			}
+		})
+		return Math.round(averageprice)
 	}
 
 	addCargoToSellClassname(t, currentShip) {
@@ -300,7 +315,7 @@ class DockedControlPanel extends Component {
 		
 		// console.log('DOCKED SECTOR', this.props.sectorPosition);
 
-		console.log('dockingArea', dockingArea);
+		console.log('dockingArea', currentShip.cargoHold);
 
 		return (
 			<div className="ControlPanel">
@@ -326,7 +341,7 @@ class DockedControlPanel extends Component {
 
 										<div key={dockingArea.id + t.value} className={`tradeGoodWrapper ${this.addCargoToSellClassname(t, currentShip)}`}>
 											<div>{t.label}</div>
-											<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)}</div>
+									<div>Total in Cargo Hold: {this.getCargoHoldData(t, currentShip)} {`Average Purchase Price: ${this.getAverageValue(t, currentShip)}`}</div>
 											<div>{t.buyPrice && `Buying at ${t.buyPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 											<div>{t.sellPrice && `Selling at ${t.sellPrice}  (min: ${t.minPrice}  max: ${t.maxPrice})`}</div>
 											<div>{`Amount ${t.amount} (max amount: ${t.maxAmount})`}</div>

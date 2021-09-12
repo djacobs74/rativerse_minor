@@ -6,7 +6,7 @@ export const selectedShip = (newShip, ship, cargo) => {
 		if(!cargo){
 			let cargoOptions = [];
 			TRADE_GOODS.map(t => {
-				cargoOptions.push({value: t.value, label: t.label, amount: 0})
+				cargoOptions.push({value: t.value, label: t.label, amount: 0, priceTotal: 0})
 			})
 			copiedShip.cargoHold = cargoOptions;
 		} else {
