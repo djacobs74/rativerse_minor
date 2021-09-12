@@ -1,4 +1,4 @@
-const initialState = {};
+const initialState = {playerShipMaxId: 0};
 
 export default (state = initialState, action) => {
 	switch (action.type) {
@@ -12,6 +12,10 @@ export default (state = initialState, action) => {
 			};
 		case 'SHIP_UPDATED':
 			return action.payload;
+		case 'SHIP_MAX_ID':
+			return {...state,
+				playerShipMaxId: action.payload
+			};
 		default:
 			return state;
 	}

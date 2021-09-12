@@ -184,7 +184,7 @@ class DockedControlPanel extends Component {
 
 
 
-		this.props.selectedShip(true, playerShip, playerShip.cargoHold);
+		this.props.updateShip(playerShip);
 		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
@@ -273,7 +273,7 @@ class DockedControlPanel extends Component {
 		}
 		player.credits = player.credits-shipCost;
 
-		this.props.selectedShip(true, ship, cargo);
+		this.props.selectedShip(true, ship, cargo, this.props.playerShipMaxId);
 		this.props.playerData(false, player);
 	}
 
@@ -321,9 +321,6 @@ class DockedControlPanel extends Component {
 				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
 				<div>Credits: {playerData.credits}</div>
-				{/* {(this.state.stationNav === 'shipDealer' && currentShip) &&
-				<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
-				} */}
 
 				<div className='stationNav'>
 					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
@@ -434,7 +431,7 @@ class DockedControlPanel extends Component {
 					{currentShip && this.state.stationNav === 'hangar' &&	
 						
 						<div>
-							<div>{currentShip.label}</div>
+							<div>{`${currentShip.label} id: ${this.props.playerShipMaxId}`}</div>
 
 							{currentShip.hullHp < currentShip.hullMax &&
 								<div className='tradeGoodWrapper'>
@@ -475,7 +472,8 @@ const mapStateToProps = state => ({
   	map: state.map.gameMap,
   	sectorPosition: state.sectorPosition,
   	player: state.playerData,
-  	dockingAreas: state.dockingAreas
+		dockingAreas: state.dockingAreas,
+		playerShipMaxId : state.selectedShip.playerShipMaxId
 });
 
 

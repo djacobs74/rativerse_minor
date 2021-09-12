@@ -1,8 +1,10 @@
 import { TRADE_GOODS, PLAYER_SHIPS } from '../components/_utils/constants';
 
-export const selectedShip = (newShip, ship, cargo) => {
+export const selectedShip = (newShip, ship, cargo, id) => {
 	let copiedShip = JSON.parse(JSON.stringify(ship));
+	let newMaxId = id + 1;
 	if(newShip) {
+		copiedShip.id = newMaxId;
 		if(!cargo){
 			let cargoOptions = [];
 			TRADE_GOODS.map(t => {
@@ -21,11 +23,12 @@ export const selectedShip = (newShip, ship, cargo) => {
 		}
 	} else {
 		copiedShip = null;
-	}
+	} 
 
 
 	return (dispatch) => {
 		dispatch({type: 'SHIP_SELECTED', payload: copiedShip});
+		dispatch({type: 'SHIP_MAX_ID', payload: newMaxId});
 	}
   	
   	// return {type: 'SHIP_SELECTED', payload: ship};
