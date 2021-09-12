@@ -17,13 +17,12 @@ class NewCombatDisplay extends Component {
 	state = {
 		currentTarget: null,
 		npcs: [],
-		rangeSetting: 'away',
-		plasmaProjectors: false,
 		torpedoes: false,
 		fire: false,
 		destination: [],
 		moving: false,
-		retreating: false
+		retreating: false,
+
 	}
 
 	constructor(props){
@@ -224,9 +223,10 @@ class NewCombatDisplay extends Component {
 		const playerShip = this.props.currentShip;
 		const npcs = this.state.npcs;
 		const playerPosition = this.props.playerCombatPosition;
+		const torpedoesEnabled = this.state.torpedoes;
 		let npcsArray = [...npcs];
 		if(currentTarget) {
-			const {targetDestroyed, updatedTarget, toastData} = playerFire(currentTarget, playerShip, playerPosition);
+			const {targetDestroyed, updatedTarget, toastData} = playerFire(currentTarget, playerShip, playerPosition, torpedoesEnabled);
 
 			let npcToUpdate = npcsArray.find(n => n.id === updatedTarget.id);
 			npcToUpdate = updatedTarget;
@@ -353,6 +353,10 @@ class NewCombatDisplay extends Component {
 		this.exitCombat(false);
 	}
 
+	toggleTorpedoes = () => {
+		this.setState({torpedoes: !this.state.torpedoes});
+	}
+
 
 	render () {
 		const ship = this.props.currentShip;
@@ -363,6 +367,7 @@ class NewCombatDisplay extends Component {
 		const destination = this.state.destination;
 		const position = this.props.playerCombatPosition || [];
 		const newDestination = ((destination[0] !== position[0]) || (destination[1] !== position[1]));
+		const torpedoes = this.state.torpedoes;
 
 		// console.log('^^^ state npcs', this.state.npcs);
 
@@ -405,6 +410,18 @@ class NewCombatDisplay extends Component {
 							{/* retreat here */}
 							<button disabled={moving || this.state.retreating} onClick={() => this.retreat()}>Retreat</button>
 					</div>
+
+					{ship && ship.torpedoes &&
+						<div className="cpSection">
+							<div className="header">Torpedo Control</div>
+							{ship.torpedoAmmo > 0 ?
+								<div className='top-pad'>
+									<button onClick={() => this.toggleTorpedoes()}>{`${torpedoes ? 'Torpedoes Firing' : 'Fire Torpedoes'}`}</button>
+								</div>
+							: <div>Out of torpedo ammo</div>}
+						</div>
+					}
+						
 
 				
 					{ this.state.npcs.map((s, index) => (
