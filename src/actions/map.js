@@ -126,10 +126,10 @@ export const createMap = (mapSize, type) => async dispatch => {
 
 };
 
-export const updateMap = (map, sector, action) => {
+// export const updateMap = (map, sector, action) => {
 
-	return (dispatch) => {
-		dispatch({type: 'MAP_UPDATED', payload: map});
-	}
-}
+// 	return (dispatch) => {
+// 		dispatch({type: 'MAP_UPDATED', payload: map});
+// 	}
+// }
 

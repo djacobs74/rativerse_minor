@@ -75,7 +75,7 @@ export const createDockingAreas = (map) => {
 			
 			const type = typesArray[typeNum];
 			const tradeGoods = addTradeGoods();
-			let dockingArea = {id: id, type: type, tradeGoods: tradeGoods, value: 'dockingArea'};
+			let dockingArea = {id: id, type: type, tradeGoods: tradeGoods, value: 'dockingArea', hangar: {space: 0, ships:[]}};
        
 			m.sectorType[0] = spaceTypeArray[typeNum];
 			m.dockingArea.push(dockingArea);
