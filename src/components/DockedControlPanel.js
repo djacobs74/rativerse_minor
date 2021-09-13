@@ -3,10 +3,9 @@ import Destination from './Destination';
 import { selectNewShip, updateShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
-import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
+import { PLAYER_SHIPS, TRADE_GOODS, STARTER_SHIPS } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { STARTER_SHIPS } from './_utils/constants';
 import { toast } from 'react-toastify';
 import { getDockingAreas, updateDockingArea } from '../actions/dockingAreas';
 import 'react-toastify/dist/ReactToastify.css';
@@ -321,11 +320,27 @@ class DockedControlPanel extends Component {
 			dockingAreaToUpdate.dockingArea.hangar.ships.push(currentShip);
 			this.props.updateShip(null, this.props.playerShipMaxId)
 		}
-		// dockingAreaToUpdate.dockingArea.hangar.ships.push(currentShip);
-
-		// if ship in storage, swap 
-
 		this.props.updateDockingArea(dockingAreas);
+	}
+
+	sellShip = () => {
+		const { currentShip, player, playerShipMaxId } = this.props;
+		const sellValue = currentShip.sellPrice;
+		const cargo = currentShip.cargoHold;
+		let cargoValueTotal = 0;
+		
+		cargo.map(c => {
+			if(c.amount > 0) {
+				const tg = TRADE_GOODS.find(t => t.value === c.value);
+				cargoValueTotal = cargoValueTotal + (tg.minPrice * c.amount);
+			}
+		})
+
+		const totalValue = sellValue + cargoValueTotal;
+		
+		player.credits = player.credits+totalValue;
+		this.props.updateShip(null, playerShipMaxId);
+		this.props.playerData(false, player);
 	}
 
 
@@ -489,15 +504,18 @@ class DockedControlPanel extends Component {
 											<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
 										</div>
 									}
+									<div className='tradeGoodWrapper top-pad'>
+										<button onClick={() => this.sellShip()}>Sell Current Ship</button>
+									</div>
 								</div>
 								
 								: <div className='tradeGoodWrapper'>
 										<div>No Ship Selected</div>
 									</div>
 								}
-								<div className='tradeGoodWrapper'>
+								<div>
 									{dockingArea.hangar.space > 0 &&
-										<div>
+										<div className='tradeGoodWrapper'>
 											{dockingArea.hangar.ships.length ?
 												<div>{`Ship in Storage: ${dockingArea.hangar.ships[0].label} ID: ${dockingArea.hangar.ships[0].id}`}</div>
 											: <div>Ship in Storage: None</div>}
