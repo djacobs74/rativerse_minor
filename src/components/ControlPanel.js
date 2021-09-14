@@ -53,12 +53,14 @@ class ControlPanel extends Component {
 	}
 
 	getStoredShips(dockingAreas) {
+		let storedShips = [];
 
-		return dockingAreas.map(d => 
-
-			d.dockingArea.hangar.ships.length > 0 &&
-			<div>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
-		)
+		dockingAreas.map(d => {
+			if(d.dockingArea.hangar.ships.length) {
+				storedShips.push(d);
+			}
+		})
+		return storedShips
 	}
 
 
@@ -133,11 +135,13 @@ class ControlPanel extends Component {
 
 				<Destination dockHandler = {this.props.dockHandler}/>
 
-				{storedShips.length &&
+				{storedShips.length > 0 &&
 					<div className="cpSection">
 						<button onClick={() => this.setState({showStoredShips: !this.state.showStoredShips})}>{`${this.state.showStoredShips ? 'Hide' : 'Show' } stored ships`}</button>
 						{this.state.showStoredShips && 
-							<div>{storedShips}</div>
+							<div>{storedShips.map(d => 
+								<div>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+							)}</div>
 						}
 					</div>
 				}
