@@ -12,7 +12,8 @@ class ControlPanel extends Component {
 
 	state = {
 		ship: {},
-		npcShipsScan: []
+		npcShipsScan: [],
+		showStoredShips: false
 	}
 
 	componentDidMount = () => {
@@ -51,6 +52,15 @@ class ControlPanel extends Component {
 		this.setState({npcShipsScan: ships});
 	}
 
+	getStoredShips(dockingAreas) {
+
+		return dockingAreas.map(d => 
+
+			d.dockingArea.hangar.ships.length > 0 &&
+			<div>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+		)
+	}
+
 
 	render () {
 		const ship = this.props.currentShip;
@@ -66,6 +76,9 @@ class ControlPanel extends Component {
 				cargoData.push(c);
 			}
 		})
+
+		const storedShips = this.getStoredShips(this.props.dockingAreas);
+		console.log('storedShips', storedShips);
 	
 		return (
 			<div className="ControlPanel">
@@ -119,6 +132,15 @@ class ControlPanel extends Component {
 				</div>
 
 				<Destination dockHandler = {this.props.dockHandler}/>
+
+				{storedShips.length &&
+					<div className="cpSection">
+						<button onClick={() => this.setState({showStoredShips: !this.state.showStoredShips})}>{`${this.state.showStoredShips ? 'Hide' : 'Show' } stored ships`}</button>
+						{this.state.showStoredShips && 
+							<div>{storedShips}</div>
+						}
+					</div>
+				}
 			</div>
 		);
 	}
@@ -130,7 +152,8 @@ const mapStateToProps = state => ({
   	currentShip: state.selectedShip.ship,
   	sectorPosition: state.sectorPosition,
   	npcShips: state.npcShips,
-  	player: state.playerData
+		player: state.playerData,
+		dockingAreas: state.dockingAreas
 });
 
 export default connect(mapStateToProps)(ControlPanel);
