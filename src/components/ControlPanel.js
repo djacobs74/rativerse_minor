@@ -5,6 +5,7 @@ import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
+import { getPath } from '../actions/getPath';
 import { connect } from 'react-redux';
 
 
@@ -47,8 +48,21 @@ class ControlPanel extends Component {
 		// check range to sector
 		let ships = [];
 
-		if(sectorData[0].npcShips.length) {
-			ships = sectorData[0].npcShips;			
+		const posX = this.props.sectorPosition.position[0];
+		const posY = this.props.sectorPosition.position[1];
+		const sectorX = sectorData[0]['x'];
+		const sectorY = sectorData[0]['y'];
+		const scannerRange = this.props.currentShip ? this.props.currentShip.scanner : 0;
+		const path = getPath([posX, posY], [sectorX, sectorY], null, 'game', true);
+		const rangeToTarget = path.length;
+		// debugger;
+
+		if(rangeToTarget <= scannerRange) {
+			if(sectorData[0].npcShips.length) {
+				ships = sectorData[0].npcShips;			
+			}
+		} else {
+			ships = [{'key': ''}]
 		}
 		this.setState({npcShipsScan: ships});
 	}
@@ -125,12 +139,23 @@ class ControlPanel extends Component {
 					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
 					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
 					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
-					{this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
+					{/* {this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
 						<div key={s.id} className="npcShipsData">
 							<div>Type: {s.type} (ID: {s.id})</div>
 							<div>Faction: {s.factionName}</div>
 						</div>
-					)}
+					)} */}
+					{this.state.npcShipsScan.length === 1 && !this.state.npcShipsScan[0].id ?
+						<div className="npcShipsData">
+							<div>Sector out of Scanning Range</div>
+						</div>
+					: this.state.npcShipsScan.map(s =>
+							<div key={s.id} className="npcShipsData">
+								<div>Type: {s.type} (ID: {s.id})</div>
+								<div>Faction: {s.factionName}</div>
+							</div>
+						)
+					}
 				</div>
 
 				<Destination dockHandler = {this.props.dockHandler}/>
