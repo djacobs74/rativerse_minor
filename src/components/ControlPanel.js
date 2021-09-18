@@ -44,6 +44,7 @@ class ControlPanel extends Component {
 	}
 
 	getShips(sectorData) {
+		// check range to sector
 		let ships = [];
 
 		if(sectorData[0].npcShips.length) {
@@ -56,7 +57,7 @@ class ControlPanel extends Component {
 		let storedShips = [];
 
 		dockingAreas.map(d => {
-			if(d.dockingArea.hangar.ships.length) {
+			if(d.dockingArea.hangar.space > 0) {
 				storedShips.push(d);
 			}
 		})
@@ -80,7 +81,6 @@ class ControlPanel extends Component {
 		})
 
 		const storedShips = this.getStoredShips(this.props.dockingAreas);
-		console.log('storedShips', storedShips);
 	
 		return (
 			<div className="ControlPanel">
@@ -137,10 +137,12 @@ class ControlPanel extends Component {
 
 				{storedShips.length > 0 &&
 					<div className="cpSection">
-						<button onClick={() => this.setState({showStoredShips: !this.state.showStoredShips})}>{`${this.state.showStoredShips ? 'Hide' : 'Show' } stored ships`}</button>
+						<button onClick={() => this.setState({showStoredShips: !this.state.showStoredShips})}>{`${this.state.showStoredShips ? 'Hide' : 'Show' } Hangar Storage`}</button>
 						{this.state.showStoredShips && 
 							<div>{storedShips.map(d => 
-								<div>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+								d.dockingArea.hangar.ships.length > 0 ?
+								<div className='top-pad'>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+								: <div className='top-pad'>Open Hangar at Location: {`${d.dockingArea.type} ${d.dockingArea.id}`}</div>
 							)}</div>
 						}
 					</div>
