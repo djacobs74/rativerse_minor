@@ -86,7 +86,7 @@ class StarMap extends Component {
 			sector && sector.npcShips.push(n);
 		})
 
-		// console.log('UPDATED MAP', newMap[120]);
+		console.log('UPDATED MAP');
 		return newMap
 	}
 
@@ -107,18 +107,21 @@ class StarMap extends Component {
 	}
 
 	showNpcsOnMap(sector) {
-		const posX = this.props.sectorPosition[0];
-		const posY = this.props.sectorPosition[1];
-		const sectorX = sector['x'];
-		const sectorY = sector['y'];
-		const scannerRange = this.props.currentShip ? this.props.currentShip.scanner : 0;
-		const path = getPath([posX, posY], [sectorX, sectorY], null, 'game', true);
-		const rangeToTarget = path.length;
-
-		if((rangeToTarget <= scannerRange) && sector.npcShips.length) {
-			return sector.npcShips.map(area =>
-				<div className={`${area.value}`} key={area.id}></div>
-			)
+		if(sector.npcShips.length) {
+			const posX = this.props.sectorPosition[0];
+			const posY = this.props.sectorPosition[1];
+			const sectorX = sector['x'];
+			const sectorY = sector['y'];
+			const scannerRange = this.props.currentShip ? this.props.currentShip.scanner : 0;
+			const path = getPath([posX, posY], [sectorX, sectorY], null, 'game', true);
+			const rangeToTarget = path.length;
+			if(rangeToTarget <= scannerRange) {
+				return sector.npcShips.map(area =>
+					<div className={`${area.value}`} key={area.id}></div>
+				)
+			} else {
+				return <div></div>
+			}
 		} else {
 			return <div></div>
 		}
@@ -126,7 +129,7 @@ class StarMap extends Component {
 
 
 	render () {
-		const mapData = this.props.map;
+		// const mapData = this.props.map;
 		const mapUpdated = this.updateMap(this.props.map);
 		// console.log('SHIP LOCATIONS', this.props.npcActiveShips);
 
