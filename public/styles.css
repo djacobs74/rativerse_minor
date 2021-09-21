@@ -57,6 +57,15 @@ button {
 
 }
 
+.mapBox.game {
+	padding-left: 50px;
+    display: inline-block;
+    position: relative;
+		width: 5430px;
+		margin-right: 350px;
+		margin-left: 475px;
+}
+
 .mapBox {
 	padding-left: 50px;
     display: inline-block;

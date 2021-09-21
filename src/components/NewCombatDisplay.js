@@ -43,7 +43,7 @@ class NewCombatDisplay extends Component {
 
 		this.props.resetPath('combat')
 
-		const mapSize = [0, 1, 2, 3, 4, 5];
+		const mapSize = 5;
 		this.props.createMap(mapSize, 'combat');
 		toast.error('ENTERING COMBAT !!');
 

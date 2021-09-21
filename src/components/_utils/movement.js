@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { playerData } from '../../actions/playerData';
 
 export const pathCheck = (hex, mapType='game') => {
-	const maxHex = mapType === 'game' ? 5 : 5;
-	if(Math.abs(hex[0]) > 5 || Math.abs(hex[1]) > 5) {
+	const maxHex = mapType === 'game' ? 25 : 5;
+	if(Math.abs(hex[0]) > maxHex || Math.abs(hex[1]) > maxHex) {
 		return false
 	}
 	return true
