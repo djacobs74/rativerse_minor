@@ -8,29 +8,33 @@ export const createMap = (mapSize, type) => async dispatch => {
 	// let mapSize = [0, 1, 2, 3, 4, 5];
 	let newMap = [];
 	let starMap = [];
-	
-	mapSize.map(function (c) {
 
-		const coord = {x: c, y: c};
+
+	for(var i=0; i < mapSize+1; i++){
+
+	// mapSize.map(function (c) {
+
+		const coord = {x: i, y: i};
 	
 		newMap.push(coord);
 
 		newMap.map(function (keys) {
 			console.log('=========== newMap =============');
+
 			// console.log('keys', keys);
 			// console.log('keys x', keys['x']);
 
-			let row = {x: c, y: keys['x']};
-			let col = {x: keys['x'], y: c};
+			let row = {x: i, y: keys['x']};
+			let col = {x: keys['x'], y: i};
 
-			let rowNeg = {x: (c * -1), y: (keys['x'] * -1)};
-			let colNeg = {x: (keys['x'] * -1), y: (c * -1)};
+			let rowNeg = {x: (i * -1), y: (keys['x'] * -1)};
+			let colNeg = {x: (keys['x'] * -1), y: (i * -1)};
 
-			let rowNegX = {x: (c * -1), y: (keys['x'])};
-			let colNegY = {x: (keys['x']), y: (c * -1)};
+			let rowNegX = {x: (i * -1), y: (keys['x'])};
+			let colNegY = {x: (keys['x']), y: (i * -1)};
 
-			let rowPosX = {x: (c), y: (keys['x'] * -1)};
-			let colPosY = {x: (keys['x'] * -1), y: (c)};
+			let rowPosX = {x: (i), y: (keys['x'] * -1)};
+			let colPosY = {x: (keys['x'] * -1), y: (i)};
 
 			if (rowNeg['x'] === -0) {
 				rowNeg['x'] = 0;
@@ -97,15 +101,15 @@ export const createMap = (mapSize, type) => async dispatch => {
 				}
 				
 			} 
-
+	
 			return false
 		
 		});
-		return false
+		
 
 		// SORT STARMAP AND POST TO NEW ARRAY IN ORDER
 	
-	});
+	}
 
 	// starMap.map(s => s.npcShips = []); // what the hell was this even doing lol 
 

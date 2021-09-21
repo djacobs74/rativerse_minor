@@ -29,7 +29,7 @@ class Game extends Component {
 
 	componentDidMount = () => {
 		const newGame = true;
-		const mapSize = [0, 1, 2, 3, 4, 5];
+		const mapSize = 5;
 		this.props.playerData(newGame);
 		// this.props.npcShipMover();
 		this.moveNpcShips();
