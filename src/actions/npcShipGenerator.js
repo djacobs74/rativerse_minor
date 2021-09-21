@@ -26,7 +26,7 @@ export const npcShipGenerator = (npcShips, playerFaction) => {
 		maxId = Math.max.apply(Math, npcShips.map(function(o) { return o.id; }))
 	}
 	// if(!maxId || maxId === 0) {maxId = 1};
-	console.log('** MAXID', maxId);
+	// console.log('** MAXID', maxId);
 	
 	// const npcShipsCopy = _.cloneDeep(NPC_SHIPS);
 	let npcShipsCopy = JSON.parse(JSON.stringify(NPC_SHIPS));
