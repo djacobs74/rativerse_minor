@@ -5,6 +5,8 @@ import { SHIP_DATA } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { STARTER_SHIPS } from './_utils/constants';
+import { getPath } from '../actions/getPath';
+import { playerData } from '../actions/playerData';
 import { connect } from 'react-redux';
 
 
@@ -12,7 +14,9 @@ class ControlPanel extends Component {
 
 	state = {
 		ship: {},
-		npcShipsScan: []
+		npcShipsScan: [],
+		showStoredShips: false,
+		showPosRep: false
 	}
 
 	componentDidMount = () => {
@@ -43,12 +47,80 @@ class ControlPanel extends Component {
 	}
 
 	getShips(sectorData) {
+		// check range to sector
 		let ships = [];
 
-		if(sectorData[0].npcShips.length) {
-			ships = sectorData[0].npcShips;			
+		const posX = this.props.sectorPosition.position[0];
+		const posY = this.props.sectorPosition.position[1];
+		const sectorX = sectorData[0]['x'];
+		const sectorY = sectorData[0]['y'];
+		const scannerRange = this.props.currentShip ? this.props.currentShip.scanner : 0;
+		const path = getPath([posX, posY], [sectorX, sectorY], null, 'game', true);
+		const rangeToTarget = path.length;
+		// debugger;
+
+		if(rangeToTarget <= scannerRange) {
+			if(sectorData[0].npcShips.length) {
+				ships = sectorData[0].npcShips;			
+			}
+		} else {
+			ships = [{'key': ''}]
 		}
 		this.setState({npcShipsScan: ships});
+	}
+
+	getStoredShips(dockingAreas) {
+		let storedShips = [];
+
+		dockingAreas.map(d => {
+			if(d.dockingArea.hangar.space > 0) {
+				storedShips.push(d);
+			}
+		})
+		return storedShips
+	}
+
+	checkRep(playerRep) {
+		let posRep = false;
+		
+		playerRep.map(r => {
+
+			if(Object.values(r) > -1) {
+				posRep = true;
+			}
+		})
+		return posRep
+	}
+
+	setFactionToHostile = (faction, playerData) => {
+		let playerRep = playerData.reputation;
+
+		let uwc = playerRep[0].uwc;
+		let bfr = playerRep[1].bfr;
+		let cnp = playerRep[2].cnp;
+		let ob = playerRep[3].ob;
+		let tscc = playerRep[4].tscc;
+
+		if(Object.keys(faction)[0] === 'uwc') {
+			uwc = -1;
+		};
+		if(Object.keys(faction)[0] === 'bfr') {
+			bfr = -1;
+		};
+		if(Object.keys(faction)[0] === 'cnp') {
+			cnp = -1;
+		};
+		if(Object.keys(faction)[0] === 'ob') {
+			ob = -1;
+		};
+		if(Object.keys(faction)[0] === 'tscc') {
+			tscc = -1;
+		};
+
+		const newRep = [{uwc}, {bfr}, {cnp}, {ob}, {tscc}];
+		playerData.reputation = newRep;
+
+		this.props.playerData(false, playerData);
 	}
 
 
@@ -59,6 +131,9 @@ class ControlPanel extends Component {
 		const selectedSectorType = this.props.sector.length && this.props.sector[0].sectorType[0].name || '';
 		const selectedSectorData = this.props.sector;
 		const playerData = this.props.player;
+		const playerHasPositiveRep = this.checkRep(playerData.reputation);
+		
+
 
 		let cargoData = [];
 		ship && ship.cargoHold.map(c => {
@@ -66,6 +141,8 @@ class ControlPanel extends Component {
 				cargoData.push(c);
 			}
 		})
+
+		const storedShips = this.getStoredShips(this.props.dockingAreas);
 	
 		return (
 			<div className="ControlPanel">
@@ -103,6 +180,19 @@ class ControlPanel extends Component {
 					<div>* CNP: {playerData.reputation && playerData.reputation[2].cnp}</div>
 					<div>* OB: {playerData.reputation && playerData.reputation[3].ob}</div>
 					<div>* TSCC: {playerData.reputation && playerData.reputation[4].tscc}</div>
+					{playerHasPositiveRep && 
+						<div className='top-pad'>
+							<button onClick={() => this.setState({showPosRep: !this.state.showPosRep})}>{`${this.state.showPosRep ? 'Hide' : 'Show'} Factions I Can Set to Hostile`}</button>
+						</div>
+					}
+					{this.state.showPosRep &&
+						<div className='top-pad'>{playerData && playerData.reputation.map(r =>
+							Object.values(r) > -1 &&
+						<button className='upperCase' onClick={() => this.setFactionToHostile(r, playerData)}>{`Set ${Object.keys(r)} to Hostile`}</button>
+						)}
+
+						</div>
+					}
 				</div>
 
 				<div className="cpSection">
@@ -110,15 +200,33 @@ class ControlPanel extends Component {
 					<div>{prettyCoords(selectedSectorData)} {selectedSectorType && `  ${selectedSectorType}`}</div>
 					<div>Docking Area: {this.getDockingArea(selectedSectorData)}</div>
 					<div>SHIPS: {this.state.npcShipsScan.length === 0 && 'None'}</div>
-					{this.state.npcShipsScan.length > 0 && this.state.npcShipsScan.map(s => 
-						<div key={s.id} className="npcShipsData">
-							<div>Type: {s.type} (ID: {s.id})</div>
-							<div>Faction: {s.factionName}</div>
+					{this.state.npcShipsScan.length === 1 && !this.state.npcShipsScan[0].id ?
+						<div className="npcShipsData">
+							<div>Sector out of Scanning Range</div>
 						</div>
-					)}
+					: this.state.npcShipsScan.map(s =>
+							<div key={s.id} className="npcShipsData">
+								<div>Type: {s.type} (ID: {s.id})</div>
+								<div>Faction: {s.factionName}</div>
+							</div>
+						)
+					}
 				</div>
 
 				<Destination dockHandler = {this.props.dockHandler}/>
+
+				{storedShips.length > 0 &&
+					<div className="cpSection">
+						<button onClick={() => this.setState({showStoredShips: !this.state.showStoredShips})}>{`${this.state.showStoredShips ? 'Hide' : 'Show' } Hangar Storage`}</button>
+						{this.state.showStoredShips && 
+							<div>{storedShips.map(d => 
+								d.dockingArea.hangar.ships.length > 0 ?
+								<div className='top-pad'>{`${d.dockingArea.hangar.ships[0].label} ID: ${d.dockingArea.hangar.ships[0].id} Location: ${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+								: <div className='top-pad'>Open Hangar at Location: {`${d.dockingArea.type} ${d.dockingArea.id}`}</div>
+							)}</div>
+						}
+					</div>
+				}
 			</div>
 		);
 	}
@@ -127,10 +235,11 @@ class ControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector.gameMapSector,
-  	currentShip: state.selectedShip,
+  	currentShip: state.selectedShip.ship,
   	sectorPosition: state.sectorPosition,
   	npcShips: state.npcShips,
-  	player: state.playerData
+		player: state.playerData,
+		dockingAreas: state.dockingAreas
 });
 
-export default connect(mapStateToProps)(ControlPanel);
+export default connect(mapStateToProps, {playerData})(ControlPanel);

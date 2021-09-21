@@ -1,31 +1,30 @@
 import { TRADE_GOODS, PLAYER_SHIPS } from '../components/_utils/constants';
 
-export const selectedShip = (newShip, ship, cargo) => {
+export const selectNewShip = (ship, cargo, id) => {
 	let copiedShip = JSON.parse(JSON.stringify(ship));
-	if(newShip) {
-		if(!cargo){
-			let cargoOptions = [];
-			TRADE_GOODS.map(t => {
-				cargoOptions.push({value: t.value, label: t.label, amount: 0, priceTotal: 0})
-			})
-			copiedShip.cargoHold = cargoOptions;
-		} else {
-			copiedShip.cargoHold = cargo;
-			let cargoTotal = 0;
-			cargo.map(c => {
-				if(c.amount !== 0) {
-					cargoTotal = cargoTotal+c.amount;
-				}
-			})
-			copiedShip.cargo = cargoTotal;
-		}
+	let newMaxId = id + 1;
+
+	copiedShip.id = newMaxId;
+	if(!cargo){
+		let cargoOptions = [];
+		TRADE_GOODS.map(t => {
+			cargoOptions.push({value: t.value, label: t.label, amount: 0, priceTotal: 0})
+		})
+		copiedShip.cargoHold = cargoOptions;
 	} else {
-		copiedShip = null;
+		copiedShip.cargoHold = cargo;
+		let cargoTotal = 0;
+		cargo.map(c => {
+			if(c.amount !== 0) {
+				cargoTotal = cargoTotal+c.amount;
+			}
+		})
+		copiedShip.cargo = cargoTotal;
 	}
 
-
 	return (dispatch) => {
-		dispatch({type: 'SHIP_SELECTED', payload: copiedShip});
+		dispatch({type: 'SHIP_SELECTED', payload: {ship: copiedShip, maxId: newMaxId}});
+		// dispatch({type: 'SHIP_MAX_ID', payload: newMaxId});
 	}
   	
   	// return {type: 'SHIP_SELECTED', payload: ship};
@@ -44,8 +43,16 @@ export const shieldRecharger = (ship) => {
 
 }
 
-export const shipUpgrade = (ship) => {
+export const updateShip = (ship, maxId) => {
 	return (dispatch) => {
-		dispatch({type: 'SHIP_UPGRADED', payload: ship});
+		dispatch({type: 'SHIP_UPDATED', payload: {ship: ship, maxId: maxId}});
+	}
+}
+
+export const shipInStorage = (ships, id, action) => {
+	// add or remove ship from storage
+
+	return (dispatch) => {
+		dispatch({type: 'SHIP_STORAGE', payload: ships});
 	}
 }

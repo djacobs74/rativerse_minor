@@ -26,6 +26,11 @@ export default (state = initialState, action) => {
 				...state,
 				combatMap: action.payload
 			}
+		// case 'MAP_UPDATED':
+		// 	return {
+		// 		...state,
+		// 		gameMap: action.payload
+		// 	}
 		default:
 			return state;
 	}

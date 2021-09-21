@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Destination from './Destination';
-import { selectedShip, shipUpgrade } from '../actions/selectedShip';
+import { selectNewShip, updateShip } from '../actions/selectedShip';
 import { playerData } from '../actions/playerData';
 import { prettyCoords } from './_utils/displayUtils';
-import { SHIP_DATA, PLAYER_SHIPS } from './_utils/constants';
+import { PLAYER_SHIPS, TRADE_GOODS, STARTER_SHIPS } from './_utils/constants';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { STARTER_SHIPS } from './_utils/constants';
 import { toast } from 'react-toastify';
-import { getDockingAreas } from '../actions/dockingAreas';
+import { getDockingAreas, updateDockingArea } from '../actions/dockingAreas';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 
@@ -184,7 +183,7 @@ class DockedControlPanel extends Component {
 
 
 
-		this.props.selectedShip(true, playerShip, playerShip.cargoHold);
+		this.props.updateShip(playerShip);
 		this.props.playerData(false, playerData);
 		cargo.amount = 0;
 		this.setState({cargoOptions:  cargoOptions});
@@ -264,7 +263,7 @@ class DockedControlPanel extends Component {
 	}
 
 	buyNewShip = (ship) => {
-		const { currentShip, player } = this.props;
+		const { currentShip, player, playerShipMaxId } = this.props;
 		let shipCost = ship.price;
 		let cargo = null;
 		if(currentShip) {
@@ -272,8 +271,7 @@ class DockedControlPanel extends Component {
 			cargo = currentShip.cargoHold;
 		}
 		player.credits = player.credits-shipCost;
-
-		this.props.selectedShip(true, ship, cargo);
+		this.props.selectNewShip(ship, cargo, playerShipMaxId);
 		this.props.playerData(false, player);
 	}
 
@@ -282,7 +280,7 @@ class DockedControlPanel extends Component {
 		currentShip.hullHp = currentShip.hullMax;
 		player.credits = player.credits - repairTotal;
 		
-		this.props.shipUpgrade(currentShip);
+		this.props.updateShip(currentShip);
 		this.props.playerData(false, player);
 		toast.success('Hull repaired');
 	}
@@ -292,9 +290,57 @@ class DockedControlPanel extends Component {
 		currentShip.torpedoAmmo = currentShip.torpedoAmmoMax;
 		player.credits = player.credits - buyTorpedoesTotal;
 
-		this.props.shipUpgrade(currentShip);
+		this.props.updateShip(currentShip);
 		this.props.playerData(false, player);
 		toast.success('Torpedoes restocked');
+	}
+
+	purchaseHanger = () => {
+		const { currentShip, player, dockingAreas, sectorPosition} = this.props;
+		const dockingArea = this.getDockingArea(sectorPosition);
+		
+		let dockingAreaToUpdate = dockingAreas.find(x => x.dockingArea.id === dockingArea.id);
+
+		if(player.credits >= 5000) {
+			player.credits = player.credits - 5000;
+			dockingAreaToUpdate.dockingArea.hangar.space = dockingAreaToUpdate.dockingArea.hangar.space+1;
+			this.props.playerData(false, player);
+			this.props.updateDockingArea(dockingAreas)
+		}
+	}
+
+	storeShipInHangar = (currentShip, dockingArea, playerData) => {
+		// if ship in hangar already, swap
+		let dockingAreas = this.props.dockingAreas;
+		let dockingAreaToUpdate = dockingAreas.find(x => x.dockingArea.id === dockingArea.id);
+		if(dockingAreaToUpdate.dockingArea.hangar.ships.length) { // ship already in hangar
+			this.props.updateShip(dockingAreaToUpdate.dockingArea.hangar.ships[0], this.props.playerShipMaxId)
+			dockingAreaToUpdate.dockingArea.hangar.ships = [currentShip];
+		} else { // hangar is empty
+			dockingAreaToUpdate.dockingArea.hangar.ships.push(currentShip);
+			this.props.updateShip(null, this.props.playerShipMaxId)
+		}
+		this.props.updateDockingArea(dockingAreas);
+	}
+
+	sellShip = () => {
+		const { currentShip, player, playerShipMaxId } = this.props;
+		const sellValue = currentShip.sellPrice;
+		const cargo = currentShip.cargoHold;
+		let cargoValueTotal = 0;
+		
+		cargo.map(c => {
+			if(c.amount > 0) {
+				const tg = TRADE_GOODS.find(t => t.value === c.value);
+				cargoValueTotal = cargoValueTotal + (tg.minPrice * c.amount);
+			}
+		})
+
+		const totalValue = sellValue + cargoValueTotal;
+		
+		player.credits = player.credits+totalValue;
+		this.props.updateShip(null, playerShipMaxId);
+		this.props.playerData(false, player);
 	}
 
 
@@ -313,9 +359,7 @@ class DockedControlPanel extends Component {
 		const repairTotal = currentShip ? (currentShip.hullMax-currentShip.hullHp)*50 : 0;
 		const buyTorpedoesTotal = currentShip ? (currentShip.torpedoAmmoMax-currentShip.torpedoAmmo)*25 : 0;
 		
-		// console.log('DOCKED SECTOR', this.props.sectorPosition);
-
-		console.log('dockingArea', currentShip.cargoHold);
+		console.log('dockingArea', dockingArea);
 
 		return (
 			<div className="ControlPanel">
@@ -323,9 +367,6 @@ class DockedControlPanel extends Component {
 				{dockingArea ? <div key={dockingArea.id}>{dockingArea.type} {dockingArea.id}</div> : <div></div>}
 
 				<div>Credits: {playerData.credits}</div>
-				{/* {(this.state.stationNav === 'shipDealer' && currentShip) &&
-				<div>Ship trade in value: {`${currentShip.sellPrice}`}</div>
-				} */}
 
 				<div className='stationNav'>
 					<button className={`${this.state.stationNav === 'tradeGoods' && 'active'}`} onClick={() => this.setStationNav('tradeGoods')}>Trade Goods</button>
@@ -433,28 +474,64 @@ class DockedControlPanel extends Component {
 						</div>
 					}
 
-					{currentShip && this.state.stationNav === 'hangar' &&	
+					{this.state.stationNav === 'hangar' &&	
 						
-						<div>
-							<div>{currentShip.label}</div>
+						<div> 
+							{currentShip ?
+								<div>
+									<div className='tradeGoodWrapper'>
+										<div>{`Current Ship: ${currentShip && currentShip.label} ID: ${currentShip && currentShip.id}`}</div>
+										{dockingArea.hangar.space > 0 ?
+											<div className='top-pad'>
+												<button onClick={() => this.storeShipInHangar(currentShip, dockingArea, playerData)}>{`Leave ${currentShip.label} ID: ${currentShip.id} and store it in this hangar`}</button>
+											</div>
+										: <div>Purchase Hangar Storage to Keep Your Ship Here</div>}
+									</div>
+									{currentShip.hullHp < currentShip.hullMax &&
+										<div className='tradeGoodWrapper top-pad'>
+											<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
+											<div>Total cost to repair: {repairTotal}</div>
+											{playerData.credits >= repairTotal ?
+												<div className='top-pad'>
+													<button onClick={() => this.repairHull(repairTotal)}>Repair Hull</button>
+												</div>
+											: <div>Not enough credits to repair</div>}
 
-							{currentShip.hullHp < currentShip.hullMax &&
-								<div className='tradeGoodWrapper'>
-									<div>{`Hull damaged! ${currentShip.hullHp} out of ${currentShip.hullMax} remaining.`}</div>
-									<div>Total cost to repair: {repairTotal}</div>
-									{playerData.credits >= repairTotal ?
-										<div className='top-pad'>
-											<button onClick={() => this.repairHull(repairTotal)}>Repair Hull</button>
 										</div>
-									: <div>Not enough credits to repair</div>}
+									}
+									{currentShip.torpedoAmmo < currentShip.torpedoAmmoMax && 
+										<div className='top-pad'>
+											<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
+										</div>
+									}
+									<div className='tradeGoodWrapper top-pad'>
+										<button onClick={() => this.sellShip()}>Sell Current Ship</button>
+									</div>
+								</div>
+								
+								: <div className='tradeGoodWrapper'>
+										<div>No Ship Selected</div>
+									</div>
+								}
+								<div>
+									{dockingArea.hangar.space > 0 &&
+										<div className='tradeGoodWrapper'>
+											{dockingArea.hangar.ships.length ?
+												<div>{`Ship in Storage: ${dockingArea.hangar.ships[0].label} ID: ${dockingArea.hangar.ships[0].id}`}</div>
+											: <div>Ship in Storage: None</div>}
+										</div>
+											
+									}
+								
+									{((playerData.credits >= 5000) && (dockingArea.hangar.space < 1)) &&
+										<div className='top-pad'>
+											<button onClick={() => this.purchaseHanger()}>Purchase a hangar storage space for 5000 creadits</button>
+										</div>
+									}
+										
+									
+								</div>
 
-								</div>
-							}
-							{currentShip.torpedoAmmo < currentShip.torpedoAmmoMax && 
-								<div className='top-pad'>
-									<button onClick={() => this.buyTorpedoes(buyTorpedoesTotal)}>{`Restock Torpedoes for ${buyTorpedoesTotal}`}</button>
-								</div>
-							}
 
 						</div>
 						
@@ -473,13 +550,14 @@ class DockedControlPanel extends Component {
 
 const mapStateToProps = state => ({
   	sector: state.selectedSector,
-  	currentShip: state.selectedShip,
+  	currentShip: state.selectedShip.ship,
   	map: state.map.gameMap,
   	sectorPosition: state.sectorPosition,
   	player: state.playerData,
-  	dockingAreas: state.dockingAreas
+		dockingAreas: state.dockingAreas,
+		playerShipMaxId: state.selectedShip.playerShipMaxId
 });
 
 
 
-export default connect(mapStateToProps, {selectedShip, shipUpgrade, playerData, getDockingAreas})(DockedControlPanel);
+export default connect(mapStateToProps, {selectNewShip, updateShip, playerData, getDockingAreas, updateDockingArea})(DockedControlPanel);

@@ -117,7 +117,7 @@ const mapStateToProps = state => ({
   	sectorPosition: state.sectorPosition.position,
   	map: state.map.gameMap,
 		player: state.playerData,
-		currentShip: state.selectedShip
+		currentShip: state.selectedShip.ship
 });
 
 

@@ -73,12 +73,13 @@ export const getDockingAreas = (type, dockingAreas) => dispatch => {
   	// return {type: 'SHIP_SELECTED', payload: ship};
 };
 
+export const updateDockingArea = (dockingAreas) => {
+	// add or remove ship from storage
 
-
-// export const onlyUnique = (value, index, self) => { 
-
-//     return self.indexOf(value) === index;
-// }
+	return (dispatch) => {
+		dispatch({type: 'UPDATE_DOCKING_AREA', payload: dockingAreas});
+	}
+}
 
 
 

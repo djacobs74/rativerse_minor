@@ -6,7 +6,7 @@ import { getPath, resetPath } from '../actions/getPath';
 import { moveShip, newPlayerPostion, newPlayerCombatPostion } from '../actions/moveShip';
 import { playerData } from '../actions/playerData';
 import { createMap } from '../actions/map';
-import { selectedShip } from '../actions/selectedShip';
+import { updateShip } from '../actions/selectedShip';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -330,7 +330,7 @@ class NewCombatDisplay extends Component {
 			const newPlayerPosition = playerShipDestroyed(this.state.npcs, this.props.sectorPosition, this.props.dockingAreas);
 			this.props.newPlayerPostion(newPlayerPosition);
 			this.props.player.docked = true;
-			this.props.selectedShip(false, null);
+			this.props.updateShip(null, this.props.playerShipMaxId);
 		}
 		this.props.player.inCombat = false;
 		this.props.playerData(false, this.props.player);
@@ -478,14 +478,15 @@ class NewCombatDisplay extends Component {
 const mapStateToProps = state => ({
 	sector: state.selectedSector.combatMapSector,
 	path: state.path.combatPath,
-	currentShip: state.selectedShip,
+	currentShip: state.selectedShip.ship,
 	playerCombatPosition: state.sectorPosition.combatPosition,
 	sectorPosition: state.sectorPosition.position,
 	npcShips: state.npcShips,
 	npcActiveShips: state.npcActiveShips,
 	player: state.playerData,
 	dockingAreas: state.dockingAreas,
-	map: state.map.combatMap
+	map: state.map.combatMap,
+	playerShipMaxId: state.selectedShip.playerShipMaxId
 });
 
-export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, selectedShip, newPlayerCombatPostion, resetPath })(NewCombatDisplay);
+export default connect(mapStateToProps, { getSector, createMap, playerData, getPath, moveShip, newPlayerPostion, updateShip, newPlayerCombatPostion, resetPath })(NewCombatDisplay);

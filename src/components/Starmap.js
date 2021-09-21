@@ -162,7 +162,7 @@ const mapStateToProps = state => ({
 	npcShips: state.npcShips,
 	dockingAreas: state.dockingAreas,
 	npcActiveShips: state.npcActiveShips,
-	currentShip: state.selectedShip
+	currentShip: state.selectedShip.ship
 });
 
 export default connect(mapStateToProps, { getSector, getDockingAreas })(StarMap);
