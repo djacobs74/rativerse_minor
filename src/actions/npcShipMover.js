@@ -8,8 +8,8 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips, p
 	let npcShipsActive = [];
 	const moveOptionNum = 5;
 	// debugger;
-	console.log('npcShipMover player', player);
-	console.log('npcShipMover npcShips', npcShips);
+	// console.log('npcShipMover player', player);
+	// console.log('npcShipMover npcShips', npcShips);
 
 
 	if(npcShips) {
@@ -185,7 +185,7 @@ export const npcShipMover = (npcShips, playerPosition, player, npcActiveShips, p
 		})
 
 	}
-	console.log('### npcShipMover npcShipsActive', npcShipsActive);
+	// console.log('### npcShipMover npcShipsActive', npcShipsActive);
 	// debugger;
 	return (dispatch) => {
 			dispatch({type: 'NPC_SHIP_MOVER'});

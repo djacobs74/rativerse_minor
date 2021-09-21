@@ -65,7 +65,7 @@ class NewCombatDisplay extends Component {
 				let npcsArray = this.state.npcs;
 				if(!npcsArray.some(npc => npc.id === s.id)) {
 					setNpcStartingLocation(s);
-					console.log('!!!!! Updated setNpcStartingLocation');
+					// console.log('!!!!! Updated setNpcStartingLocation');
 					npcsArray.push(s);
 				}
 			}
@@ -212,7 +212,7 @@ class NewCombatDisplay extends Component {
 	startNpcMovement = () => {
 		const npcs = this.state.npcs;
 		const playerPosition = this.props.playerCombatPosition;
-		console.log('!!!!!  startNpcMovement');
+		// console.log('!!!!!  startNpcMovement');
 
 		const updatedNpcs = moveNpcShips(npcs, playerPosition);
 		this.setState({npcs: updatedNpcs});

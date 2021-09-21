@@ -20,8 +20,8 @@ class RativerseInfo extends Component {
 
 	render () {
 		const ship = this.props.currentShip;
-		console.log('SELECTED SHIP IS', ship);
-		console.log('MAX ID', this.props.playerShipMaxId);
+		// console.log('SELECTED SHIP IS', ship);
+		// console.log('MAX ID', this.props.playerShipMaxId);
 
 		return (
 			<div>

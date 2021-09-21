@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 		case 'COMBAT_SECTOR_SELECTED':
 			let selectedCombatSector = [];
 			selectedCombatSector.push(action.payload);
-			console.log('COMBAT_SECTOR_SELECTED', selectedCombatSector);
+			// console.log('COMBAT_SECTOR_SELECTED', selectedCombatSector);
 			return {...state,
 				combatMapSector: selectedCombatSector
 			}

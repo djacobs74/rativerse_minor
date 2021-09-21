@@ -63,8 +63,8 @@ class DockedControlPanel extends Component {
 			// debugger;
 			if (transactionType === 'sell') { // Buying from station
 				let priceTotal = ((selectedCargoOption.amount + amount) * selectedTradegood.price);
-				console.log('PLAYER CREDITS', playerCredits);
-				console.log('PRICE TOTAL', priceTotal);
+				// console.log('PLAYER CREDITS', playerCredits);
+				// console.log('PRICE TOTAL', priceTotal);
 				// debugger;
 				selectedCargoOption.amount += amount;
 				if ( ((selectedCargoOption.amount) > shipCargoAvailable) ) {
@@ -103,7 +103,7 @@ class DockedControlPanel extends Component {
 
 		this.setState({cargoOptions:  cargoOptions});
 	
-		console.log('CARGO OPTIONS', cargoOptions);
+		// console.log('CARGO OPTIONS', cargoOptions);
 	}
 
 	transAction(t) {

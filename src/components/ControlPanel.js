@@ -77,6 +77,7 @@ class ControlPanel extends Component {
 				storedShips.push(d);
 			}
 		})
+		// console.log('getStoredShips');
 		return storedShips
 	}
 
