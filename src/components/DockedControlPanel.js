@@ -34,13 +34,8 @@ class DockedControlPanel extends Component {
 	}
 
 	getDockingArea(sector) {
-		let dockingArea = [];
-		this.props.dockingAreas.map(m => {
-			if ((m.x === sector.position[0]) && (m.y === sector.position[1])) {
-				dockingArea = m.dockingArea;
-			}
-		})
-		// debugger;
+		let dockingArea = this.props.dockingAreas.find(m => (m.x === sector.position[0]) && (m.y === sector.position[1]))
+		dockingArea = dockingArea.dockingArea;
 		return dockingArea
 	}
 
