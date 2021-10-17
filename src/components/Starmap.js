@@ -148,6 +148,7 @@ class StarMap extends Component {
 			    					<div className={`${area.value}`} key={area.id}></div>
 			    				) : <div></div>
 		    				}
+								<div className={`${m.sectorOwner}-territory`}></div>
 		    			</div>
 		    			<div className={`sector sectorBottom ${m.sectorType[0].value} ${this.pathSec(m)} ${this.active = this.clickedSector[0] === m['x'] && this.clickedSector[1] === m['y'] ? 'active' : ''}`}></div>
 					</div>

@@ -1,5 +1,6 @@
 import { TRADE_GOODS } from './constants';
 import _ from 'lodash';
+import { getSector } from '../../actions/selectedSector';
 
 
 export const createDockingAreas = (map) => {
@@ -7,7 +8,7 @@ export const createDockingAreas = (map) => {
 	const typesArray = ['Planet', 'Space Station', 'Asteroid Base'];
 	const spaceTypeArray = [{name: 'Solar System', value: 'solarSystem'}, {name: 'Open Space', value: 'openSpace'}, {name: 'Asteroid Belt', value: 'asteroidBelt'}];
 
-	
+
 
 	function addTradeGoods () {
 		const tgCopy = _.cloneDeep(TRADE_GOODS);
@@ -58,6 +59,9 @@ export const createDockingAreas = (map) => {
 		m.sectorType = [];
 		m.sectorType.push(spaceTypeArray[1]);
 
+
+		m.sectorOwner = getSectorOwner(m);
+
 		const randomNum = Math.floor(Math.random() * Math.floor(11));
 
 		if (randomNum >= 10) {
@@ -87,3 +91,15 @@ export const createDockingAreas = (map) => {
 	return map
 }
 
+const getSectorOwner = (sector) => {
+	// debugger;
+	const x = sector.x;
+	const y = sector.y;
+	if((x < -4 && x >= -20) && y < -10) {
+		if(x+y < -20) {
+			return 'bfr';
+		}
+	}
+
+
+}

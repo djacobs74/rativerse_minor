@@ -482,3 +482,12 @@ button {
 .upperCase {
 	text-transform: uppercase;
 }
+
+.bfr-territory {
+	background-color: red;
+	height: 5px;
+	position: absolute;
+	bottom: 10px;
+	width: 10px;
+	left: 47px;
+}
