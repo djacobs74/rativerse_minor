@@ -69,7 +69,7 @@ class ControlPanel extends Component {
 		this.setState({npcShipsScan: ships});
 	}
 
-	getStoredShips(dockingAreas) {
+	getStoredShips(dockingAreas) { // move this to redux?
 		let storedShips = [];
 
 		dockingAreas.map(d => {
